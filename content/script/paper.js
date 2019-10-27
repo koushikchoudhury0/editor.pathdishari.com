@@ -374,7 +374,7 @@ var getPaperBody = (paper) => {
                 <li><a class="dropdownText expendable" href="#!" onclick="publishPaper(this, \''+paper.paperId+'\', \''+paper.paperName+'\')">Publish Now</a></li>\
             </ul>\
             <div>\
-            <p class="paperConfigData"><span class="customBadge paperType">'+(paper.paperType==1?'mock':'model')+'</span><span class="customBadge paperCost">'+(paper.isFree==1?'free':'paid')+'</span><span class="customBadge paperStatus">'+(paper.published==1?'published':'draft')+'</span></p>\
+            <p class="paperConfigData"><span class="customBadge paperType">'+(paper.paperType==1?'mock':'topic wise')+'</span><span class="customBadge paperCost">'+(paper.isFree==1?'free':'paid')+'</span><span class="customBadge paperStatus">'+(paper.published==1?'published':'draft')+'</span></p>\
             </div>\
         </div>\
     </li>':'<li class="collection-item paperItem">\
@@ -388,7 +388,7 @@ var getPaperBody = (paper) => {
                 <li><a class="dropdownText" target="_blank" href="./makePaper.html?paperId='+paper.paperId+'">Manage Questions</a></li>\
             </ul>\
             <div>\
-            <p class="paperConfigData"><span class="customBadge paperType">'+(paper.paperType==1?'mock':'model')+'</span><span class="customBadge paperCost">'+(paper.isFree==1?'free':'paid')+'</span><span class="customBadge paperStatus">'+(paper.published==1?'published':'draft')+'</span></p>\
+            <p class="paperConfigData"><span class="customBadge paperType">'+(paper.paperType==1?'mock':'topic wise')+'</span><span class="customBadge paperCost">'+(paper.isFree==1?'free':'paid')+'</span><span class="customBadge paperStatus">'+(paper.published==1?'published':'draft')+'</span></p>\
             </div>\
         </div>\
     </li>'
