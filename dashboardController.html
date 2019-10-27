@@ -28,9 +28,9 @@
         
         <!--Primary Content-->
         <main>
-            <slideShowSection>
+            <div class="container primary">
                 <div class="row">
-                    <h3 style="color:rgb(114, 110, 110)">Edit Slideshow</h3>
+                    <h3 style="color:rgb(114, 110, 110)">Edit Slideshow Pictures</h3>
                     <div class="col m6 l3 s12">
                         <p>Slide 1</p>
                         <div class="ImageContainer tooltipped" data-tooltip="Click to change">
@@ -76,10 +76,32 @@
                         </div>
                     </div>
                     <div style="width: 100%; text-align: end; margin-top: 30px; margin-top: 20px;" class="col s12">
-                        <a onclick="updateSlideShow()" class="waves-effect waves-teal btn-flat" style="font-size: 16px !important;">UPDATE SLIDES</a>
+                        <a onclick="updateSlideShow()" class="waves-effect waves-teal btn-flat" style="font-size: 16px !important;">UPDATE PICTURES</a>
                     </div>
                 </div>
-            </slideShowSection>            
+                <h3 style="color:rgb(114, 110, 110)">Edit Slideshow Links</h3>
+                <div class="row">
+                    <div class="input-field col s6">
+                        <input type="text" id="slideLink1">
+                        <label for="slideLink1">Slide 1</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input type="text" id="slideLink2">
+                        <label for="slideLink2">Slide 2</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input type="text" id="slideLink3">
+                        <label for="slideLink3">Slide 3</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input type="text" id="slideLink4">
+                        <label for="slideLink4">Slide 4</label>
+                    </div>
+                </div>
+                <div style="width: 100%; text-align: end; margin-top: 30px; margin-top: 20px;" class="col s12">
+                    <a onclick="updateSlideLinks()" class="waves-effect waves-teal btn-flat" style="font-size: 16px !important;">UPDATE LINKS</a>
+                </div>
+            </div>            
         </main>
             
             

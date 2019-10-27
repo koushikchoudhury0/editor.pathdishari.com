@@ -1,5 +1,6 @@
 var selectedPackageId, selectedPackageName;
 var slideInputs = ["slide1", "slide2", "slide3", "slide4"];
+var slideLinkInputs = ["slideLink1", "slideLink2", "slideLink3", "slideLink4"]
 var updatableSlides = {
     "slide1": false,
     "slide2": false,
@@ -38,11 +39,17 @@ $(document).ready(() => {
             M.AutoInit();            
             $('.characterCountable').characterCounter();
             $(".sidenavHeader").html("Categories<i style=\"margin-right: 10px\" class='material-icons'>dashboard</i>"); 
-            $("ul.sidenav").append(getSidenavElementBody("Slideshow", "openSlideShow"));
-            $("ul.sidenav").append(getSidenavElementBody("Popular Packages", "openSlideShow"));
-            //enlistPackages();   
-            //fetchAllExams();  
-            //fetchSectors();     
+            $("ul.sidenav").append(getSidenavElementBody("Slideshow", "openSlideShow"));            
+            for (var i=1; i<=4; i++){                
+                try{
+                    downloadSlideLink(i);                        
+                } catch(err){
+                    console.log(err);
+                }
+            } 
+            slideLinkInputs.forEach((v, i) => {
+
+            });              
         }); 
         //$('.sidenav').sidenav(); 
         var clipboard = new ClipboardJS('#copier');      
@@ -177,4 +184,56 @@ var uploadSlide = (i, signedURL) => {
             console.log("Neutralized slide"+(i+1), updatableSlides);
         }
     });
+}
+
+var downloadSlideLink = (i) => {    
+    $.get("https://s3.ap-south-1.amazonaws.com/pathdishari.com/dashboardContent/advSlides/link"+i+".txt", function( data ) {                
+        $("input#slideLink"+i).val(data);
+        M.updateTextFields();
+    });
+}
+
+var updateSlideLinks = (currentPopularity, packageId) => {
+    engageProgress({
+        msg: "Updating Links..."
+    });        
+    $.ajax({
+        type: "POST",
+        url: "https://33qo10kq34.execute-api.ap-south-1.amazonaws.com/prod/admin-update-slide-links",
+        headers: {
+            "Authorization": Cookies.get("token")
+        },
+        data: JSON.stringify({
+            linkArr: [
+                $("#slideLink1").val(),
+                $("#slideLink2").val(),
+                $("#slideLink3").val(),
+                $("#slideLink4").val()
+            ]
+        })
+    }).done((responseBody) => {
+      console.log(responseBody);  
+      if (responseBody.statusCode==1){                    
+        dismissDialog();        
+        M.toast({html: "Links Updated. Changes will reflect within 24hours"});     
+    } else {
+        engageDialog({
+            head: "Cannot update package",
+            body: "Invalid data were provided"
+        });
+    }
+    }).fail((xhr) => {
+        console.log("failed: ", xhr.status);
+        if (xhr.status === 403 || xhr.status === 401){
+            Cookies.remove("token");
+            window.location.replace("/");
+        } else {
+            dismissDialog();
+            engageDialog({
+                head: "Oops!",
+                body: "Something went wrong."
+            });
+        }
+    });
+
 }
