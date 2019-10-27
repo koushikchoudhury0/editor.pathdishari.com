@@ -1,0 +1,431 @@
+@import url('https://fonts.googleapis.com/css?family=Oxygen|Hammersmith+One|Comfortaa|Montserrat|Poiret+One|Quicksand|Raleway|Varela|Titillium+Web&display=swap');
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+@import "/content/materialize/css/materialize.min.css";
+@import "/content/style/materialModal.css";
+
+
+
+html, body{
+    overflow: hidden;
+    height: 100%;
+}
+
+header, main, footer {
+    margin-left: 300px;
+}
+
+nav{
+    background: rgba(3, 169, 244,1.0)
+}
+
+.col-sm-4{
+    height: 100px;
+}
+
+.placeholder{
+    padding-top: 10vh;
+    text-align: center;
+    display: block;
+}
+
+.placeholder a i{
+    font-size: 200px;
+    color: #d8d4d4
+}
+
+.placeholder p {
+    font-size: 20px;
+    font-weight: bold;
+    font-family: Titillium Web;
+    color: #afaeae
+}
+
+.mainContainer{    
+    text-align: left;
+    display: none;
+}
+
+.frameControl{
+    padding: 10px;
+    border-radius: 20px;
+    color: green;
+    vertical-align: middle;    
+}
+
+.questionItem table tr{
+    cursor: pointer;
+    transition: 0.5s;
+    border: none;
+    width: 100%;
+}
+
+.questionTextContainer{
+    padding: 10px 5px;
+    text-align: left;
+    border-radius: 0;
+    padding-left: 30px;
+    width: 80%;
+}
+
+.questionControlContainer{
+    width: 9%    
+}
+
+.questionItem table tr:hover{
+    background: #f3f1f1;
+}
+
+
+.sectionLabel{
+    color: #424242;
+    font-weight: bold;
+    font-family: Titillium Web;
+    font-size: 18px;
+}
+
+.inputSection{
+    margin-left: 20px;
+    margin-right: 20px;    
+    padding-right: 10%;
+    overflow-y: scroll;
+    margin-top: 20px;
+}
+
+a.frameControl i{
+    font-size: 25px;
+}
+
+#frameAdder{
+    color: blueviolet;
+}
+
+.frameViewer{
+    color: #757575;
+}
+
+.frameRemover, .questionRemover{
+    color: rgb(172, 5, 5);
+}
+
+table, tr, td{
+    padding: 0;
+    margin: 0;
+}
+
+.mainContent{
+    display: block;    
+}
+
+#addQuestionButton{
+    position: fixed; left:0; bottom: 55px; width: 100%; background: yellowgreen;
+    text-align: center;
+}
+
+#questionContainer{
+    margin-top: 20px;
+}
+
+#addQuestionButton a span{
+    transform: translateY(8px);
+    margin-right: 5px;
+}
+
+.slide-out{
+    overflow-y: hidden;
+}
+
+.slide-out li{
+    overflow-y: hidden;
+}
+
+.slide-out-top{
+    padding-top: 7px;
+    transform: translateY(5px);    
+}
+
+.slide-out-top a{
+    font-size: 20px !important; 
+    font-weight: bold !important;    
+}
+
+.slide-out-top a i{
+    font-size: 30px;
+}
+
+.subheader{
+    font-family: Comfortaa;
+    font-weight: bold;
+}
+
+/*#side-scroller{
+    overflow-y: scroll
+}
+
+#side-scroller::-webkit-scrollbar {
+    width: 3px;
+}
+ 
+#side-scroller::-webkit-scrollbar-track {
+    opacity: 0;
+}
+ 
+#side-scroller::-webkit-scrollbar-thumb {
+  background-color: rgba(128, 0, 128, 0.1);
+  outline: 1px solid slategrey;  
+}*/
+
+.inputSection::-webkit-scrollbar, .sidenav::-webkit-scrollbar {
+    width: 3px;
+}
+ 
+.inputSection::-webkit-scrollbar-track, .sidenav::-webkit-scrollbar-track {
+    opacity: 0;
+}
+ 
+.inputSection::-webkit-scrollbar-thumb, .sidenav::-webkit-scrollbar-thumb {
+  background-color: rgba(128, 0, 128, 0.1);
+  outline: 1px solid slategrey;  
+}
+
+/*.contentImage{
+    border-radius: 3px;
+    box-shadow: #dddcdc 1px 1px 7px;
+}*/
+
+.ContentImageContainer{
+    border-radius: 3px;
+    box-shadow: #dddcdc 1px 1px 7px;
+    border-width: 0;
+    background: rgb(254, 254, 254);
+    position: relative;   
+}
+
+
+.contentImageContainer .control{
+    border-radius: 40px;
+}
+
+.contentImageContainer .icon{
+    line-height: 40px;
+    font-family: Quicksand;
+}
+
+.contentImageContainer i{
+    vertical-align: middle; 
+    font-size: 40px;    
+    color: #aca9a9
+}
+
+.contentImageContainer .control{
+    position: absolute;   
+}
+
+.contentImageContainer .selector{
+    right: 10px;
+    bottom: 13px;
+}
+
+.contentImageContainer .selector i{
+    vertical-align: middle;
+    font-size: 25px;
+    color: rgb(72, 161, 196);
+}
+
+.contentImageContainer .remover{
+    right: 46px;
+    bottom: 13px;
+}
+
+.contentImageContainer .remover i{
+    vertical-align: middle;
+    font-size: 25px;
+    color: crimson;
+}
+
+.contentImageContainer .viewer{
+    right: 90px;
+    bottom: 13px;
+}
+
+.contentImageContainer .viewer i{
+    vertical-align: middle;
+    font-size: 25px;
+}
+
+.optionImage{
+    width: 100%;
+    height: 200px;
+    border-radius: 5px;
+    border-width: 0;
+    border-style: none;
+    border-color: rgba(0, 0, 0, 0.0);
+    background-image: url("/content/static/image/photo-camera128.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+.ImageContainer{
+    border-radius: 5px; 
+    border-style: solid; 
+    border-color: rgba(0, 0, 0, 0.0);
+    border-radius: 3px;
+    box-shadow: #dddcdc 1px 1px 7px;    
+    border-width: 0;
+    background: rgb(254, 254, 254);
+    position: relative;
+    overflow: hidden;
+    transition: 0.3s;
+}
+
+.ImageContainer:hover .controlContainer{
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.ImageContainer .controlContainer{    
+    position: absolute; 
+    top: 0px; 
+    text-align: right; 
+    width: 100%; 
+    margin: 0; 
+    color: white; 
+    padding: 10px; 
+    background: rgba(0, 0, 0, 0.3);/*linear-gradient(to bottom, #bdbdbd, #cdcdcd, #dedede, #eeeeee, #ffffff);*/
+    visibility: hidden;
+    transition: 0.2s;
+    transform: translateY(-50px);
+}
+
+.ImageContainer .controlContainer .control{
+    border-radius: 40px;
+    color: white;
+}
+
+.ImageContainer img{
+    cursor: pointer;
+}
+
+#sidenavTrigger{
+    visibility: hidden;
+    padding-left: 18px;
+}
+
+
+/*.statusText{
+    color: #f3f1f1;
+    background: #757575;
+    padding: 5px 10px;
+    font-family: Hammersmith One;
+    font-size: 12px;
+    font-weight: bold;
+    font-weight: bold;
+    border-radius: 3px;    
+}
+
+.statusText.saved{
+    background: rgb(4, 100, 4);
+}
+
+.statusText.unsaved{
+    background: rgb(201, 5, 5);
+}*/
+
+.myBreadCrumb span{
+    vertical-align: middle;
+    color: rgba(149, 117, 205,1.0);
+}
+
+.myBreadCrumb{
+    font-family: Oxygen;
+    font-size: 12px;
+}
+
+.myBreadCrumb.lastPiece{
+    vertical-align: middle;
+    color: #757575;
+    font-weight: bold;
+}
+
+.bread{
+    padding-left: 20px;
+    padding-top: 3px;
+    background: rgba(79, 195, 247,0.3);
+}
+
+.navTitle{
+    font-family: Oxygen !important; 
+    font-weight: 600 !important; 
+    font-size: 25px !important;
+    padding-left: 20px !important;
+}
+
+#sidenavTriggerHolder{
+    visibility: hidden !important;
+    opacity: 0; 
+}
+
+#sectionContainer{
+    padding: 20px;
+    transition: 0.5s;
+}
+
+#sectionContainer p{
+    font-family: Quicksand;
+    font-size: 17px;
+    font-weight: bold;
+}
+
+#sectionContainer .chip{
+    cursor: pointer;
+    transition: 0.1s;
+}
+
+#sectionContainer .chip:hover{
+    background: #c7c4c4;
+}
+
+#sectionContainer .chip.active{
+    background: seagreen;
+    color: #f3f1f1;
+    font-weight: bold;    
+}
+
+
+
+
+@media only screen and (max-width : 992px) {
+    header, main, footer {
+        margin-left: 0;
+    }
+
+    header{
+        visibility: visible;
+    }
+
+    .sidenav {
+        -webkit-box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);
+        box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);
+    }
+
+    #sidenavTrigger{
+        visibility: visible;
+    }
+
+    .navTitle{
+        padding-left: 60px !important;
+    }
+
+    #sidenavTriggerHolder{
+        visibility: visible;
+        opacity: 1;
+    }
+
+}
+
+@media only screen and (max-width: 500px){
+    .inputSection{
+            
+        padding-right: 0;
+
+    }    
+}

@@ -1,0 +1,285 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">        
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+        
+        <title>Make Paper</title>
+        
+        <link rel="stylesheet" href="/content/style/makePaper.css">
+        
+        <!--<script src="https://kit.fontawesome.com/8a7928a13b.js"></script>-->        
+        <script src="/content/script/jquery-3.4.1.min.js"></script>        
+        <script src="/content/materialize/js/materialize.min.js"></script>
+        <script src="/content/script/CookieJS.js"></script>
+        <script src="/content/script/materialModal.js"></script>
+        <script src="/content/script/makePaper.js"></script>
+        
+    </head>
+    <body >            
+        <!--Navbar, BreadCrumb-->
+        <header>
+            <div class="navbar-fixed">
+                <nav>
+                    <div class="nav-wrapper">
+                        <ul class="left">
+                            <li id="sidenavTriggerHolder"><a href="#!" data-target="slide-out" id="sidenavTrigger" class="waves-effect brand-logo left" ><i class="material-icons">menu</i></a></li>
+                            <li><a class="brand-logo left navTitle">Compose Paper</a></li>
+                        </ul>
+                    </div>
+                </nav>            
+            </div>
+            <div class="bread">
+                <a class="myBreadCrumb examAbbreviation"></span></a>
+                <a class="myBreadCrumb"><span style="transform: translateY(-1px)" class="material-icons">chevron_right</span></a>
+                <a class="myBreadCrumb paperName"></a>
+            </div>            
+        </header>
+        
+        <!--Sidenav-->
+        <ul id="slide-out" class="sidenav sidenav-fixed" >
+            <li class="slide-out-top"><a class="subheader"><i class="material-icons">library_books</i>Questions</a></li>   
+            
+        </ul>
+        
+        <!--Primary Content-->
+        <main>
+            <div class="container placeholder">
+                <a><i class="material-icons">list_alt</i></a>
+                <p>Select a question from the left list to begin</p>
+            </div>
+            <div class="mainContainer">
+                <div class="mainContent">
+                    <div class="inputSection">                                  
+                        <p class="sectionLabel">Compose Question</p>            
+                        
+                        <div class="input-field">
+                            <textarea id="questionText" class="characterCountable materialize-textarea" data-length="10000" autocomplete="new-password"></textarea>
+                            <label for="questionText">Question Text</label>
+                        </div>
+                        <br>
+                        <br>                                
+                        <!--Question Image Items-->                        
+                        <div>
+                            <a disabled class="sectionLabel">Question Images</a>   
+                            <blockquote style="color: darkgray; margin: 5px; font-size: 12px">Must be chosen sequentially</blockquote>                         
+                            <!--
+                            <a id="frameAdder" data-tooltip="Add Image Slot"  class="tooltipped waves-effect frameControl"><i class="material-icons">insert_photo</i></a>
+                            
+                            <br><label>Order of images are preserved</label>
+                            -->
+                            <br><br>
+                            <div class="row">
+                                <div class="col s3">
+                                    <p>Image 1</p>
+                                    <div class="ImageContainer tooltipped" data-tooltip="Click to change">
+                                        <input type="file" hidden onchange="readImageFromDisk(this)">                                                    
+                                        <img class="optionImage" id="contentImg1" onclick="chooseImage(this)" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=">                                    
+                                        <div class="controlContainer">
+                                            <a class="waves-effect control remove" onclick="removeImage(this)"><i class="material-icons">close</i></a>                                            
+                                        </div>                                        
+                                    </div>
+                                </div> 
+                                <div class="col s3">
+                                    <p>Image 2</p>
+                                    <div class="ImageContainer tooltipped" data-tooltip="Click to change">                                     
+                                        <input type="file" hidden onchange="readImageFromDisk(this)">                                                    
+                                        <img class="optionImage" id="contentImg2" onclick="chooseImage(this)" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=">                                    
+                                        <div class="controlContainer">
+                                            <a class="waves-effect control remove" onclick="removeImage(this)"><i class="material-icons">close</i></a>                                            
+                                        </div>                                                              
+                                    </div>
+                                </div>  
+                                <div class="col s3">
+                                    <p>Image 3</p>
+                                    <div class="ImageContainer tooltipped" data-tooltip="Click to change">
+                                        <div style="position: relative">
+                                            <input type="file" hidden onchange="readImageFromDisk(this)">                                                    
+                                            <img class="optionImage" id="contentImg3" onclick="chooseImage(this)" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=">                                    
+                                            <div class="controlContainer">
+                                                <a class="waves-effect control remove" onclick="removeImage(this)"><i class="material-icons">close</i></a>                                                
+                                            </div>
+                                        </div>                                        
+                                    </div>
+                                </div> 
+                                <div class="col s3">
+                                    <p>Image 4</p>
+                                    <div class="ImageContainer tooltipped" data-tooltip="Click to change">
+                                        <div style="position: relative">
+                                            <input type="file" hidden onchange="readImageFromDisk(this)">                                                    
+                                            <img class="optionImage" id="contentImg4" onclick="chooseImage(this)" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=">                                    
+                                            <div class="controlContainer">
+                                                <a class="waves-effect control remove" onclick=removeImage(this)><i class="material-icons">close</i></a>                                                
+                                            </div>
+                                        </div>                                        
+                                    </div>
+                                </div>                                                    
+                            </div>
+                        </div>
+                        <!--
+                        <form id="frameForm">
+                            
+                        </form>
+                        -->                         
+                        <br>
+                        <br>
+                        <br>
+                        <!--Solution type-->
+                        <p class="sectionLabel">Solution Type</p>
+                        <label><input name="solType" id="solMCQ" type="radio" checked /><span>MCQ</span></label>
+                        <label><input name="solType" id="solDesc" type="radio" /><span>Descriptive</span></label>
+                        <br>
+                        <br>
+                        <br>
+                        <!--MCQSolution-->
+                        
+                        <!--
+                        <label><input name="MCQType" id="solMCQ" type="radio" /><span>Numerize</span></label>
+                        <label><input name="MCQType" id="solDesc" type="radio" /><span>Alphabatize</span></label>
+                        <label><input name="MCQType" id="solDesc" type="radio" checked /><span>Custom</span></label>
+                        -->                                                  
+                        <div class="row MCQSolContainer">                                                        
+                            <p class="sectionLabel">MCQ Solutions</p>                                                                                
+                            <blockquote style="color: darkgray; margin: 5px; font-size: 12px">Images must be chosen sequentially<br>Either text or image or both for all options must be chosen<br></blockquote>                                                                              
+                            <blockquote style="color: darkgray; margin: 5px; font-size: 12px">Atleast one option must be marked as the solution</blockquote>                                                                              
+                            <div class="col s3">
+                                <p>
+                                    <label>
+                                        <input id="option1" type="checkbox" />
+                                        <span>Option 1</span>
+                                    </label>
+                                </p>
+                                <div class="ImageContainer tooltipped" data-tooltip="Click to change">                            
+                                    <input type="file" hidden onchange="readImageFromDisk(this)">                                                    
+                                    <img class="optionImage" id="MCQSolImg1" onclick="chooseImage(this)" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=">                                    
+                                    <div class="controlContainer">
+                                        <a class="waves-effect control remove" onclick="removeImage(this)"><i class="material-icons">close</i></a>
+                                    </div>                                        
+                                </div>                                        
+                                <div class="input-field">                            
+                                    <input class="characterCountable" type="text" id="MCQSolTxt1" data-length="2000">
+                                    <label for="MCQSolTxt1">Option 1 Text</label>
+                                </div>
+                            </div>
+                            <div class="col s3">
+                                <p>
+                                    <label>
+                                        <input id="option2" type="checkbox" />
+                                        <span>Option 2</span>
+                                    </label>
+                                </p>
+                                <div class="ImageContainer tooltipped" data-tooltip="Click to change">                                    
+                                    <input type="file" hidden onchange="readImageFromDisk(this)">                                                    
+                                    <img class="optionImage" id="MCQSolImg2" onclick="chooseImage(this)" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=">                                    
+                                    <div class="controlContainer">
+                                        <a class="waves-effect control remove" onclick="removeImage(this)"><i class="material-icons">close</i></a>
+                                    </div>                                           
+                                </div>                                        
+                                <div class="input-field">                            
+                                    <input class="characterCountable" type="text" id="MCQSolTxt2" data-length="2000">
+                                    <label for="MCQSolTxt2">Option 2 Text</label>
+                                </div>
+                            </div>
+                            <div class="col s3">
+                                <p>
+                                    <label>
+                                        <input id="option3" type="checkbox" />
+                                        <span>Option 3</span>
+                                    </label>
+                                </p>
+                                <div class="ImageContainer tooltipped" data-tooltip="Click to change">                                    
+                                    <input type="file" hidden onchange="readImageFromDisk(this)">                                                    
+                                    <img class="optionImage" id="MCQSolImg3" onclick="chooseImage(this)" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=">                                    
+                                    <div class="controlContainer">
+                                        <a class="waves-effect control remove" onclick="removeImage(this)"><i class="material-icons">close</i></a>
+                                    </div>                                                                           
+                                </div>                                        
+                                <div class="input-field">                            
+                                    <input class="characterCountable" type="text" id="MCQSolTxt3" data-length="2000">
+                                    <label for="MCQSolTxt3">Option 3 Text</label>
+                                </div>
+                            </div>
+                            <div class="col s3">
+                                <p>
+                                    <label>
+                                        <input id="option4" type="checkbox" />
+                                        <span>Option 4</span>
+                                    </label>
+                                </p>
+                                <div class="ImageContainer tooltipped" data-tooltip="Click to change">
+                                    <input type="file" hidden onchange="readImageFromDisk(this)">                                                    
+                                    <img class="optionImage" id="MCQSolImg4" onclick="chooseImage(this)" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=">                                    
+                                    <div class="controlContainer">
+                                        <a class="waves-effect control remove" onclick="removeImage(this)"><i class="material-icons">close</i></a>
+                                    </div>
+                                </div>                                        
+                                <div class="input-field">                            
+                                    <input class="characterCountable" type="text" id="MCQSolTxt4" data-length="2000">
+                                    <label for="MCQSolTxt4">Option 4 Text</label>
+                                </div>
+                            </div>                            
+                        </div>
+                        
+                        <!--
+                        <div class="input-field">
+                            <input class="characterCountable" type="text" id="MCQSol2" data-length="30">
+                            <label for="MCQSol2">Second Choice</label>
+                        </div>
+                        <div class="input-field">
+                            <input class="characterCountable" type="text" id="MCQSol3" data-length="30">
+                            <label for="MCQSol3">Third Choice</label>
+                        </div>
+                        <div class="input-field">
+                            <input class="characterCountable" type="text" id="MCQSol4" data-length="30">
+                            <label for="MCQSol4">Fourth Choice</label>
+                        </div>
+                        -->
+                        
+                        <!--Descriptive Solution-->
+                        <div class="descSolContainer" hidden>
+                            <p class="sectionLabel">Descriptive Solutions</p>
+                            <div class="input-field">
+                                    <textarea id="descAns" class="characterCountable materialize-textarea" data-length="20000"></textarea>
+                                    <label for="descAns">Model answer</label>
+                            </div>
+                        </div>
+                        <br>
+                        <!--Marks-->
+                        <div class="marksContainer">
+                            <p class="sectionLabel">Marks</p>
+                            <div class="row">
+                                <div class="input-field col s2">
+                                    <input id="positiveMarksText" type="number" class="validate" value="1">
+                                    <label for="positiveMarksText">Reward</label>
+                                </div>
+                                <div class="input-field col s2">
+                                    <input id="negativeMarksText" type="number" class="validate" value="0.25">
+                                    <label for="negativeMarksText">Penalty</label>
+                                </div>
+                            </div>
+                                                                                                 
+                    </div>
+                </div>
+
+
+                
+                <div class="fixed-action-btn tooltipped" onclick="uploadQuestion()" data-tooltip="Save this Question" data-position="left">
+                    <a class="btn-floating btn-large waves-effect orange pulse" style="margin-right: 30px; margin-bottom: 20px">
+                        <i class="large material-icons">done</i>
+                    </a>
+                    <!--
+                    <ul>
+                        <li><a id="addNewQuestionButton" class="waves-effect tooltipped btn-floating red" data-position="top" data-tooltip="Add new question"><i class="material-icons">playlist_add</i></a></li>
+                        <li><a id="saveQuestionButton" class="waves-effect tooltipped btn-floating yellow darken-1" data-position="top" data-tooltip="Save this question" ><i class="material-icons">save</i></a></li>
+                        <li><a class="waves-effect tooltipped btn-floating green" data-position="top" data-tooltip="Preview this question"><i class="material-icons">pageview</i></a></li>
+                        <li><a class="waves-effect tooltipped btn-floating blue" data-position="top" data-tooltip="Publish this paper"><i class="material-icons">publish</i></a></li>
+                    </ul>
+                    -->
+                </div>
+            </div>
+        </main>
+        
+        
+        <!--Modal Container-->
+        <div class="modalContainer"></div>
+    </body>
+</html>

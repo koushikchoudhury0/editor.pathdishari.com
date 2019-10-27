@@ -1,0 +1,90 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">        
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+        
+        <title>Manage User Dashboard</title>
+        
+        <link rel="stylesheet" href="/content/style/dashboardController.css">
+        <link rel="stylesheet" href="/content/style/makePaper.css">
+
+        
+        <script src="/content/script/jquery-3.4.1.min.js"></script>        
+        <script src="/content/materialize/js/materialize.min.js"></script>        
+        <script src="/content/script/materialModal.js"></script>
+        <script src="/content/script/CookieJS.js"></script>        
+        <script src="/content/script/dashboardController.js"></script>
+        <script src="/content/script/tunnel.js"></script>
+        <script src="/content/script/clipboard.min.js"></script>
+        
+    </head>
+    <body >            
+        <!--Navbar, BreadCrumb-->
+        <header>
+                                 
+        </header>
+        
+       
+        
+        <!--Primary Content-->
+        <main>
+            <slideShowSection>
+                <div class="row">
+                    <h3 style="color:rgb(114, 110, 110)">Edit Slideshow</h3>
+                    <div class="col m6 l3 s12">
+                        <p>Slide 1</p>
+                        <div class="ImageContainer tooltipped" data-tooltip="Click to change">
+                            <input id="slide1" type="file" hidden onchange="readImageFromDisk(this)">                                                    
+                            <img class="optionImage" id="contentImg1" onclick="chooseImage(this)" src="https://pathdishari.com/dashboardContent/advSlides/1" onerror="this.src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII='">                                    
+                            <div class="controlContainer">
+                                <a class="waves-effect control remove" onclick="removeImage(this)"><i class="material-icons">close</i></a>                                            
+                            </div>                                        
+                        </div>
+                    </div> 
+                    <div class="col m6 l3 s12">
+                        <p>Slide 2</p>
+                        <div class="ImageContainer tooltipped" data-tooltip="Click to change">                                     
+                            <input id="slide2" type="file" hidden onchange="readImageFromDisk(this)">                                                    
+                            <img class="optionImage" id="contentImg2" onclick="chooseImage(this)" src="https://pathdishari.com/dashboardContent/advSlides/2" onerror="this.src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII='">                                    
+                            <div class="controlContainer">
+                                <a class="waves-effect control remove" onclick="removeImage(this)"><i class="material-icons">close</i></a>                                            
+                            </div>                                                              
+                        </div>
+                    </div>  
+                    <div class="col m6 l3 s12">
+                        <p>Slide 3</p>
+                        <div class="ImageContainer tooltipped" data-tooltip="Click to change">
+                            <div style="position: relative">
+                                <input id="slide3" type="file" hidden onchange="readImageFromDisk(this)">                                                    
+                                <img class="optionImage" id="contentImg3" onclick="chooseImage(this)" src="https://pathdishari.com/dashboardContent/advSlides/3" onerror="this.src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII='">                                    
+                                <div class="controlContainer">
+                                    <a class="waves-effect control remove" onclick="removeImage(this)"><i class="material-icons">close</i></a>                                                
+                                </div>
+                            </div>                                        
+                        </div>
+                    </div> 
+                    <div class="col m6 l3 s12">
+                        <p>Slide 4</p>
+                        <div class="ImageContainer tooltipped" data-tooltip="Click to change">
+                            <div style="position: relative">
+                                <input id="slide4" type="file" hidden onchange="readImageFromDisk(this)">                                                    
+                                <img class="optionImage" id="contentImg4" onclick="chooseImage(this)" src="https://pathdishari.com/dashboardContent/advSlides/4" onerror="this.src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII='">                                    
+                                <div class="controlContainer">
+                                    <a class="waves-effect control remove" onclick=removeImage(this)><i class="material-icons">close</i></a>                                                
+                                </div>
+                            </div>                                        
+                        </div>
+                    </div>
+                    <div style="width: 100%; text-align: end; margin-top: 30px; margin-top: 20px;" class="col s12">
+                        <a onclick="updateSlideShow()" class="waves-effect waves-teal btn-flat" style="font-size: 16px !important;">UPDATE SLIDES</a>
+                    </div>
+                </div>
+            </slideShowSection>            
+        </main>
+            
+            
+        
+        <!--Progress Container-->
+        <div class="modalContainer"></div>
+    </body>
+</html>

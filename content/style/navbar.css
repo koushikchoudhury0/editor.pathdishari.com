@@ -1,0 +1,80 @@
+nav{
+    background: rgb(3, 187, 18) !important;
+}
+
+.navTitle{
+    font-family: Oxygen !important; 
+    font-weight: 600 !important; 
+    font-size: 25px !important;
+    margin-left: 25px !important;
+}
+
+.navBadge{
+    min-width: 0px !important;
+    margin-left: 10px !important;
+    border-radius: 3px;
+}
+
+.profileButton{
+    
+    margin-right: 20px;
+    border-color: #e9e8e8;
+    border-style: solid;
+    border-width: 2px;
+    cursor: pointer;
+}
+
+header, main, footer {
+    margin-left: 300px;
+}
+
+#sidenavTrigger{
+    visibility: hidden;
+    padding-left: 16px;
+    margin-left: 0 !important;    
+    border-radius: 10px;
+}
+
+#sidenavTriggerHolder{
+    visibility: hidden !important;
+    opacity: 0; 
+}
+
+.sidenavHeader{
+    font-family: Oxygen !important; 
+    font-weight: 600 !important;
+    font-size: 25px !important;
+    margin-top: 6px;
+    padding-left: 25px !important;    
+    color: #000 !important;
+    margin-bottom: 20px !important;
+}
+
+@media only screen and (max-width : 992px) {
+    header, main, footer {
+        margin-left: 0;
+    }
+
+    header{
+        visibility: visible;
+    }
+
+    .sidenav {
+        -webkit-box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);
+        box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);
+    }
+
+    #sidenavTrigger{
+        visibility: visible;
+    }
+
+    .navTitle{
+        padding-left: 60px !important;
+    }
+
+    #sidenavTriggerHolder{
+        visibility: visible;
+        opacity: 1;
+    }
+
+}

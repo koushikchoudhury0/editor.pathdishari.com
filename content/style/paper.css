@@ -1,0 +1,223 @@
+@import url('https://fonts.googleapis.com/css?family=Oxygen|Hammersmith+One|Comfortaa|Montserrat|Poiret+One|Quicksand|Raleway|Varela|Titillium+Web&display=swap');
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+@import "/content/style/navbar.css";
+@import "/content/materialize/css/materialize.min.css";
+@import "/content/style/materialModal.css";
+
+
+
+body{
+    overflow-x: hidden;    
+}
+
+.subheader{
+    margin-top: 0;
+}
+
+.sectorSelectContainer{   
+    padding: 0 25px !important;
+    margin: 0 !important;
+    margin-top: 5px !important;
+}
+
+.sectorSelectContainer .select-dropdown{
+    border-bottom: none !important;
+    font-size: 20px !important; 
+    color: #757575;
+}
+
+
+.placeholder{
+    padding-top: 10vh;
+    text-align: center;
+    display: block;
+}
+
+.placeholder a i{
+    font-size: 200px;
+    color: #d8d4d4
+}
+
+.placeholder p {
+    font-size: 20px;
+    font-weight: bold;
+    font-family: Titillium Web;
+    color: #afaeae
+}
+
+main{
+    padding-top: 10px;
+}
+
+.container.primary{
+    margin-top: 0px !important;
+    width: 90% !important;
+    display: none; 
+}
+
+.viewYearSelectContainer input{
+    border: none !important;
+}
+
+.paperItem{
+    cursor: pointer;
+    padding: 0 !important;
+}
+
+.paperItemChild{
+    width: 100%;
+    padding: 15px 20px;
+}
+
+.dropDownText{
+    font-size: 12px !important;
+
+}
+
+.chip{
+    cursor: pointer !important;
+}
+
+.datepicker-modal{
+    top: 20% !important;
+}
+
+.paperConfigData{
+    font-size: 12px;
+    font-family: Quicksand;
+    font-weight: bold;
+    color: #757575;
+}
+
+.paperConfigData span{
+    color: #fff;
+    font-size: 10px;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-family: Comfortaa;
+}
+
+.paperConfigData span.paperCost{    
+    margin-left: 10px;
+    background: crimson;    
+}
+
+.paperConfigData span.paperStatus{
+    margin-left: 10px;
+    background: brown;    
+}
+
+.paperItemControl{
+    width: 100%; 
+    text-align: right;
+}
+
+.composeNavigater{
+    margin-top: 20px;
+}
+
+.fetchButton{
+    margin-left: 20px;
+    color: rgb(2, 145, 211);
+    border-radius: 40px;
+    padding: 10px;
+}
+
+.input-field{
+    margin-top: 40px;   
+}
+
+#inputContainer .modal-content{
+    padding: 40px !important;
+}
+
+#inputContainer .modal-footer{
+    padding-right: 40px !important;
+}
+
+.rules{
+    color: #757575;
+    font-size: 12px;
+}
+
+.rules h6{
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.rules p{
+    margin: 0 !important;
+}
+
+#examNamePreview, #examNamePreview2{
+    color: #fff;
+    font-size: 12px;
+    font-weight: bold;
+    background: skyblue;
+}
+
+.customBadge{
+    background: green;
+    padding: 5px 10px;
+    border-radius: 3px;
+}
+
+#inputHeading{
+    padding-top: 10px;
+}
+
+#inputContainer .modal-footer{
+    background: #f3f1f1;
+    border-radius: 0px !important;
+}
+
+.secondary-content{
+    border-radius: 40px;
+    padding: 2px;
+    transform: translateY(-2px);
+}
+
+#paperList{
+    visibility: visible;
+}
+
+.collection-header h4 a {
+    padding: 5px;
+    margin-left: 20px;
+    border-radius: 40px;
+}
+
+
+/*Sidenav Elements*/
+
+
+.sidenavElement{
+    display: block !important; 
+    padding-left: 25px !important; 
+    /*padding-bottom: 15px !important;*/
+    transition: 0.5s;
+}
+
+.sidenavElement.active{
+    background: #e4e2e2;
+}
+
+.sidenavElement:hover{
+    background: #f1f0f0;
+}
+
+.sidenavElement a{
+    /*line-height: 10px !important;*/
+}
+
+/*.sidenavElement .examName{
+    color: #fff;
+    font-size: 12px;
+    
+}*/
+
+.sidenavElement .examAbbreviation{    
+    font-size: 18px;
+    color: #757575;
+    padding-top: 20px !important;
+}

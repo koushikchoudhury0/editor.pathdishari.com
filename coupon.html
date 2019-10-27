@@ -1,0 +1,152 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">        
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+        
+        <title>Manage Coupons</title>
+        
+        <link rel="stylesheet" href="/content/style/coupon.css">
+        <link rel="stylesheet" href="/content/style/makePaper.css">
+        
+        <script src="/content/script/jquery-3.4.1.min.js"></script>        
+        <script src="/content/materialize/js/materialize.min.js"></script>        
+        <script src="/content/script/materialModal.js"></script>
+        <script src="/content/script/CookieJS.js"></script>        
+        <script src="/content/script/coupon.js"></script>
+        <script src="/content/script/tunnel.js"></script>
+        <script src="/content/script/clipboard.min.js"></script>
+        
+    </head>
+    <body >            
+        <!--Navbar, BreadCrumb-->
+        <header>
+                                 
+        </header>
+        
+       
+        
+        <!--Primary Content-->
+        <main>
+            <!--Placeholder-->
+            <div class="container placeholder">
+                <a><i class="material-icons">list_alt</i></a>
+                <p>Select a coupon from the left list to edit</p>
+            </div>
+
+            <!--FAB-->
+            <div class="fixed-action-btn" id="fab">
+                <a class="btn-floating btn-large red waves-effect modal-trigger" href="#inputContainer">
+                    <i class="large material-icons">add</i>
+                </a>
+            </div>
+
+            <div class="container primary">
+                <h2 id="couponCodeText" style="color: rgb(114, 110, 110);"></h2>
+                <p id="couponIdContainer"><span>Coupon Link</span><a id="couponIdText"><!--examIDContent--></a><i id="copier" data-clipboard-target="#couponIdText" class="material-icons tooltipped waves-effect" data-tooltip="Copy">file_copy</i></p>                
+                <br>
+                <h4 style="color: rgb(114, 110, 110);">Discount</h4>            
+                <div class="row">
+                    <div class="col s2">
+                        <p>Type</p>
+                    </div>
+                    <div class="col s2">
+                        <p>
+                            <label>
+                                <input id="flatRadio" name="discountTypeRadioGroup" type="radio" />
+                                <span>Flat</span>
+                            </label>
+                        </p>
+                    </div>            
+                    <div class="col s3">
+                        <p>
+                            <label>
+                                <input id="percentageRadio" name="discountTypeRadioGroup" type="radio" />
+                                <span>Percentage</span>
+                            </label>
+                        </p>                                                        
+                    </div>                                                                    
+                </div>
+                <div class="row">
+                    <div class="input-field col s4">
+                        <input id="couponAmountText" type="number" class="validate">
+                        <label for="couponAmountText">Amount</label>
+                    </div>
+                    <div class="input-field col s4">
+                        <input id="couponMaxText" type="number" class="validate">
+                        <label for="couponMaxText">Max Rebate</label>
+                    </div>
+                    <div class="input-field col s4 tooltipped" data-tooltip="Minimum purchase amount required to use this coupon">
+                        <input id="couponThresholdText" type="number" class="validate">
+                        <label for="couponThresholdText">Purchase Threshold</label>
+                    </div>                    
+                </div>
+                <h4 style="color: rgb(114, 110, 110);">Usage Stats</h4>            
+                <div class="row">                    
+                    <div class="input-field col s8">
+                        <input id="couponLimitText" type="number" class="validate">
+                        <label for="couponLimitText">Limit</label>
+                    </div>
+                    <div class="input-field col s4">
+                        <input disabled id="couponUsedText" type="number" class="validate" value="48">
+                        <label for="couponUsedText">Used</label>
+                    </div>
+                </div>
+                <div style="width: 100%; text-align: right;"><a onclick="updateCouponStats()" class="waves-effect waves-teal btn-flat">UPDATE DISCOUNT & USAGE</a></div>                
+                <br>
+                <h4 style="color: rgb(114, 110, 110);">Terms & Conditions</h4>            
+                <div class="row">
+                    <div class="input-field col s12">
+                        <textarea id="TNCText" class="materialize-textarea"></textarea>
+                        <label for="TNCText">Describe Terms & Conditions in HTML or Text formatting</label>
+                    </div>
+                </div>
+                <div style="width: 100%; text-align: right;"><a onclick="updateCouponTNC()" class="waves-effect waves-teal btn-flat">UPDATE T&C</a></div>
+                <br>
+                <h4 style="color: rgb(114, 110, 110);">Eligibility</h4>            
+                <div class="row">
+                    <div class="input-field col s12">
+                        <textarea id="ELGText" class="materialize-textarea"></textarea>
+                        <label for="ELGText">Describe Eligibility in HTML or Text formatting</label>
+                    </div>
+                </div>
+                <div style="width: 100%; text-align: right;"><a onclick="updateCouponEligibility()" class="waves-effect waves-teal btn-flat">UPDATE ELIGIBILITY</a></div>
+                <br><br>
+                <button style="display: none;" id="toggleStateButton" onclick="toggleState()" class="btn waves-effect waves-light" style="width: 100%;" type="submit" name="action">Activate</button>
+            </div>
+        </main>
+            
+        <!-- Creation Modal Structure -->
+        <div class="modal modal-fixed-footer" id="inputContainer">
+            <div class="modal-content">                                            
+                <h3 id="inputHeading">New Coupon</h3>                                                                    
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input id="couponCodeNewText" type="text" class="validate">
+                        <label for="couponCodeNewText">Unique Coupon Code</label>
+                    </div>                                
+                </div>                                
+                <br>
+                <div class="rules">
+                    <blockquote>
+                        <h6>Good to Know</h6>                                                            
+                        <p>Creating a coupon does not make it public.</p>
+                        <p>Upon creation, you'll have to update it's t&c, choose the type and properly configure it.</p>
+                        <p>Unconfigured coupons will never work.</p>                        
+                    </blockquote>
+
+                    <blockquote>
+                        <h6>Rules</h6>                                                            
+                        <p>Do not use spaces or symbols in coupon code.</p>
+                        <p>Use only numbers & upper case characters.</p>                                                    
+                    </blockquote>
+                </div>                            
+            </div>
+            <div class="modal-footer">
+                <a href="#!" onclick="createCoupon()" class="waves-effect waves-red btn-flat">create</a>
+            </div>
+        </div>
+        
+        <!--Progress Container-->
+        <div class="modalContainer"></div>
+    </body>
+</html>

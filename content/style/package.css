@@ -1,0 +1,206 @@
+@import url('https://fonts.googleapis.com/css?family=Oxygen|Hammersmith+One|Comfortaa|Montserrat|Poiret+One|Quicksand|Raleway|Varela|Titillium+Web&display=swap');
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+@import "/content/style/navbar.css";
+@import "/content/materialize/css/materialize.min.css";
+@import "/content/style/materialModal.css";
+
+
+
+body{
+    overflow: visible;
+}
+
+
+.placeholder{
+    padding-top: 10vh;
+    text-align: center;
+    display: block;
+}
+
+.placeholder a i{
+    font-size: 200px;
+    color: #d8d4d4
+}
+
+.placeholder p {
+    font-size: 20px;
+    font-weight: bold;
+    font-family: Titillium Web;
+    color: #afaeae
+}
+
+
+main{
+    padding-top: 10px;
+    overflow: visible;
+}
+
+.container.primary{
+    margin-top: 20px !important;
+    width: 90% !important;
+    padding-bottom: 40px;
+    display: none;
+    overflow: visible;
+}
+
+.input-field{
+    margin-top: 40px;   
+}
+
+#inputContainer .modal-content{
+    padding: 40px !important;
+}
+
+#inputContainer .modal-footer{
+    padding-right: 40px !important;
+}
+
+.rules{
+    color: #757575;
+    font-size: 12px;
+}
+
+.rules h6{
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.rules p{
+    margin: 0 !important;
+}
+
+
+.customBadge{
+    background: green;
+    padding: 5px 10px;
+    border-radius: 3px;
+}
+
+#inputHeading{
+    padding-top: 10px;
+}
+
+#inputContainer .modal-footer{
+    background: #f3f1f1;
+    border-radius: 0px !important;
+}
+
+.secondary-content{
+    border-radius: 40px;
+    padding: 2px;
+    transform: translateY(-2px);
+}
+
+
+.collection-header h4 a {
+    padding: 5px;
+    margin-left: 20px;
+    border-radius: 40px;
+}
+
+.pricingHeading{
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+
+#examRefreshButton{
+    margin-left: 10px;
+    border-radius: 40px;
+    padding: 5px;
+}
+
+/*Sidenav Body Element*/
+
+.sidenavElement{
+    display: block !important; 
+    padding-top: 15px;
+    padding-left: 25px !important; 
+    transition: 0.5s;
+    overflow: hidden;
+    padding-right: 10px;        
+}
+
+.sidenavElement.active{
+    background: #e4e2e2;
+}
+
+.sidenavElement:hover{
+    background: #f1f0f0;
+
+}
+
+.sidenavElement:hover ~ .divider{
+    background: #f1f0f0;   
+}
+
+.sidenavElement a{
+    line-height: 16px !important;    
+    margin-top: 10px;
+    color: #757575;
+}
+
+.sidenavElement .packageName{        
+    font-size: 18px;            
+    white-space: nowrap;
+    padding-bottom: 3px;
+    text-overflow: ellipsis !important;
+    overflow: hidden !important;    
+    width: 100%;    
+}
+
+.sidenavElement .packageName a{
+    color: #757575;
+    font-weight: bold;
+}
+
+.sidenavElement .packageData{    
+    overflow: hidden !important;    
+    text-overflow: ellipsis !important;      
+    white-space: nowrap;     
+    color: #420707;     
+    padding: 5px 0;  
+    margin-bottom: 5px;
+}
+
+.sidenavElement .packageData .packageExamCount span, .sidenavElement .packageData .packageId span{    
+    font-size: 12px;
+    
+    background: rgb(64, 150, 21);  
+    border-radius: 5px; 
+    color: #fff;
+    font-weight: bold;    
+}
+
+.sidenavElement .packageData .packageId span{
+    background: green;
+    margin-left: 10px;
+}
+
+.sidenavElement .packageData .packageExamCount, .sidenavElement .packageData .packageId{
+    color: #424242;
+    
+}
+
+.sidenavHeader span{
+    margin-left: 10px; 
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+/*Sidenav Scrollbar*/
+#slide-out{
+    overflow-y: scroll
+}
+
+#slide-out::-webkit-scrollbar {
+    width: 3px;
+}
+ 
+#slide-out::-webkit-scrollbar-track {
+    opacity: 0;
+}
+ 
+#slide-out::-webkit-scrollbar-thumb {
+  background-color: rgba(128, 0, 128, 0.1);
+  outline: 1px solid slategrey;  
+}

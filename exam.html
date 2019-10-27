@@ -1,0 +1,181 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">        
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+        
+        <title>Manage Packages</title>
+        
+        <link rel="stylesheet" href="/content/style/exam.css">
+
+        
+        <script src="/content/script/jquery-3.4.1.min.js"></script>        
+        <script src="/content/materialize/js/materialize.min.js"></script>        
+        <script src="/content/script/materialModal.js"></script>
+        <script src="/content/script/CookieJS.js"></script>        
+        <script src="/content/script/exam.js"></script>
+        <script src="/content/script/tunnel.js"></script>
+        <script src="/content/script/clipboard.min.js"></script>
+        
+    </head>
+    <body >            
+        <!--Navbar, BreadCrumb-->
+        <header>
+                                 
+        </header>
+        
+       
+        
+        <!--Primary Content-->
+        <main>
+            
+            <!--Placeholder-->
+            <div class="container placeholder">
+                <a><i class="material-icons">list_alt</i></a>
+                <p>Select an exam from the left list to begin</p>
+            </div>
+
+            <!--FAB-->
+            <div class="fixed-action-btn" id="fab">
+                <a class="btn-floating btn-large red waves-effect modal-trigger" href="#inputContainer">
+                    <i class="large material-icons">add</i>
+                </a>
+            </div>
+
+
+            
+            <div id="examData" class="container primary" style="overflow: visible">
+               <!--Package Config-->
+                <div id="packageConfig" class="container" style="overflow: visible"> 
+                    <!--
+                    <p style="text-align: end; margin: 0px"><span onclick="showControl()" class="material-icons waves-effect" style="border-radius: 40px; padding: 5px;">arrow_back</span></p>                    
+                    -->
+                    <h4 class="pricingHeading" id="examDataAbbvText"><!--ABBREVIATION--></h4>
+                    <p id="examIdContainer"><span>Exam ID</span><a id="examIdText"><!--examIDContent--></a><i id="copier" data-clipboard-target="#examIdText" class="material-icons tooltipped waves-effect" data-tooltip="Copy">file_copy</i></p>
+                    <div class="row">                    
+                        <div class="input-field col s12" style=" margin: 0">
+                            <input id="examDataNameText" type="text">
+                            <label for="examDataNameText">Full Name</label>
+                        </div>                                                                                                                                            
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s4" style=" margin: 0">
+                            <input id="examDataTargetText" type="number">
+                            <label for="examDataTargetText">Target Year</label>
+                        </div>                            
+                        <div class="input-field col s4" style=" margin: 0">
+                            <input id="examDataMarksText" type="number">
+                            <label for="examDataMarksText">Total Marks</label>
+                        </div>
+                        <div class="input-field col s4" style=" margin: 0">
+                            <input id="examDataPatternText" type="number">
+                            <label for="examDataPatternsText">Pattern Year</label>
+                        </div>
+                    </div>
+                    <br>
+                    <br>
+                    <div style="text-align: right;">
+                        <a class="waves-effect waves-teal btn-flat" onclick="updateExamData()">UPDATE</a>
+                    </div>
+                    <br><br>
+                    <h5><b>Sections</b></h5>
+                    <blockquote style="color: #757575; font-size: 12px">Click a section to edit<br>Adding or removing a section suggests change in exam pattern</blockquote>                       
+                    <div id="chipContainer">                    
+                       <!--
+                        <div class="chip" key="wbcs-mains" data='wbcs-prelims'>English Composition</div>
+                        <div class="chip" key="wbcs-mains" data='wbcs-prelims'>Indian History</div>     
+                        -->                                           
+                    </div>
+                    <div style="text-align: right;">
+                        <a class="waves-effect waves-teal btn-flat" onclick="createNewSection()">ADD A SECTION</a>
+                        <a class="waves-effect waves-teal btn-flat" onclick="updateExamSections()">UPDATE</a>
+                    </div>
+                    <br><br>
+                   
+                </div> 
+                                        
+            </div>
+        </main>
+            
+        
+        <!-- Creation Modal Structure -->
+        <div class="modal modal-fixed-footer" id="inputContainer">
+            <div class="modal-content">                            
+                <div style="padding-left: 0"><a id="sectorPreview" class="customBadge"></a></div>
+                <h3 id="inputHeading">New Exam</h3>                                                    
+                <div class="row">                                        
+                    <div class="input-field col s12" style=" margin: 0">
+                        <input class="clear" id="examAbbvText" type="text">
+                        <label for="examAbbvText">Abbreviation</label>
+                    </div>                                                                                                                                            
+                </div>
+                <div class="row">
+                        <div class="input-field col s12" style=" margin: 0">
+                            <input class="clear" id="examNameText" type="text">
+                            <label for="examNameText">Full Name</label>
+                        </div>                                                                                                                                            
+                </div>
+                <div class="row">
+                    <div class="input-field col s4" style=" margin: 0">
+                        <input class="clear" id="examTargetText" type="number">
+                        <label for="examTargetText">Target Year</label>
+                    </div>                            
+                    <div class="input-field col s4" style=" margin: 0">
+                        <input class="clear" id="examMarksText" type="number">
+                        <label for="examMarksText">Total Marks</label>
+                    </div>
+                    <div class="input-field col s4" style=" margin: 0">
+                        <input class="clear" id="examPatternText" type="number">
+                        <label for="examPatternsText">Pattern Year</label>
+                    </div>
+                </div>
+                <br>
+                <div class="rules">
+                    <blockquote>
+                        <h6>Rules</h6>                                                            
+                        <p>Abbreviations must be critically unique.</p>
+                        <p>Avoid using symbols, stick to alphabets and numbers.</p>
+                        <p>You won't be able modify abbreviation.</p>                                                                                    
+                    </blockquote>
+                </div>                            
+            </div>
+            <div class="modal-footer">
+                <a href="#!" onclick="createExam()" class="waves-effect waves-red btn-flat">create</a>
+            </div>
+        </div>
+
+        <!-- Section Modal Structure -->
+        <div class="modal modal-fixed-footer" id="sectionContainer">
+            <div class="modal-content">
+                <div style="padding-left: 0"><a id="sectorEditExam" class="customBadge"></a></div>
+                <h3 style="padding-top: 10px;" id="editSectionHeading">Section</h3>               
+                <blockquote style="color: #757575; font-size: 12px">
+                    Changes made will only reflect in papers created after this action
+                </blockquote>     
+                <div class="row" style="padding-top: 20px !important;">                                        
+                    <div class="input-field col s12" style=" margin: 0">
+                        <input class="clear" id="sectionNameText" type="text">
+                        <label for="sectionNameText">Name</label>
+                    </div>                                                                                                                                            
+                </div>
+                <div class="row">
+                    <div class="input-field col s12" style=" margin: 0">
+                        <input class="clear" id="sectionQsnText" type="number">
+                        <label for="sectionQsnText">No. of Questions</label>
+                    </div>                                                                                                                                            
+                </div>                                                        
+            </div>
+            <div class="modal-footer">
+                <a href="#!" id="sectionApplyButton" class="waves-effect waves-red btn-flat">APPLY</a>
+            </div>
+        </div>
+        
+        <!--<div class="input-field tooltipped" data-tooltip="New packages will be created and existing packages will be fetched based on the chosen exam">                            
+            <select class="no-autoinit" id="examSelector">
+                <option value="" disabled selected>Choose an Exam</option>                                                             
+            </select>                        
+        </div>-->
+        
+        <!--Modal Container-->
+        <div class="modalContainer"></div>
+    </body>
+</html>

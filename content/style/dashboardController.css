@@ -1,0 +1,195 @@
+@import url('https://fonts.googleapis.com/css?family=Oxygen|Hammersmith+One|Comfortaa|Montserrat|Poiret+One|Quicksand|Raleway|Varela|Titillium+Web&display=swap');
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+@import "/content/style/navbar.css";
+@import "/content/materialize/css/materialize.min.css";
+@import "/content/style/materialModal.css";
+
+html{
+    overflow: visible !important;
+}
+
+body{
+    overflow: visible !important;
+}
+
+.sectorSelectContainer{   
+    padding: 0 25px !important;
+    margin: 0 !important;
+    margin-top: 5px !important;
+}
+
+.sectorSelectContainer .select-dropdown{
+    border-bottom: none !important;
+    font-size: 20px !important; 
+    color: #757575;
+}
+
+
+.placeholder{
+    padding-top: 10vh;
+    text-align: center;
+    display: block;
+}
+
+.placeholder a i{
+    font-size: 200px;
+    color: #d8d4d4
+}
+
+.placeholder p {
+    font-size: 20px;
+    font-weight: bold;
+    font-family: Titillium Web;
+    color: #afaeae
+}
+
+
+main{
+    padding-top: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    overflow: visible;
+}
+
+.container.primary{
+    margin-top: 20px !important;
+    width: 90% !important;
+    padding-bottom: 40px;
+    display: none;
+    overflow: visible;
+}
+
+.input-field{
+    margin-top: 40px;   
+}
+
+#inputContainer .modal-content{
+    padding: 40px !important;
+}
+
+#inputContainer .modal-footer{
+    padding-right: 40px !important;
+}
+
+.rules{
+    color: #757575;
+    font-size: 12px;
+}
+
+.rules h6{
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.rules p{
+    margin: 0 !important;
+}
+
+
+.customBadge{
+    background: green;
+    padding: 5px 10px;
+    border-radius: 3px;
+}
+
+#inputHeading{
+    padding-top: 10px;
+}
+
+#inputContainer .modal-footer{
+    background: #f3f1f1;
+    border-radius: 0px !important;
+}
+
+.secondary-content{
+    border-radius: 40px;
+    padding: 2px;
+    transform: translateY(-2px);
+}
+
+
+.collection-header h4 a {
+    padding: 5px;
+    margin-left: 20px;
+    border-radius: 40px;
+}
+
+.pricingHeading{
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+
+#examRefreshButton{
+    margin-left: 10px;
+    border-radius: 40px;
+    padding: 5px;
+}
+
+#examIdContainer{
+    padding: 10px;
+}
+
+#examIdContainer span{
+    font-family: Quicksand;
+}
+
+#examIdContainer a{
+    margin-left: 10px;
+    font-weight: bold;
+    font-family: Comfortaa;
+    font-size: 10px;
+}
+
+#examIdContainer i{
+    margin-left: 10px;
+    color: rgb(102, 104, 105);
+    padding: 5px;
+    border-radius: 40px;
+    cursor: pointer;
+}
+
+#sectorPreview, #sectorEditExam{
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+#fab{
+    visibility: hidden;
+}
+
+/*Sidenav Body Element*/
+
+/*Sidenav Elements*/
+
+
+.sidenavElement{
+    display: block !important; 
+    padding-left: 25px !important; 
+    /*padding-bottom: 15px !important;*/
+    transition: 0.5s;
+}
+
+.sidenavElement.active{
+    background: #e4e2e2;
+}
+
+.sidenavElement:hover{
+    background: #f1f0f0;
+}
+
+.sidenavElement a{
+    /*line-height: 10px !important;*/
+}
+
+/*.sidenavElement .examName{
+    color: #fff;
+    font-size: 12px;
+    
+}*/
+
+.sidenavElement .examAbbreviation{    
+    font-size: 18px;
+    color: #757575;
+    padding-top: 20px !important;
+}

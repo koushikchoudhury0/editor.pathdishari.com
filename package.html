@@ -1,0 +1,200 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">        
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+        
+        <title>Manage Packages</title>
+        
+        <link rel="stylesheet" href="/content/style/package.css">
+
+        
+        <script src="/content/script/jquery-3.4.1.min.js"></script>        
+        <script src="/content/materialize/js/materialize.min.js"></script>        
+        <script src="/content/script/materialModal.js"></script>
+        <script src="/content/script/CookieJS.js"></script>        
+        <script src="/content/script/package.js"></script>
+        <script src="/content/script/tunnel.js"></script>
+        
+    </head>
+    <body >            
+        <!--Navbar, BreadCrumb-->
+        <header>
+                                 
+        </header>
+        
+       
+        
+        <!--Primary Content-->
+        <main>
+            
+            <!--Placeholder-->
+            <div class="container placeholder">
+                <a><i class="material-icons">list_alt</i></a>
+                <p>Select a package to load</p>
+            </div>
+
+            <!--FAB-->
+            <div class="fixed-action-btn" id="fab">
+                <a class="btn-floating btn-large red waves-effect modal-trigger" href="#inputContainer">
+                    <i class="large material-icons">add</i>
+                </a>
+            </div>
+
+
+            
+            <div id="packageData" class="container primary" style="overflow: visible">
+               <!--Package Config-->
+                <div id="packageConfig" class="container" style="overflow: visible"> 
+                    <!--
+                    <p style="text-align: end; margin: 0px"><span onclick="showControl()" class="material-icons waves-effect" style="border-radius: 40px; padding: 5px;">arrow_back</span></p>                    
+                    -->
+                    <h4 class="pricingHeading">Data & Metrics</h4>
+                    <div class="row">
+                            <div class="input-field col s4" style=" margin: 0">
+                                <input id="packageDataPriceText" type="number">
+                                <label for="packageDataPriceText">Price</label>
+                            </div>                            
+                            <div class="input-field col s4" style=" margin: 0">
+                                <input id="packageDataMockText" type="number">
+                                <label for="packageDataMockText">Mock Papers</label>
+                            </div>
+                            <div class="input-field col s4" style=" margin: 0">
+                                <input id="packageDataModelText" type="number">
+                                <label for="packageDataModelText">Model Papers</label>
+                            </div>
+                            <div class="input-field col s12">
+                                <input id="packageDataDescText" type="text">
+                                <label for="packageDataDescText">Package Description</label>
+                            </div>
+                    </div>
+                    <br>
+                    <div style="text-align: right;">
+                        <a class="waves-effect waves-teal btn-flat" onclick="updatePackageData()">UPDATE</a>
+                    </div>
+                    <br><br>
+                    <h4>Associated Exams<!--<a id="examRefreshButton" class="waves-effect"><span class="material-icons">refresh</span></a>--></h4>
+                    <div class="input-field col s12" style="margin-top: 10px">
+                        <select id="sectorList"  onchange="fetchExams(this, $('#examList'))">
+                            <option value="" disabled selected>Choose Sector</option>                                                        
+                        </select>                        
+                    </div>
+                    <div class="input-field col s12">
+                        <select id="examList"  onchange="updateAssociatedExamList()">
+                            <option value="" disabled selected>Choose an exam to associate</option>                                                        
+                        </select>                        
+                    </div>
+                    <div id="chipContainer">
+                        <!--
+                        <div class="chip" key="wbcs-mains" data='wbcs-prelims'>WBCS Mains<i class="close material-icons">close</i></div>
+                        -->                        
+                    </div>
+                    <br><br>
+                    <!--
+                    <div id="associateExamButtonContainer" style="text-align: right;">
+                        <a class="waves-effect waves-teal btn-flat" onclick="associateExam()">Apply</a>
+                    </div>
+                    -->
+                    <!--
+                    <br><br>
+                    <button class="btn waves-effect waves-light" style="display: block; width: 100%" onclick="publish()" type="submit" name="action">
+                        publish
+                        <i class="material-icons right">send</i>
+                    </button>
+                    -->
+                </div> 
+                <!--Package Papers-->
+                <!--
+                <div id="packageControl" class="container">
+                    <p style="text-align: end; margin: 0px"><span onclick="showConfig()" class="material-icons waves-effect" style="border-radius: 40px; padding: 5px;">settings</span></p>
+                    <div class="input-field">
+                        <select>
+                            <option value="" disabled selected>Choose an associated exam</option>
+                            <option value="1">Option 1</option>
+                            <option value="2">Option 2</option>
+                            <option value="3">Option 3</option>
+                        </select>                        
+                    </div>  
+                    <div class="switch">
+                        <label>
+                            Show only unadded papers
+                            <input type="checkbox">
+                            <span class="lever"></span>                            
+                        </label>
+                    </div>                  
+                </div>
+                -->                               
+            </div>
+        </main>
+            
+        
+        <!-- Creation Modal Structure -->
+        <div class="modal modal-fixed-footer" id="inputContainer">
+            <div class="modal-content">                            
+                <h3 id="inputHeading">New Package</h3>                                    
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input id="packageNameText" type="text" data-tooltip="<b>FORMAT: </b><i>Only alphanumeric characters and hyphens are accepted" class="tooltipped characterCountable" data-length="60">
+                        <label for="packageNameText">Package Name</label>                                                        
+                    </div>
+                    <div class="input-field col s4" >
+                        <input id="packagePriceText" type="number">
+                        <label for="packagePriceText">Price</label>                                                        
+                    </div>
+                    <div class="input-field col s4" >
+                        <input id="packageCreationMockText" type="number">
+                        <label for="packageCreationMockText">Mock Papers</label>                                                        
+                    </div>
+                    <div class="input-field col s4" >
+                        <input id="packageCreationModelText" type="number">
+                        <label for="packageCreationModelText">Model Papers</label>                                                        
+                    </div>
+                </div>
+                <br>
+                <h5>Associate Exams<!--<a id="examRefreshButton" class="waves-effect"><span class="material-icons">refresh</span></a>--></h5>                
+                <p style="font-size: 12px; color: #757575; font-family: Quicksand; font-weight: bold">Add atmost 7 exams. If required, add more later</p>
+                <div class="input-field col s12" style="margin-top: 10px">
+                    <select id="creationSectorList"  onchange="fetchExams(this, $('#creationExamList'))">
+                        <option value="" disabled selected>Choose Sector</option>                                                        
+                    </select>                        
+                </div>                                
+                <div class="input-field col s12" style="margin-top: 10px">
+                    <select id="creationExamList"  onchange="updateCreationAssociatedExamList()">
+                        <option value="" disabled selected>Choose an exam to associate</option>                                                        
+                    </select>                        
+                </div>
+                <div id="creationChipContainer">
+                    <!--
+                    <div class="chip" key="wbcs-mains" data='wbcs-prelims'>WBCS Mains<i class="close material-icons">close</i></div>
+                    -->                        
+                </div>
+                <div class="input-field" >
+                    <input id="packageCreationDescText" type="text">
+                    <label for="packageCreationDescText">Package Description</label>                                                        
+                </div>
+                <br>
+                <div class="rules">
+                    <blockquote>
+                        <h6>Rules</h6>                                                            
+                        <p>Avoid using abbreviations, use full forms instead.</p>
+                        <p>Avoid using symbols, stick to alphabets and numbers.</p>
+                        <p>You won't be able modify any property after creation.</p>                                    
+                        <p>You can add or remove packages from a package at any point of time.</p>
+                        <p>Name should be constructive enough to allow users uderstanding contents.</p>                                                                        </p>
+                    </blockquote>
+                </div>                            
+            </div>
+            <div class="modal-footer">
+                <a href="#!" onclick="createPackage()" class="waves-effect waves-red btn-flat">create</a>
+            </div>
+        </div>
+        
+        <!--<div class="input-field tooltipped" data-tooltip="New packages will be created and existing packages will be fetched based on the chosen exam">                            
+            <select class="no-autoinit" id="examSelector">
+                <option value="" disabled selected>Choose an Exam</option>                                                             
+            </select>                        
+        </div>-->
+        
+        <!--Modal Container-->
+        <div class="modalContainer"></div>
+    </body>
+</html>

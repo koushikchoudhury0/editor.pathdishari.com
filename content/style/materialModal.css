@@ -1,0 +1,41 @@
+
+.modal-content table{
+    width: 100%;
+}
+
+.modal-content table tr{
+    border: none;
+    width: 100%;
+}
+
+.modal-content table tr td h5{
+    color: #757575;
+    margin-left: 20px;
+}
+
+.progressPreLoaderContainer{
+    width: 20%;
+    text-align: center;
+}
+
+.dialogMsg, .progressMsg{
+    margin-left: 40px;
+    color: #424242;
+    font-family: Quicksand;
+}
+
+.modal-header{
+    color: #757575
+}
+
+
+
+@media only screen and (max-width : 500px) {
+    .progressPreloaderContainer{
+        transform: scale(0.7);        
+    }
+
+    .modal-content table tr td h5{
+        font-size: 16px;
+    }
+}

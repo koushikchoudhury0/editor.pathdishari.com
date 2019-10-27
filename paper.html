@@ -1,0 +1,182 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">        
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+        
+        <title>Manage Papers</title>
+        
+        <link rel="stylesheet" href="/content/style/paper.css">
+
+        
+        <script src="/content/script/jquery-3.4.1.min.js"></script>        
+        <script src="/content/materialize/js/materialize.min.js"></script>        
+        <script src="/content/script/materialModal.js"></script>
+        <script src="/content/script/CookieJS.js"></script>
+        <script src="/content/script/paper.js"></script>
+        <script src="/content/script/tunnel.js"></script>
+        
+    </head>
+    <body >            
+        <!--Navbar, BreadCrumb-->
+        <header>
+                                 
+        </header>
+        
+       
+        
+        <!--Primary Content-->
+        <main>
+            <div class="container placeholder">
+                <a><i class="material-icons">list_alt</i></a>
+                <p>Select an exam from the left list to begin</p>
+            </div>
+            <div class="container primary">
+                <div class="container">
+                    <div class="fixed-action-btn" id="fab">
+                        <a class="btn-floating btn-large red waves-effect modal-trigger" href="#inputContainer">
+                            <i class="large material-icons">add</i>
+                        </a>                                
+                    </div>
+                    <!-- Modal Structure -->
+                    <div class="modal modal-fixed-footer" id="inputContainer">
+                        <div class="modal-content">
+                            <a id="examNamePreview" class="customBadge">exam id</a>
+                            <h3 id="inputHeading">New Paper</h3>                    
+                            <div class="input-field" >
+                                <input id="paperNameText" type="text" class="characterCountable" data-length="60">
+                                <label for="paperNameText">Paper Name</label>                                                        
+                            </div>
+                            <div class="input-field">
+                                <select id="createYearSelect">
+                                    <!--
+                                    <option value="2019">2019</option>
+                                    <option value="2020">2020</option>
+                                    <option value="2022">2022</option>
+                                    <option value="2023">2023</option>
+                                    <option value="2024">2024</option>
+                                    <option value="2025">2025</option>
+                                    <option value="2026">2026</option>
+                                    <option value="2027">2027</option>
+                                    <option value="2028">2028</option>
+                                    <option value="2029">2029</option>
+                                    <option value="2030">2030</option>
+                                    <option value="2031">2031</option>
+                                    <option value="2032">2032</option>
+                                    -->
+                                </select>
+                                <label>Target Year</label>
+                            </div>
+                            <br>                            
+                            <p class="typeLabel">Paper Type</p>
+                            <label><input name="paperType" id="typeMock" onchange="typeSelect(this)" type="radio" checked /><span>Mock</span></label>
+                            <label><input name="paperType" id="typeSubject" onchange="typeSelect(this)" type="radio" /><span>Subject Wise</span></label>
+                            <br>
+                            <div class="input-field paperModelContainer" style="display: none">
+                                <input id="paperModelText" type="text" class="characterCountable" data-length="60">
+                                <label for="paperModelText">Model Name</label>
+                            </div>
+                            <div class="input-field paperModelContainer" style="display: none">                                
+                                <input id="paperModelQuestionCount" type="number">
+                                <label for="paperModelQuestionCount">No. of Questions</label>
+                            </div>
+                            <br>                            
+                            <p class="typeLabel">Timeout</p>
+                            <div class="input-field paperTimeContainer" style="margin-top: 5px">                                
+                                <input id="paperTime" type="number">
+                                <label for="paperTime">Minutes to solve</label>
+                            </div>
+                            <br>
+                            <p>
+                                <label>
+                                    <input id="freeCheckbox" type="checkbox" />
+                                    <span>Mark this as a Free Practice Paper</span>
+                                </label>
+                            </p>                                                        
+                            <data id="selectedExamId" value="" style="visibility: hidden"></data>
+                            <div class="input-field">
+                                <input id="pubDate" type="text" class="datepicker">
+                                <label for="pubDate">Expected Publication Date</label>
+                            </div>
+                            <div class="rules">
+                                <blockquote>
+                                    <h6>Rules</h6>
+                                    <p>Avoid using exam names within paper name.</p>
+                                    <p>Avoid using paper type(mock, model, practice) within paper name.</p>                                    
+                                    <p>Avoid using abbreviations, use full forms instead.</p>
+                                    <p>You won't be able modify paper properties after creation.</p>  
+                                    <p>Avoid using symbols, stick to alphabets, non trailing/leading, hyphens and numbers.</p>                                                                      
+                                    <p>No. of questions per section cannot be changed, they will be kept as defined in Exam</p>
+                                </blockquote>
+                            </div>
+                            <!--<div style="text-align: right;">                        
+                                <button id="createExamButton" onclick="createPaper()" class="btn waves-effect waves-light red">Create
+                                        <i class="material-icons right">send</i>
+                                </button>
+                            </div>-->
+                        </div>
+                        <div class="modal-footer">
+                            <a href="#!" onclick="createPaper()" class="waves-effect waves-red btn-flat">create</a>
+                        </div>
+                    </div>
+                    
+                    
+                </div>                
+                <div class="container">     
+                    <div class="row" style="margin: 0; padding: 0">
+                        <div class="col s5"  style="transform: translateY(14px); padding-left: 0"><a id="examNamePreview2" class="customBadge">exam id</a></div>
+                        <div class="col s4" style="text-align: right">
+                            <p class="disabled" style="transform: translateY(-5px); color: #757575">Target Year&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+                        </div>                        
+                        <div class="input-field col s2 viewYearSelectContainer" style="margin: 0; padding: 0">
+                            <select id="viewYearSelect">
+                                <!--
+                                <option value="2019">2019</option>
+                                <option value="2020">2020</option>
+                                <option value="2022">2022</option>
+                                <option value="2023">2023</option>
+                                <option value="2024">2024</option>
+                                <option value="2025">2025</option>
+                                <option value="2026">2026</option>
+                                <option value="2027">2027</option>
+                                <option value="2028">2028</option>
+                                <option value="2029">2029</option>
+                                <option value="2030">2030</option>
+                                <option value="2031">2031</option>
+                                <option value="2032">2032</option>
+                                -->
+                            </select>                                                                
+                        </div>
+                        <div class="col s1">
+                            <a onclick="triggerFetchPaper()" style="margin-top: 12px; border-radius: 40px" class="waves-effect"><span class="material-icons">refresh</span></a>
+                        </div>
+                    </div>
+                    <ul id="paperList" class="collection with-header"  style="overflow: visible">
+                        <!--                        
+                        <li class="collection-header"><h4>Existing Papers</h4></li>                                                
+                        <li class="collection-item paperItem">
+                            <div class="paperItemChild"  style="overflow: visible">
+                                <div>paperName
+                                    <a  class="secondary-content waves-effect composeNavigater dropdown-trigger" data-target='dropdown1'>
+                                        <i class="material-icons">more_vert</i>
+                                    </a>
+                                </div>
+                                <ul id='dropdown1' class='dropdown-content'>
+                                    <li><a class="dropdownText" href="#!">Manage Questions</a></li>
+                                    <li><a class="dropdownText" href="#!">Publish</a></li>                                    
+                                </ul>                            
+                                <div>
+                                    <p class="paperConfigData"><span class="customBadge paperType">Model</span><span class="customBadge paperCost">free</span><span class="customBadge paperStatus">PUBLISHED</span></p>
+                                </div>
+                            </div>                                                        
+                        </li>
+                        -->                        
+                      </ul>          
+                </div>
+            </div>
+        </main>
+        
+        
+        <!--Modal Container-->
+        <div class="modalContainer"></div>
+    </body>
+</html>

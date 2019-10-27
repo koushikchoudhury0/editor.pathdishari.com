@@ -1,0 +1,121 @@
+@import url('https://fonts.googleapis.com/css?family=Oxygen|Hammersmith+One|Comfortaa|Montserrat|Poiret+One|Quicksand|Raleway|Varela|Titillium+Web&display=swap');
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+@import "/content/style/navbar.css";
+@import "/content/materialize/css/materialize.min.css";
+@import "/content/style/materialModal.css";
+
+body{
+    overflow-x: hidden;
+    visibility: hidden;
+}
+
+header, main, footer {
+    margin-left: 0px !important;
+}
+
+main{
+    padding-top: 10px;
+}
+
+header{
+    background: rgb(3, 187, 18) !important;
+    height: 50vh;
+    padding-top: 10vh;
+    padding-left: 100px;
+    color: whitesmoke;
+}
+
+header div p{
+    font-size: 30px;
+}
+
+.creds{
+    padding-left: 18%;
+    padding-right: 18%;
+    text-align: center;    
+}
+
+#cloakIcon{    
+    padding: 5px;
+}
+
+#cloakIconParent{
+    border-radius: 40px !important; 
+}
+
+.container.primary{
+    margin-top: 20px !important;
+    width: 90% !important;
+}
+
+.creds table tr {
+    border: none;
+}
+
+.creds table tr td .material-icons{
+    color: #757575;
+}
+
+.input-field{
+    margin: 0 !important;
+}
+
+.btn{
+    margin-top: 20px;
+    width: 100%;
+}
+
+@media only screen and (max-width: 550px){
+    .creds{
+        padding-left: 0px;
+        padding-right: 0px;
+        text-align: center;    
+    }
+
+    header{
+        
+        height: auto;
+        padding-bottom: 30px;
+        padding-top: 5vh;
+        padding-left: 5%;       
+    }
+
+    .container.primary{
+        margin-top: 20px !important;
+        width: 100% !important;        
+    }
+
+    input[type="text"]{
+        font-size: 14px !important;
+    }
+    
+}
+
+@media only screen and (max-width: 400px){
+    
+    header div h1{
+        font-size: 40px;
+    }
+
+    header div p{
+        font-size: 20px;
+    }
+
+    input[type="text"]{
+        font-size: 12px !important;
+    }
+    
+}
+
+
+@media only screen and (max-width: 250px){
+    
+    header div h1{
+        font-size: 30px;
+    }
+
+    header div p{
+        font-size: 15px;
+    }
+}
+
