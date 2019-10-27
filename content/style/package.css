@@ -181,6 +181,12 @@ main{
     
 }
 
+.starBadge{
+    margin-left: 10px;
+    transform: translateY(5px);
+    color: rgb(238, 134, 15);
+}
+
 .sidenavHeader span{
     margin-left: 10px; 
     vertical-align: middle;

@@ -239,7 +239,7 @@ var getPackageBody = (v) => {
             <div onclick="fetchPackage(this)" data=\''+JSON.stringify(v)+'\' class="waves-effect sidenavElement tooltipped" data-tooltip="'+v.packageName+'" data-position="right">\
                 <div class="packageName"><a>'+v.packageName+'</a></div>\
                 <div  class="packageData">\
-                    <a class="packageExamCount">Exams&nbsp;&nbsp;&nbsp;<span class="customBadge">'+v.examCount+'</span></a>\
+                    <a class="packageExamCount">Exams&nbsp;&nbsp;&nbsp;<span class="customBadge">'+v.examCount+'</span>'+((v.popularity==1)?'<i class="material-icons starBadge">star</i>':'')+'</a>\
                 </div>\
             </div>\
             \
@@ -268,8 +268,7 @@ var fetchAllPackages = () => {
                 $("#slide-out").append(getPackageBody(v));
                 console.log("Appending:", v);
             });
-            $(".sidenavElement").tooltip();
-            
+            $(".sidenavElement").tooltip();            
         } else {
             engageDialog({
                 head: "Cannot read packages",
@@ -308,13 +307,17 @@ var fetchPackage = (element) => {
     //selectedPackageId = $(element).find(".packageId").attr("data");
     //selectedPackageName = $(element).find(".packageName").attr("data");
     const packageData = JSON.parse($(element).attr("data"));
-    console.log("Requesting: ", packageData.packageName);
+    //console.log("Requesting: ", packageData.packageName);
     //Clear Fields
     $("#chipContainer").empty();
     $("#packageDataPriceText").val(null);
     $("#packageDataDescText").val(null);
     $("#packageDataMockText").val(null);
     $("#packageDataModelText").val(null);
+    $("#packagePopularity")
+        .css({"color": "grey"})
+        .attr("data-tooltip", "Package Popularity")
+        .attr("onclick", "");
     M.updateTextFields();
     $("#sectorList").prop('selectedIndex', 0).formSelect();
     engageProgress({
@@ -331,12 +334,12 @@ var fetchPackage = (element) => {
             packageId: packageData.packageId
         })
     }).done((responseBody) => {        
-        console.log(responseBody);
+        //console.log(responseBody);
         if (responseBody.statusCode==1){            
             dismissDialog();
             $(element).addClass("active");
             if (!responseBody.package){                
-                M.toast({html: "Package Data has been removed"});
+                M.toast({html: "Package Data has been removed. Contact the administrators immediately"});
             } else {   
                 //Setting Data                
                 $("#packageDataPriceText").val(Number(responseBody.package.price));
@@ -345,23 +348,34 @@ var fetchPackage = (element) => {
                 $("#packageDataDescText").val(responseBody.package.description);
                 responseBody.package.exams.forEach((v, i) => {
                     $("#chipContainer").append(getChipBody(v));                    
-                    console.log(v);
+                    //console.log(v);
                 });                                                
                 /*if (published) $("#associateExamButtonContainer").css({"display": "none"});   
                 else $("#associateExamButtonContainer").css({"display": "block"});*/
+                if (responseBody.package.popularity == 1){
+                    $("#packagePopularity")
+                        .css({"color": "rgb(238, 134, 15)"})
+                        .attr("data-tooltip", "Depopularize this Package")
+                        .attr("onclick", "updatePackagePopularity(1, \""+responseBody.package.packageId+"\")")
+                } else {
+                    $("#packagePopularity")
+                        .css({"color": "grey"})
+                        .attr("data-tooltip", "Popularalize this package")
+                        .attr("onclick", "updatePackagePopularity(0, \""+responseBody.package.packageId+"\")");
+                }
                 M.updateTextFields();
                 $(".placeholder").hide();
                 $(".container.primary").show();
             }
         } else {
-            console.log(JSON.stringify(responseBody));
+            //console.log(JSON.stringify(responseBody));
             engageDialog({
                 head: "Oops!",
                 body: "Something went wrong"
             });    
         }
     }).fail((xhr) => {
-        console.log("failed: ", xhr.status);
+        //console.log("failed: ", xhr.status);
         if (xhr.status === 403 || xhr.status === 401){
             Cookies.remove("token");
             window.location.replace("/");
@@ -606,6 +620,63 @@ var updatePackageData = () => {
       if (responseBody.statusCode==1){                    
         dismissDialog();
         M.toast({html: 'Package updated'});        
+    } else {
+        engageDialog({
+            head: "Cannot update package",
+            body: "Invalid data were provided"
+        });
+    }
+    }).fail((xhr) => {
+        console.log("failed: ", xhr.status);
+        if (xhr.status === 403 || xhr.status === 401){
+            Cookies.remove("token");
+            window.location.replace("/");
+        } else {
+            dismissDialog();
+            engageDialog({
+                head: "Oops!",
+                body: "Something went wrong."
+            });
+        }
+    });
+
+}
+
+//
+
+var updatePackagePopularity = (currentPopularity, packageId) => {
+    engageProgress({
+        msg: "Updating Package"
+    });        
+    $.ajax({
+        type: "POST",
+        url: "https://33qo10kq34.execute-api.ap-south-1.amazonaws.com/prod/admin-update-package-popularity",
+        headers: {
+            "Authorization": Cookies.get("token")
+        },
+        data: JSON.stringify({
+            packageId: packageId,
+            popularity: currentPopularity
+        })
+    }).done((responseBody) => {
+      console.log(responseBody);  
+      if (responseBody.statusCode==1){                    
+        dismissDialog();        
+        if (currentPopularity==0){
+            M.toast({html: 'Package Popularized'});
+            $("#packagePopularity")
+                .css({"color": "rgb(238, 134, 15)"})
+                .attr("data-tooltip", "Depopularize this package")
+                .attr("onclick", "updatePackagePopularity(1, \""+packageId+"\")");
+            $(".sidenavElement.active .packageExamCount").append('<i class="material-icons starBadge">star</i>');
+        } else {
+            M.toast({html: 'Package Depopularized'});
+            $("#packagePopularity")
+                .css({"color": "grey"})
+                .attr("data-tooltip", "Popularize this package")
+                .attr("onclick", "updatePackagePopularity(0, \""+packageId+"\")");
+            $(".sidenavElement.active .starBadge").remove();
+        }     
     } else {
         engageDialog({
             head: "Cannot update package",
