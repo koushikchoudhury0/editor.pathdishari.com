@@ -14,24 +14,37 @@ header, main, footer {
 }
 
 main{
-    padding-top: 10px;
+    padding-top: 30px;
 }
 
-header{
-    background: rgb(3, 187, 18) !important;
+header{    
+    background-image: linear-gradient(to right, rgba(3, 187, 18, 0.6) , rgb(3, 187, 18));
     height: 50vh;
     padding-top: 10vh;
     padding-left: 100px;
     color: whitesmoke;
 }
 
+blockquote p{
+    color: #757575;
+    font-size: 12px;
+    font-family: Quicksand;
+}
+
 header div p{
     font-size: 30px;
 }
 
+.logoContainer{
+    border-width: 5px;
+    border-style: solid;
+    border-color: white;
+    border-radius: 15px;    
+}
+
 .creds{
-    padding-left: 18%;
-    padding-right: 18%;
+    padding-left: 5%;
+    padding-right: 5%;
     text-align: center;    
 }
 

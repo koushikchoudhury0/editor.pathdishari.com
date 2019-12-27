@@ -50,8 +50,7 @@
             <div class="mainContainer">
                 <div class="mainContent">
                     <div class="inputSection">                                  
-                        <p class="sectionLabel">Compose Question</p>            
-                        
+                        <p class="sectionLabel">Compose Question</p>                                    
                         <div class="input-field">
                             <textarea id="questionText" class="characterCountable materialize-textarea" data-length="10000" autocomplete="new-password"></textarea>
                             <label for="questionText">Question Text</label>
@@ -60,15 +59,21 @@
                         <br>                                
                         <!--Question Image Items-->                        
                         <div>
-                            <a disabled class="sectionLabel">Question Images</a>   
+                            <a disabled class="sectionLabel">Question Images</a> 
+                            <div class="switch">
+                                <label>
+                                  Has Images
+                                  <input id="questionImageSwitch" type="checkbox">
+                                  <span class="lever"></span>                                  
+                                </label>
+                            </div>   
                             <blockquote style="color: darkgray; margin: 5px; font-size: 12px">Must be chosen sequentially</blockquote>                         
                             <!--
                             <a id="frameAdder" data-tooltip="Add Image Slot"  class="tooltipped waves-effect frameControl"><i class="material-icons">insert_photo</i></a>
                             
                             <br><label>Order of images are preserved</label>
-                            -->
-                            <br><br>
-                            <div class="row">
+                            -->                            
+                            <div id="questionImageContainer" class="row">
                                 <div class="col s3">
                                     <p>Image 1</p>
                                     <div class="ImageContainer tooltipped" data-tooltip="Click to change">
@@ -121,8 +126,6 @@
                         </form>
                         -->                         
                         <br>
-                        <br>
-                        <br>
                         <!--Solution type-->
                         <p class="sectionLabel">Solution Type</p>
                         <label><input name="solType" id="solMCQ" type="radio" checked /><span>MCQ</span></label>
@@ -138,7 +141,14 @@
                         <label><input name="MCQType" id="solDesc" type="radio" checked /><span>Custom</span></label>
                         -->                                                  
                         <div class="row MCQSolContainer">                                                        
-                            <p class="sectionLabel">MCQ Solutions</p>                                                                                
+                            <a class="sectionLabel">MCQ Solutions</a>
+                            <div class="switch">
+                                <label>
+                                  Has Images
+                                  <input id="optionImageSwitch" type="checkbox">
+                                  <span class="lever"></span>                                  
+                                </label>
+                            </div>                                                                                
                             <blockquote style="color: darkgray; margin: 5px; font-size: 12px">Images must be chosen sequentially<br>Either text or image or both for all options must be chosen<br></blockquote>                                                                              
                             <blockquote style="color: darkgray; margin: 5px; font-size: 12px">Atleast one option must be marked as the solution</blockquote>                                                                              
                             <div class="col s3">
@@ -148,7 +158,7 @@
                                         <span>Option 1</span>
                                     </label>
                                 </p>
-                                <div class="ImageContainer tooltipped" data-tooltip="Click to change">                            
+                                <div class="ImageContainer tooltipped optionImageHolder" data-tooltip="Click to change">                            
                                     <input type="file" hidden onchange="readImageFromDisk(this)">                                                    
                                     <img class="optionImage" id="MCQSolImg1" onclick="chooseImage(this)" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=">                                    
                                     <div class="controlContainer">
@@ -167,7 +177,7 @@
                                         <span>Option 2</span>
                                     </label>
                                 </p>
-                                <div class="ImageContainer tooltipped" data-tooltip="Click to change">                                    
+                                <div class="ImageContainer tooltipped optionImageHolder" data-tooltip="Click to change">                                    
                                     <input type="file" hidden onchange="readImageFromDisk(this)">                                                    
                                     <img class="optionImage" id="MCQSolImg2" onclick="chooseImage(this)" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=">                                    
                                     <div class="controlContainer">
@@ -186,7 +196,7 @@
                                         <span>Option 3</span>
                                     </label>
                                 </p>
-                                <div class="ImageContainer tooltipped" data-tooltip="Click to change">                                    
+                                <div class="ImageContainer tooltipped optionImageHolder" data-tooltip="Click to change">                                    
                                     <input type="file" hidden onchange="readImageFromDisk(this)">                                                    
                                     <img class="optionImage" id="MCQSolImg3" onclick="chooseImage(this)" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=">                                    
                                     <div class="controlContainer">
@@ -205,7 +215,7 @@
                                         <span>Option 4</span>
                                     </label>
                                 </p>
-                                <div class="ImageContainer tooltipped" data-tooltip="Click to change">
+                                <div class="ImageContainer tooltipped optionImageHolder" data-tooltip="Click to change">
                                     <input type="file" hidden onchange="readImageFromDisk(this)">                                                    
                                     <img class="optionImage" id="MCQSolImg4" onclick="chooseImage(this)" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=">                                    
                                     <div class="controlContainer">
@@ -243,6 +253,17 @@
                             </div>
                         </div>
                         <br>
+                        <p class="sectionLabel">Solution Explanation</p>
+                        <div class="row">
+                            <form class="col s12">
+                              <div class="row">
+                                <div class="input-field col s12">
+                                  <textarea id="explanationText" class="materialize-textarea"></textarea>
+                                  <label for="explanationText">Statement</label>
+                                </div>
+                              </div>
+                            </form>
+                        </div>                        
                         <!--Marks-->
                         <div class="marksContainer">
                             <p class="sectionLabel">Marks</p>

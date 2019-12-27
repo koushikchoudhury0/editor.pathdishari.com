@@ -34,7 +34,23 @@ $(document).ready(() => {
 
     $('.characterCountable').characterCounter();
 
-    $(".inputSection").height(window.innerHeight-$("header").height()-(0.07*window.innerHeight));
+    $(".inputSection").height(window.innerHeight-$("header").height()-(0.02*window.innerHeight));
+
+    $("#questionImageSwitch").change(() => {            
+        if ($("#questionImageSwitch").is(":checked")){
+            $("#questionImageContainer").fadeIn();
+        } else {
+            $("#questionImageContainer").fadeOut();
+        }
+    });
+
+    $("#optionImageSwitch").change(() => {
+        if ($("#optionImageSwitch").is(":checked")){
+            $(".optionImageHolder").fadeIn();
+        } else {
+            $(".optionImageHolder").fadeOut();
+        }
+    });
 
     loadMaterialModalPromise(".modalContainer").then(()=>{        
         fetchPaperData(getUrlParameter("paperId"));
@@ -192,7 +208,10 @@ var fetchQuestion = (elem) => {
                         responseBody.questionData.optionTexts.forEach((v, i) => {
                             $(optionTextIds[i]).val(v);
                         });
-                        //solutionIds = ["#option1", "#option2", "#option3", "#option4"];            
+                        //solutionIds = ["#option1", "#option2", "#option3", "#option4"];
+                        solutionIds.forEach((v, i) => {
+                            $(v).prop("checked", false);
+                        });        
                         responseBody.questionData.solution.forEach((v, i) => {
                             $(solutionIds[v]).prop("checked", true);
                         });
@@ -201,6 +220,7 @@ var fetchQuestion = (elem) => {
                         $("#solDesc").prop("checked", true).change();
                         break;
                 }
+                $("#explanationText").val(responseBody.questionData.explanation);
                 $("#positiveMarksText").val(responseBody.questionData.positiveMarks);
                 $("#negativeMarksText").val(responseBody.questionData.negativeMarks);
                 M.updateTextFields();
@@ -217,7 +237,7 @@ var fetchQuestion = (elem) => {
             selectQuestionChip(elem);
             M.toast({html: "This question is yet to be written"});            
             $("#questionText").val(null);            
-                                 
+            $("#explanationText").val(null);
             $(".optionImage").attr("src", defaultSrc);            
             solutionIds.forEach((v, i) => {
                 $(v).prop("checked", false).change();
@@ -264,9 +284,12 @@ var uploadQuestion = () => {
         optionImages: [],
         solutionType: solutionTypeId==="solMCQ"?1:(solutionTypeId==="solDesc"?2:undefined),
         solution: [],
+        explanation: $("#explanationText").val(),
         positiveMarks: Number($("#positiveMarksText").val()),
         negativeMarks: Number($("#negativeMarksText").val())
-    };    
+    };
+    console.log(JSON.stringify(data));
+    //return;    
     
     
     for (var i=0; i<contentImageIds.length; i++){

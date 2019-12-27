@@ -25,7 +25,7 @@ nav{
 .placeholder{
     padding-top: 10vh;
     text-align: center;
-    display: block;
+    display: none;
 }
 
 .placeholder a i{
@@ -42,7 +42,7 @@ nav{
 
 .mainContainer{    
     text-align: left;
-    display: none;
+    display: block;
 }
 
 .frameControl{
@@ -88,7 +88,7 @@ nav{
     margin-right: 20px;    
     padding-right: 10%;
     overflow-y: scroll;
-    margin-top: 20px;
+    margin-top: 3px;
 }
 
 a.frameControl i{
@@ -114,6 +114,25 @@ table, tr, td{
 
 .mainContent{
     display: block;    
+}
+
+.switch{
+    display: inline-block !important;
+    margin-left: 10px;
+    margin-bottom: 10px;
+}
+
+.switch label{
+    color: cornflowerblue;
+    font-size: 14px;
+}
+
+#questionImageContainer{
+    display: none;
+}
+
+.optionImageHolder{
+    display: none;
 }
 
 #addQuestionButton{
