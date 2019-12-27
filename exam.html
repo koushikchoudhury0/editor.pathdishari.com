@@ -58,17 +58,21 @@
                         </div>                                                                                                                                            
                     </div>
                     <div class="row">
-                        <div class="input-field col s4" style=" margin: 0">
+                        <div class="input-field col l3 m6 s12" style=" margin: 0">
                             <input id="examDataTargetText" type="number">
                             <label for="examDataTargetText">Target Year</label>
                         </div>                            
-                        <div class="input-field col s4" style=" margin: 0">
+                        <div class="input-field col l3 m6 s12" style=" margin: 0">
                             <input id="examDataMarksText" type="number">
                             <label for="examDataMarksText">Total Marks</label>
                         </div>
-                        <div class="input-field col s4" style=" margin: 0">
+                        <div class="input-field col l3 m6 s12" style=" margin: 0">
                             <input id="examDataPatternText" type="number">
                             <label for="examDataPatternsText">Pattern Year</label>
+                        </div>
+                        <div class="input-field col l3 m6 s12" style=" margin: 0">
+                            <input id="examDataTimeoutText" type="number">
+                            <label for="examDataTimeoutText">Timeout (m)</label>
                         </div>
                     </div>
                     <br>
@@ -78,7 +82,12 @@
                     </div>
                     <br><br>
                     <h5><b>Sections</b></h5>
-                    <blockquote style="color: #757575; font-size: 12px">Click a section to edit<br>Adding or removing a section suggests change in exam pattern</blockquote>                       
+                   
+                    <blockquote style="color: #757575; font-size: 12px">
+                        Click a section to edit<br>
+                        Adding or removing a section suggests change in exam pattern<br>
+                        Any modification or deletion may affect stability
+                    </blockquote>                       
                     <div id="chipContainer">                    
                        <!--
                         <div class="chip" key="wbcs-mains" data='wbcs-prelims'>English Composition</div>
@@ -115,17 +124,21 @@
                         </div>                                                                                                                                            
                 </div>
                 <div class="row">
-                    <div class="input-field col s4" style=" margin: 0">
+                    <div class="input-field col l3 m6 s12" style=" margin: 0">
                         <input class="clear" id="examTargetText" type="number">
                         <label for="examTargetText">Target Year</label>
                     </div>                            
-                    <div class="input-field col s4" style=" margin: 0">
+                    <div class="input-field col l3 m6 s12" style=" margin: 0">
                         <input class="clear" id="examMarksText" type="number">
                         <label for="examMarksText">Total Marks</label>
                     </div>
-                    <div class="input-field col s4" style=" margin: 0">
+                    <div class="input-field col l3 m6 s12" style=" margin: 0">
                         <input class="clear" id="examPatternText" type="number">
                         <label for="examPatternsText">Pattern Year</label>
+                    </div>
+                    <div class="input-field col l3 m6 s12" style=" margin: 0">
+                        <input class="clear" id="examTimeoutText" type="number">
+                        <label for="examTimeoutText">Timeout (m)</label>
                     </div>
                 </div>
                 <br>
@@ -149,7 +162,8 @@
                 <div style="padding-left: 0"><a id="sectorEditExam" class="customBadge"></a></div>
                 <h3 style="padding-top: 10px;" id="editSectionHeading">Section</h3>               
                 <blockquote style="color: #757575; font-size: 12px">
-                    Changes made will only reflect in papers created after this action
+                    Changes made will only reflect in papers created after this action<br>
+                    Timeout will only be compared with submission stats, it has no timing value
                 </blockquote>     
                 <div class="row" style="padding-top: 20px !important;">                                        
                     <div class="input-field col s12" style=" margin: 0">
@@ -158,9 +172,17 @@
                     </div>                                                                                                                                            
                 </div>
                 <div class="row">
-                    <div class="input-field col s12" style=" margin: 0">
+                    <div class="input-field col l4 m4 s12" style=" margin: 0">
                         <input class="clear" id="sectionQsnText" type="number">
                         <label for="sectionQsnText">No. of Questions</label>
+                    </div> 
+                    <div class="input-field col l4 m4 s12" style=" margin: 0">
+                        <input class="clear" id="sectionTimeText" type="number">
+                        <label for="sectionTimeText">Timeout (m)</label>
+                    </div> 
+                    <div class="input-field col l4 m4 s12" style=" margin: 0">
+                        <input class="clear" id="sectionMarksText" type="number">
+                        <label for="sectionMarksText">Max Marks</label>
                     </div>                                                                                                                                            
                 </div>                                                        
             </div>

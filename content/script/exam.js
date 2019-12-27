@@ -119,6 +119,7 @@ var fetchExam = (element) => {
             $("#examDataTargetText").val(responseBody.exam.targetYear);
             $("#examDataMarksText").val(responseBody.exam.totalMarks);
             $("#examDataPatternText").val(responseBody.exam.patternYear);
+            $("#examDataTimeoutText").val(responseBody.exam.timeout);
             M.updateTextFields();
             $("#chipContainer").empty();
             if (responseBody.exam.sections && responseBody.exam.sections.length>0){
@@ -162,13 +163,17 @@ var editSection = (element) => {
     $("#sectorEditExam").text($(".sidenavElement.active .examAbbreviation").text());
     $("#sectionNameText").val(sectionData.name);
     $("#sectionQsnText").val(sectionData.questionCount);
+    $("#sectionMarksText").val(sectionData.marks);
+    $("#sectionTimeText").val(sectionData.timeout);
     M.updateTextFields();
     $("#sectionContainer").modal("open");
     $("#sectionApplyButton").off("click");
     $("#sectionApplyButton").click(() => {
         data = {
             questionCount: $("#sectionQsnText").val(),
-            name: $("#sectionNameText").val()
+            name: $("#sectionNameText").val(),
+            marks: $("#sectionMarksText").val(),
+            timeout: $("#sectionTimeText").val()
         }
         console.log("Updating with: "+JSON.stringify(data));
         $(element).attr("data", JSON.stringify(data));
@@ -192,7 +197,9 @@ var createNewSection = () => {
     $("#sectionApplyButton").click(() => {
         data = {
             questionCount: $("#sectionQsnText").val(),
-            name: $("#sectionNameText").val()
+            name: $("#sectionNameText").val(),
+            marks: $("#sectionMarksText").val(),
+            timeout: $("#sectionTimeText").val()
         }
         if (!data.questionCount || !data.name){
             M.toast({html: "All fields are required"});            
@@ -270,6 +277,7 @@ var createExam = () => {
         "targetYear": $("#examTargetText").val(),
         "patternYear": $("#examPatternText").val(),
         "totalMarks": $("#examMarksText").val(),
+        "timeout": $("#examTimeoutText").val(),
     }
     var allowed = true;
     Object.entries(examData).forEach(([key, value]) => {
@@ -333,14 +341,15 @@ var updateExamSections = () => {
         ob = JSON.parse($(v).attr("data"));
         sectionData.sections.push({
             name: ob.name.trim(),
-            questionCount: parseInt(ob.questionCount)
+            questionCount: parseInt(ob.questionCount),
+            marks: parseInt(ob.marks),
+            timeout: parseInt(ob.timeout)            
         });
     });
     console.log(JSON.stringify(sectionData));    
     engageProgress({
         msg: "Updating Sections..."
-    });   
-     
+    });       
     $.ajax({
         type: "POST",
         url: "https://33qo10kq34.execute-api.ap-south-1.amazonaws.com/prod/update-exam-section",
@@ -381,7 +390,8 @@ var updateExamData = () => {
         name: $("#examDataNameText").val(),
         targetYear: $("#examDataTargetText").val(),
         totalMarks: $("#examDataMarksText").val(),
-        patternYear: $("#examDataPatternText").val()
+        patternYear: $("#examDataPatternText").val(),
+        timeout: $("#examDataTimeoutText").val()
     }  
     var allowed = true;
     Object.entries(examData).forEach(([key, value]) => {
