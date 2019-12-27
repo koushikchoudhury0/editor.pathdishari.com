@@ -185,11 +185,12 @@ var createPaper = () => {
     $("#createYearSelect").formSelect();
     paperData = {
         examId: $("#selectedExamId").attr("value"),
-        paperName: $("#paperNameText").val(),
-        paperTimeout: parseInt($("#paperTime").val()),
+        paperName: $("#paperNameText").val(),        
         paperType: $("#typeMock").prop("checked")?PAPER_TYPE_MOCK:PAPER_TYPE_SUBJECT,
         modelName: $("#paperModelText").val(),
         modelQuestionCount: $("#paperModelQuestionCount").val(),
+        modelTimeout: $("#paperModelTime").val(),
+        modelMarks:$("#paperModelMarks").val(),
         targetYear: parseInt($("#createYearSelect").formSelect('getSelectedValues')[0]),
         isFree: $("#freeCheckbox").prop("checked")?1:0,
         publicationDate: $("#pubDate").val()
