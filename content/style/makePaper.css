@@ -25,7 +25,7 @@ nav{
 .placeholder{
     padding-top: 10vh;
     text-align: center;
-    display: none;
+    display: block;
 }
 
 .placeholder a i{
@@ -42,7 +42,7 @@ nav{
 
 .mainContainer{    
     text-align: left;
-    display: block;
+    display: none;
 }
 
 .frameControl{
