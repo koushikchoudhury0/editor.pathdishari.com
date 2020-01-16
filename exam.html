@@ -81,8 +81,27 @@
                         <a class="waves-effect waves-teal btn-flat" onclick="updateExamData()">UPDATE</a>
                     </div>
                     <br><br>
-                    <h5><b>Sections</b></h5>
-                   
+
+                    <h5><b>Icon</b></h5>
+                    <blockquote style="color: #757575; font-size: 12px">                        
+                        Recommended Resolution is 64x64 or 128x128<br>
+                        Maximum of 100KB to support resilience<br>
+                        Use circular transparent and possibly monochromatic picture
+                    </blockquote>
+                    <div class="ImageContainer tooltipped" data-tooltip="Click to change">
+                        <input type="file" id="iconInput" hidden onchange="readImageFromDisk(this)">                                                    
+                        <img class="optionImage" id="examIcon" onclick="chooseImage(this)" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=">                                    
+                        <div class="controlContainer">
+                            <a class="waves-effect control remove" onclick="removeImage(this)"><i class="material-icons">close</i></a>                                            
+                        </div>                                        
+                    </div>
+                    <br>
+                    <div style="text-align: right;">                        
+                        <a class="waves-effect waves-teal btn-flat" onclick="getPresignedIconURL()">UPDATE</a>
+                    </div>
+
+                    <br><br>
+                    <h5><b>Sections</b></h5>                   
                     <blockquote style="color: #757575; font-size: 12px">
                         Click a section to edit<br>
                         Adding or removing a section suggests change in exam pattern<br>

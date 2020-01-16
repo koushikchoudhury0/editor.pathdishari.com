@@ -81,6 +81,60 @@ main{
     margin: 0 !important;
 }
 
+.optionImage{
+    width: 100%;
+    max-width: 200px;
+    height: 200px;
+    border-radius: 5px;
+    border-width: 0;
+    border-style: none;
+    border-color: rgba(0, 0, 0, 0.0);
+    background-image: url("/content/static/image/photo-camera128.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+.ImageContainer{
+    max-width: 200px;
+    border-radius: 5px; 
+    border-style: solid; 
+    border-color: rgba(0, 0, 0, 0.0);
+    border-radius: 3px;
+    box-shadow: #dddcdc 1px 1px 7px;    
+    border-width: 0;
+    background: rgb(254, 254, 254);
+    position: relative;
+    overflow: hidden;
+    transition: 0.3s;
+}
+
+.ImageContainer:hover .controlContainer{
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.ImageContainer .controlContainer{    
+    position: absolute; 
+    top: 0px; 
+    text-align: right; 
+    width: 100%; 
+    margin: 0; 
+    color: white; 
+    padding: 10px; 
+    background: rgba(0, 0, 0, 0.3);/*linear-gradient(to bottom, #bdbdbd, #cdcdcd, #dedede, #eeeeee, #ffffff);*/
+    visibility: hidden;
+    transition: 0.2s;
+    transform: translateY(-50px);
+}
+
+.ImageContainer .controlContainer .control{
+    border-radius: 40px;
+    color: white;
+}
+
+.ImageContainer img{
+    cursor: pointer;
+}
 
 .customBadge{
     background: green;
