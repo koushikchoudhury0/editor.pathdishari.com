@@ -42,18 +42,24 @@ $(document).ready(() => {
             $('.characterCountable').characterCounter(); 
             fetchSectors();
             //fetchExams();           
-            setYearList();            
+            setYearList();  
+            //openUploadWindow()          
             /*
             For Testing Sidenav elements
             $("ul.sidenav").append(getSidenavElementBody("test", "test"));
             $("ul.sidenav").append(getSidenavElementBody("test2", "test2"));
             */
-        });        
+        });
+        
     });
 
-    
+    $("#uploadInput").on('change', ()=>{
+        handleExcelImport();
+    });
     
 });
+
+
 
 var fetchSectors = () => {
     console.log("fetching sectors");
@@ -371,6 +377,8 @@ var getPaperBody = (paper) => {
                 </a>\
             </div>\
             <ul id="'+paper.paperId+'" class="dropdown-content">\
+                <li><a class="dropdownText" target="_blank" href="https://pathdishari.com/public-paper-template/'+paper.paperId+'.xlsx">Download Template</a></li>\
+                <li><a class="dropdownText" onclick="openUploadWindow(\''+paper.paperId+'\', \''+paper.paperName+'\')">Upload Excel</a></li>\
                 <li><a class="dropdownText" target="_blank" href="./makePaper.html?paperId='+paper.paperId+'">Manage Questions</a></li>\
                 <li><a class="dropdownText expendable" href="#!" onclick="publishPaper(this, \''+paper.paperId+'\', \''+paper.paperName+'\')">Publish Now</a></li>\
             </ul>\
@@ -386,6 +394,8 @@ var getPaperBody = (paper) => {
                 </a>\
             </div>\
             <ul id="'+paper.paperId+'" class="dropdown-content">\
+                <li><a class="dropdownText" target="_blank" href="https://pathdishari.com/public-paper-template/'+paper.paperId+'.xlsx">Download Template</a></li>\
+                <li><a class="dropdownText" onclick="openUploadWindow(\''+paper.paperId+'\', \''+paper.paperName+'\')">Upload Excel</a></li>\
                 <li><a class="dropdownText" target="_blank" href="./makePaper.html?paperId='+paper.paperId+'">Manage Questions</a></li>\
             </ul>\
             <div>\
@@ -393,6 +403,14 @@ var getPaperBody = (paper) => {
             </div>\
         </div>\
     </li>'
+}
+
+var openUploadWindow = (paperId, paperName) => {
+    console.log("Opening upload window");
+    $(".upload-window .subheading#uploadExamName").html("<a>Paper Name: </a>"+paperName);
+    $(".upload-window .subheading#uploadExamId").html("<a>Paper Id: </a>"+paperId);
+    $("#uploadWindow").modal();
+    $("#uploadWindow").modal('open');
 }
 
 var publishPaper = (element, paperId, paperName) => {
@@ -470,3 +488,190 @@ var startFetchingPapers = (element, examId, examAbbreviation) => {
 var triggerFetchPaper = () => {
     $(".sideNavElement.active").trigger("click");
 }
+
+var handleExcelImport = () => {
+    //Reference the FileUpload element.
+    var fileUpload = $("#uploadInput")[0];
+ 
+    //Validate whether File is valid Excel file.
+    var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.xls|.xlsx)$/;
+    if (regex.test(fileUpload.value.toLowerCase())) {
+        if (typeof (FileReader) != "undefined") {
+            var reader = new FileReader();
+
+            //For Browsers other than IE.
+            if (reader.readAsBinaryString) {
+                reader.onload = function (e) {
+                    ProcessExcel(e.target.result);
+                };
+                reader.readAsBinaryString(fileUpload.files[0]);
+            } else {
+                //For IE Browser.
+                reader.onload = function (e) {
+                    var data = "";
+                    var bytes = new Uint8Array(e.target.result);
+                    for (var i = 0; i < bytes.byteLength; i++) {
+                        data += String.fromCharCode(bytes[i]);
+                    }
+                    ProcessExcel(data);
+                };
+                reader.readAsArrayBuffer(fileUpload.files[0]);
+            }
+        } else {
+            alert("This browser does not support HTML5.");
+        }
+    } else {
+        alert("Please upload a valid Excel file.");
+    }
+}
+
+function ProcessExcel(data) {
+    //Read the Excel File data.
+    var workbook = XLSX.read(data, {
+        type: 'binary'
+    });
+
+    //Fetch the name of First Sheet.
+    var firstSheet = workbook.SheetNames[0];
+
+    //Read all rows from First Sheet into an JSON array.
+    var excelRows = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[firstSheet]);
+    console.log(excelRows);
+
+    //Create a HTML Table element.
+    var table = $("<table class=\"striped\"/>");
+    table[0].border = "1";
+
+    //Add the header row.
+    var row = $(table[0].insertRow(-1));
+
+    //Add the header cells.
+    var headerCell = $("<th />");
+    headerCell.html("#");
+    row.append(headerCell);
+
+    var headerCell = $("<th />");
+    headerCell.html("SECTION");
+    row.append(headerCell);
+
+    var headerCell = $("<th />");
+    headerCell.html("QUESTION ID");
+    row.append(headerCell);
+
+    var headerCell = $("<th style='min-width: 500px;'/>");
+    headerCell.html("QUESTION");
+    row.append(headerCell);
+
+    var headerCell = $("<th />");
+    headerCell.html("TYPE");
+    row.append(headerCell);
+
+    var headerCell = $("<th />");
+    headerCell.html("OPTION 1");
+    row.append(headerCell);
+
+    var headerCell = $("<th />");
+    headerCell.html("OPTION 2");
+    row.append(headerCell);
+
+    var headerCell = $("<th />");
+    headerCell.html("OPTION 3");
+    row.append(headerCell);
+
+    var headerCell = $("<th />");
+    headerCell.html("OPTION 4");
+    row.append(headerCell);
+
+    var headerCell = $("<th />");
+    headerCell.html("MCQ SOLUTION");
+    row.append(headerCell);
+
+    var headerCell = $("<th />");
+    headerCell.html("DESC SOLUTION");
+    row.append(headerCell);
+
+    var headerCell = $("<th />");
+    headerCell.html("EXPLANATION");
+    row.append(headerCell);
+
+    var headerCell = $("<th />");
+    headerCell.html("POSITIVE");
+    row.append(headerCell);
+
+    var headerCell = $("<th class='table-last'/>");
+    headerCell.html("NEGATIVE");
+    row.append(headerCell);
+
+    //Add the data rows from Excel file.
+    for (var i = 0; i < excelRows.length; i++) {
+        //Add the data row.
+        var row = $(table[0].insertRow(-1));
+
+        //Add the data cells.
+        var cell = $("<td />");
+        cell.html(i+1);
+        row.append(cell);
+        
+        var cell = $("<td />");
+        cell.html(excelRows[i].SECTION);
+        row.append(cell);
+
+        cell = $("<td class='questionIdText'/>");
+        cell.html(excelRows[i].ID);
+        row.append(cell);
+
+        cell = $("<td  class='questionText'/>");
+        cell.html(excelRows[i].TEXT);
+        row.append(cell);
+
+        cell = $("<td />");
+        cell.html(excelRows[i].TYPE=='1'?'MCQ':'DESC');
+        row.append(cell);
+
+        //console.log(excelRows[i]);
+
+        cell = $("<td />");
+        cell.html(excelRows[i].OPTION_1);
+        row.append(cell);
+
+        cell = $("<td />");
+        cell.html(excelRows[i].OPTION_2);
+        row.append(cell);
+
+        cell = $("<td />");
+        cell.html(excelRows[i].OPTION_3);
+        row.append(cell);
+
+        cell = $("<td />");
+        cell.html(excelRows[i].OPTION_4);
+        row.append(cell);
+
+        cell = $("<td />");
+        cell.html(excelRows[i].MCQ_SOL);
+        row.append(cell);
+
+
+        cell = $("<td />");
+        cell.html(excelRows[i].DESC_SOL);
+        row.append(cell);
+
+        
+        cell = $("<td />");
+        cell.html(excelRows[i].EXPLANATION);
+        row.append(cell);
+
+        cell = $("<td />");
+        cell.html(excelRows[i].POS_MARK);
+        row.append(cell);
+
+        cell = $("<td class='table-last' />");
+        cell.html(excelRows[i].NEG_MARK);
+        row.append(cell);
+
+
+    }
+
+    var dvExcel = $("#excelDump");
+    dvExcel.html("");
+    dvExcel.append(table);
+};

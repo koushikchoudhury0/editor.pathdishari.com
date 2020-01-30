@@ -1,14 +1,14 @@
 
-.modal-content table{
+.bottom-sheet.progress .modal-content table{
     width: 100%;
 }
 
-.modal-content table tr{
+.bottom-sheet.progress .modal-content table tr{
     border: none;
     width: 100%;
 }
 
-.modal-content table tr td h5{
+.bottom-sheet.progress .modal-content table tr td h5{
     color: #757575;
     margin-left: 20px;
 }
@@ -26,6 +26,11 @@
 
 .modal-header{
     color: #757575
+}
+
+.bottom-sheet.progress {
+    height: 250px !important;
+    overflow: hidden;
 }
 
 
