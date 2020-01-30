@@ -42,7 +42,7 @@ $(document).ready(() => {
             $('.characterCountable').characterCounter(); 
             fetchSectors();
             //fetchExams();           
-            setYearList();  
+            //setYearList();  
             //openUploadWindow()          
             /*
             For Testing Sidenav elements
@@ -108,7 +108,7 @@ var fetchSectors = () => {
     });
 }
 
-var setYearList = (presentYear = parseInt(new Date().getFullYear())) => {
+/* var setYearList = (presentYear = parseInt(new Date().getFullYear())) => {
     
     $("#viewYearSelect").html("");
     $("#createYearSelect").html("");
@@ -125,7 +125,7 @@ var setYearList = (presentYear = parseInt(new Date().getFullYear())) => {
     $("#viewYearSelect").formSelect();
     $("#createYearSelect").formSelect();
     
-}
+} */
 
 var typeSelect = (elem) => {
     switch($(elem).attr("id")){
@@ -197,7 +197,7 @@ var createPaper = () => {
         modelQuestionCount: $("#paperModelQuestionCount").val(),
         modelTimeout: $("#paperModelTime").val(),
         modelMarks:$("#paperModelMarks").val(),
-        targetYear: parseInt($("#createYearSelect").formSelect('getSelectedValues')[0]),
+        //targetYear: parseInt($("#createYearSelect").formSelect('getSelectedValues')[0]),
         isFree: $("#freeCheckbox").prop("checked")?1:0,
         publicationDate: $("#pubDate").val()
     }
@@ -255,6 +255,7 @@ var createPaper = () => {
             M.updateTextFields();
             $('.characterCountable').characterCounter();             
             //add data to list
+            M.toast({html: "Paper Created"});
         } else {
             engageDialog({
                 head: "Cannot create paper",
@@ -275,10 +276,10 @@ var createPaper = () => {
     });
 }
 
-var fetchPapers = (examId/* = $(".sidenavElement.active")*/, targetYear/*=$(".viewYearSelectContainer input").val()*/, examAbbreviation) => {
+var fetchPapers = (examId, examAbbreviation) => {
     console.log("Fetching paers");
     engageProgress({
-        msg: "Fetching "+examAbbreviation+" papers for "+targetYear+" ..."
+        msg: "Fetching "+examAbbreviation+" papers"// for "+targetYear+" ..."
     });
     $.ajax({
         type: "POST",
@@ -287,18 +288,19 @@ var fetchPapers = (examId/* = $(".sidenavElement.active")*/, targetYear/*=$(".vi
             "Authorization": Cookies.get("token")
         },
         data: JSON.stringify({
-            examId: examId,
-            targetYear: targetYear
+            examId: examId/* ,
+            targetYear: targetYear */
         })
     }).done((responseBody) => {        
         console.log(responseBody);
+        $("#paginatorContainer").empty();
         if (responseBody.statusCode==1){            
             dismissDialog();
-            if (responseBody.paperList.length==0){                
-                M.toast({html: examAbbreviation+" has no existing papers for "+targetYear});                
+            if (responseBody.papers.length==0){                
+                M.toast({html: examAbbreviation+" has no existing papers"});                
             }
             $("#paperList").empty().append('<li class="collection-header"><h4>Existing Papers</h4></li>').css({"visibility": "visible"});                
-            responseBody.paperList.forEach((v, i) => {      
+            responseBody.papers.forEach((v, i) => {      
                 console.log(v.creation);                              
                 $("#paperList").append(getPaperBody(v).toString());
                 M.AutoInit();
@@ -313,6 +315,72 @@ var fetchPapers = (examId/* = $(".sidenavElement.active")*/, targetYear/*=$(".vi
                 container: "body",
                 format: "d mmmm yyyy"
             });
+            if (responseBody.exclusiveStartKey){
+                $("#paginatorContainer").append(`<p id="paginator" data-key='${JSON.stringify(responseBody.exclusiveStartKey)}' onclick=\'fetchMorePapers("${examId}", "${examAbbreviation}", this)\'>Load More</p>`)
+            }
+        } else {
+            console.log(JSON.stringify(responseBody));
+            engageDialog({
+                head: "Cannot fetch any more!",
+                body: "Something went wrong"
+            });    
+        }
+    }).fail((xhr) => {
+        console.log("failed: ", xhr.status);
+        if (xhr.status === 403 || xhr.status === 401){
+            Cookies.remove("token");
+            window.location.replace("/");
+        } else {
+            engageDialog({
+                head: "Cannot fetch papers",
+                body: "Something went wrong."
+            });
+        }
+    });
+}
+
+var fetchMorePapers = (examId, examAbbreviation, elem) => {
+    console.log("Fetching paers");
+    engageProgress({
+        msg: "Fetching more "+examAbbreviation+" papers"
+    });
+    console.log($(elem).attr("data-key"));
+    $.ajax({
+        type: "POST",
+        url: "https://33qo10kq34.execute-api.ap-south-1.amazonaws.com/prod/read-paper-names-by-exam-name",
+        headers: {
+            "Authorization": Cookies.get("token")
+        },
+        data: JSON.stringify({
+            examId: examId,
+            exclusiveStartKey: JSON.parse($(elem).attr("data-key"))
+        })
+    }).done((responseBody) => {        
+        console.log(responseBody);
+        $("#paginatorContainer").empty();
+        if (responseBody.statusCode==1){            
+            dismissDialog();
+            if (responseBody.papers.length==0){                
+                M.toast({html: examAbbreviation+" has no existing papers"});                
+            }                           
+            responseBody.papers.forEach((v, i) => {      
+                console.log(v.creation);                              
+                $("#paperList").append(getPaperBody(v).toString());
+                M.AutoInit();
+                console.log(v);
+            });
+            $("#fab").fadeIn();
+            $(".container.placeholder").fadeOut("fast", () => {
+                $(".container.primary").fadeIn("fast");
+            });
+            $(".tooltipped").tooltip();
+            $(".datepicker").datepicker({
+                container: "body",
+                format: "d mmmm yyyy"
+            });
+            if (responseBody.exclusiveStartKey){
+                $("#paginatorContainer").append(`<p id="paginator" data-key='${JSON.stringify(responseBody.exclusiveStartKey)}' onclick=\'fetchMorePapers("${examId}", "${examAbbreviation}", this)\'>Load More</p>`)
+            }
         } else {
             console.log(JSON.stringify(responseBody));
             engageDialog({
@@ -383,7 +451,8 @@ var getPaperBody = (paper) => {
                 <li><a class="dropdownText expendable" href="#!" onclick="publishPaper(this, \''+paper.paperId+'\', \''+paper.paperName+'\')">Publish Now</a></li>\
             </ul>\
             <div>\
-            <p class="paperConfigData"><span class="customBadge paperType">'+(paper.paperType==1?'mock':'topic wise')+'</span><span class="customBadge paperCost">'+(paper.isFree==1?'free':'paid')+'</span><span class="customBadge paperStatus">'+(paper.published==1?'published':'draft')+'</span></p>\
+                <p class="paperConfigData"><span class="customBadge paperType">'+(paper.paperType==1?'mock':'topic wise')+'</span><span class="customBadge paperCost">'+(paper.isFree==1?'free':'paid')+'</span><span class="customBadge paperStatus">'+(paper.published==1?'published':'draft')+'</span></p>\
+                <p class="paperConfigData time"><i class="material-icons">access_time</i>'+new Date(paper.creationTime)+'</p>\
             </div>\
         </div>\
     </li>':'<li class="collection-item paperItem">\
@@ -399,7 +468,8 @@ var getPaperBody = (paper) => {
                 <li><a class="dropdownText" target="_blank" href="./makePaper.html?paperId='+paper.paperId+'">Manage Questions</a></li>\
             </ul>\
             <div>\
-            <p class="paperConfigData"><span class="customBadge paperType">'+(paper.paperType==1?'mock':'topic wise')+'</span><span class="customBadge paperCost">'+(paper.isFree==1?'free':'paid')+'</span><span class="customBadge paperStatus">'+(paper.published==1?'published':'draft')+'</span></p>\
+                <p class="paperConfigData"><span class="customBadge paperType">'+(paper.paperType==1?'mock':'topic wise')+'</span><span class="customBadge paperCost">'+(paper.isFree==1?'free':'paid')+'</span><span class="customBadge paperStatus">'+(paper.published==1?'published':'draft')+'</span></p>\
+                <p class="paperConfigData time"><i class="material-icons">access_time</i>'+new Date(paper.creationTime)+'</p>\
             </div>\
         </div>\
     </li>'
@@ -482,7 +552,7 @@ var startFetchingPapers = (element, examId, examAbbreviation) => {
     $("#examNamePreview2").text(examAbbreviation);
     $("#inputContainer #selectedExamId").attr("value", examId);        
     $("#viewYearSelect").formSelect();    
-    fetchPapers(examId, $("#viewYearSelect").formSelect('getSelectedValues')[0], examAbbreviation);    
+    fetchPapers(examId/* , $("#viewYearSelect").formSelect('getSelectedValues')[0] */, examAbbreviation);    
 }
 
 var triggerFetchPaper = () => {
@@ -667,8 +737,6 @@ function ProcessExcel(data) {
         cell = $("<td class='table-last' />");
         cell.html(excelRows[i].NEG_MARK);
         row.append(cell);
-
-
     }
 
     var dvExcel = $("#excelDump");
