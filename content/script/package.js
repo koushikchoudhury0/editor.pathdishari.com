@@ -145,7 +145,8 @@ var createPackage = () => {
         exams: exams,
         description: $("#packageCreationDescText").val(),
         mockPapers: Number($("#packageCreationMockText").val()),
-        modelPapers: Number($("#packageCreationModelText").val())
+        modelPapers: Number($("#packageCreationModelText").val()),
+        questionCount: Number($("#packageCreationQsnText").val())
     };
     
     try {
@@ -241,33 +242,92 @@ var getPackageBody = (v) => {
                 <div  class="packageData">\
                     <a class="packageExamCount">Exams&nbsp;&nbsp;&nbsp;<span class="customBadge">'+v.examCount+'</span>'+((v.popularity==1)?'<i class="material-icons starBadge">star</i>':'')+'</a>\
                 </div>\
+                <a style="margin-top: 0; margin-bottom: 0px; padding-top: 0; padding-bottom: 20px; font-size: 10px; color: #757575"><span style="font-size: 14px; margin-right: 10px; transform: translateY(3px);" class="material-icons">access_time</span>'+(new Date(v.creation)).toString().split('(')[0]+'</a>\
             </div>\
             \
         </li><li><div style="margin: 0" class="divider"></div></li>';
 }
 
-var fetchAllPackages = () => {
+var fetchAllPackages = (paginateKeyJSON) => {
     engageProgress({
         msg: "Fetching Packages"
-    });
+    });    
     $.ajax({
         type: "POST",
         url: "https://33qo10kq34.execute-api.ap-south-1.amazonaws.com/prod/read-package-keys",
         headers: {
             "Authorization": Cookies.get("token")
-        }
+        },
+        data: JSON.stringify({
+            //no data
+        })
     }).done((responseBody) => {
         if (responseBody.statusCode==1){            
             //show toast
             dismissDialog();
+            $("#paginateButton").remove();
             if (responseBody.packages.length == 0) {
                 M.toast({html: "No Packages to fetch"});
                 return;
             }
             responseBody.packages.forEach((v, i) => {
                 $("#slide-out").append(getPackageBody(v));
-                console.log("Appending:", v);
+                //console.log("Appending:", v);
             });
+            if (responseBody.exclusiveStartKey){
+                $("#slide-out").append(`<li id="paginateButton"><p style="margin-top: 0; text-align: center; cursor: pointer; color: navy" onclick=fetchNextPackages('${JSON.stringify(responseBody.exclusiveStartKey)}')>Load More</p></li>`);
+            }
+            $(".sidenavElement").tooltip();            
+        } else {
+            engageDialog({
+                head: "Cannot read packages",
+                body: "Something went wrong"
+            });
+        }
+    }).fail((xhr) => {
+        console.log("failed: ", xhr.status);
+        if (xhr.status === 403 || xhr.status === 401){
+            Cookies.remove("token");
+            window.location.replace("/");
+        } else {
+            engageDialog({
+                head: "Oops!",
+                body: "Something went wrong."
+            });
+        }
+    });
+}
+
+var fetchNextPackages = (paginateKeyJSON) => {
+    engageProgress({
+        msg: "Fetching more Packages...."
+    });
+    $.ajax({
+        type: "POST",
+        url: "https://33qo10kq34.execute-api.ap-south-1.amazonaws.com/prod/read-package-keys",
+        headers: {
+            "Authorization": Cookies.get("token")
+        },
+        data: JSON.stringify({
+            exclusiveStartKey: JSON.parse(paginateKeyJSON)
+        })
+    }).done((responseBody) => {
+        console.log(responseBody);
+        if (responseBody.statusCode==1){            
+            //show toast
+            dismissDialog();
+            $("#paginateButton").remove();
+            if (responseBody.packages.length == 0) {
+                M.toast({html: "No Packages to fetch"});
+                return;
+            }
+            responseBody.packages.forEach((v, i) => {
+                $("#slide-out").append(getPackageBody(v));
+                //console.log("Appending:", v);
+            });
+            if (responseBody.exclusiveStartKey){
+                $("#slide-out").append(`<li id="paginateButton"><p style="margin-top: 0; text-align: center; cursor: pointer; color: navy" onclick=fetchNextPackages('${JSON.stringify(responseBody.exclusiveStartKey)}')>Load More</p></li>`);
+            }
             $(".sidenavElement").tooltip();            
         } else {
             engageDialog({
@@ -311,6 +371,7 @@ var fetchPackage = (element) => {
     //Clear Fields
     $("#chipContainer").empty();
     $("#packageDataPriceText").val(null);
+    $("#packageDataQsnText").val(null);
     $("#packageDataDescText").val(null);
     $("#packageDataMockText").val(null);
     $("#packageDataModelText").val(null);
@@ -334,7 +395,7 @@ var fetchPackage = (element) => {
             packageId: packageData.packageId
         })
     }).done((responseBody) => {        
-        //console.log(responseBody);
+        console.log(responseBody);
         if (responseBody.statusCode==1){            
             dismissDialog();
             $(element).addClass("active");
@@ -343,6 +404,7 @@ var fetchPackage = (element) => {
             } else {   
                 //Setting Data                
                 $("#packageDataPriceText").val(Number(responseBody.package.price));
+                $("#packageDataQsnText").val(Number(responseBody.package.questionCount));
                 $("#packageDataMockText").val(responseBody.package.mockPapers);
                 $("#packageDataModelText").val(responseBody.package.modelPapers);                                   
                 $("#packageDataDescText").val(responseBody.package.description);
@@ -603,8 +665,9 @@ var updatePackageData = () => {
     updateData = {
         packageId: JSON.parse($(".sidenavElement.active").attr("data")).packageId,
         price: Number($("#packageDataPriceText").val()),
-        mockPapers: $("#packageDataMockText").val(),
-        modelPapers: $("#packageDataModelText").val(),
+        questionCount: Number($("#packageDataQsnText").val()),
+        mockPapers: Number($("#packageDataMockText").val()),
+        modelPapers: Number($("#packageDataModelText").val()),
         description: $("#packageDataDescText").val()
     }
     console.log(updateData);

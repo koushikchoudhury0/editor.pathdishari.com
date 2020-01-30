@@ -50,15 +50,19 @@
                     -->
                     <h4 class="pricingHeading">Data & Metrics<i id="packagePopularity" class="material-icons tooltipped" data-tooltip="Click to toggle Popularity" style="cursor: pointer; margin-left: 20px; color: grey;">star</i></h4>
                     <div class="row">
-                            <div class="input-field col s4" style=" margin: 0">
+                            <div class="input-field col s3" style=" margin: 0">
                                 <input id="packageDataPriceText" type="number">
                                 <label for="packageDataPriceText">Price</label>
                             </div>                            
-                            <div class="input-field col s4" style=" margin: 0">
+                            <div class="input-field col s3" style=" margin: 0">
+                                <input id="packageDataQsnText" type="number">
+                                <label for="packageDataQsnText">Questions</label>
+                            </div>
+                            <div class="input-field col s3" style=" margin: 0">
                                 <input id="packageDataMockText" type="number">
                                 <label for="packageDataMockText">Mock Papers</label>
                             </div>
-                            <div class="input-field col s4" style=" margin: 0">
+                            <div class="input-field col s3" style=" margin: 0">
                                 <input id="packageDataModelText" type="number">
                                 <label for="packageDataModelText">Model Papers</label>
                             </div>
@@ -136,22 +140,37 @@
                         <input id="packageNameText" type="text" data-tooltip="<b>FORMAT: </b><i>Only alphanumeric characters and hyphens are accepted" class="tooltipped characterCountable" data-length="60">
                         <label for="packageNameText">Package Name</label>                                                        
                     </div>
-                    <div class="input-field col s4" >
+                    <div class="input-field col s3" >
                         <input id="packagePriceText" type="number">
                         <label for="packagePriceText">Price</label>                                                        
                     </div>
-                    <div class="input-field col s4" >
+                    <div class="input-field col s3">
+                        <input id="packageCreationQsnText" type="number">
+                        <label for="packageCreationQsnText">Questions</label>
+                    </div>
+                    <div class="input-field col s3" >
                         <input id="packageCreationMockText" type="number">
                         <label for="packageCreationMockText">Mock Papers</label>                                                        
                     </div>
-                    <div class="input-field col s4" >
+                    <div class="input-field col s3" >
                         <input id="packageCreationModelText" type="number">
                         <label for="packageCreationModelText">Model Papers</label>                                                        
+                    </div>
+                    <div class="input-field col s12">
+                        <input id="packageCreationDescText" class="characterCountable" data-length="100" type="text">
+                        <label for="packageCreationDescText">Package Description</label>                                                        
                     </div>
                 </div>
                 <br>
                 <h5>Associate Exams<!--<a id="examRefreshButton" class="waves-effect"><span class="material-icons">refresh</span></a>--></h5>                
-                <p style="font-size: 12px; color: #757575; font-family: Quicksand; font-weight: bold">Add atmost 7 exams. If required, add more later</p>
+                <!-- <p style="font-size: 12px; color: #757575; font-family: Quicksand; font-weight: bold">Add atmost 7 exams. If required, add more later</p> -->
+                <blockquote style="font-size: 12px; color: #757575; font-family: Quicksand; font-weight: bold">
+                    1. Add atmost 7 exams. If required, add more later.
+                    <br>
+                    2. It is recommended to associate only 1 exam here.
+                    <br>
+                    3. You can always associcate exams later.
+                </blockquote>
                 <div class="input-field col s12" style="margin-top: 10px">
                     <select id="creationSectorList"  onchange="fetchExams(this, $('#creationExamList'))">
                         <option value="" disabled selected>Choose Sector</option>                                                        
@@ -166,11 +185,7 @@
                     <!--
                     <div class="chip" key="wbcs-mains" data='wbcs-prelims'>WBCS Mains<i class="close material-icons">close</i></div>
                     -->                        
-                </div>
-                <div class="input-field" >
-                    <input id="packageCreationDescText" type="text">
-                    <label for="packageCreationDescText">Package Description</label>                                                        
-                </div>
+                </div>                
                 <br>
                 <div class="rules">
                     <blockquote>

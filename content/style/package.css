@@ -72,7 +72,7 @@ main{
 
 .customBadge{
     background: green;
-    padding: 5px 10px;
+    padding: 2px 5px;
     border-radius: 3px;
 }
 
@@ -117,7 +117,8 @@ main{
     padding-left: 25px !important; 
     transition: 0.5s;
     overflow: hidden;
-    padding-right: 10px;        
+    padding-right: 10px;  
+    padding-bottom: 5px;      
 }
 
 .sidenavElement.active{
@@ -163,12 +164,19 @@ main{
 }
 
 .sidenavElement .packageData .packageExamCount span, .sidenavElement .packageData .packageId span{    
-    font-size: 12px;
-    
+    font-size: 10px;    
     background: rgb(64, 150, 21);  
     border-radius: 5px; 
     color: #fff;
-    font-weight: bold;    
+    font-weight: bold;        
+}
+
+.sidenavElement .packageData .packageExamCount span{
+    transform: translateY(-10px) !important;
+}
+
+div.packageData{
+    margin-bottom: 0px !important;
 }
 
 .sidenavElement .packageData .packageId span{
@@ -185,6 +193,7 @@ main{
     margin-left: 10px;
     transform: translateY(5px);
     color: rgb(238, 134, 15);
+    font-size: 18px;
 }
 
 .sidenavHeader span{
