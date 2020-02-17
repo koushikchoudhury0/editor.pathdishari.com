@@ -197,6 +197,7 @@ var createPaper = () => {
         modelQuestionCount: $("#paperModelQuestionCount").val(),
         modelTimeout: $("#paperModelTime").val(),
         modelMarks:$("#paperModelMarks").val(),
+        modelThreshold: $("#paperModelThreshold").val(),
         //targetYear: parseInt($("#createYearSelect").formSelect('getSelectedValues')[0]),
         isFree: $("#freeCheckbox").prop("checked")?1:0,
         publicationDate: $("#pubDate").val()
