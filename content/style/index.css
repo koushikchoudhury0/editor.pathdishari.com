@@ -36,10 +36,7 @@ header div p{
 }
 
 .logoContainer{
-    border-width: 5px;
-    border-style: solid;
-    border-color: white;
-    border-radius: 15px;    
+    text-align: right;  
 }
 
 .creds{
@@ -76,6 +73,25 @@ header div p{
 .btn{
     margin-top: 20px;
     width: 100%;
+}
+
+@media only screen and (max-width: 768px){
+    .logoContainer{
+        text-align: center;  
+    }
+
+    .titleContainer{
+        text-align: center;
+    }
+
+    .titleContainer h1{
+        margin-top: 0 !important;
+    }
+
+    .banner{
+        margin-bottom: 0 !important;
+    }
+    
 }
 
 @media only screen and (max-width: 550px){
