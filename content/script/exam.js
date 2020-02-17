@@ -120,6 +120,7 @@ var fetchExam = (element) => {
             $("#examIcon").attr('src', "https://pathdishari.com/public-icon/exam/"+responseBody.exam.examId+"/icon");
             $("#examDataNameText").val(responseBody.exam.name);
             $("#examDataTargetText").val(responseBody.exam.targetYear);
+            $("#examDataThresholdText").val(responseBody.exam.thresholdMarks);
             $("#examDataMarksText").val(responseBody.exam.totalMarks);
             $("#examDataPatternText").val(responseBody.exam.patternYear);
             $("#examDataTimeoutText").val(responseBody.exam.timeout);
@@ -279,6 +280,7 @@ var createExam = () => {
         "sector": $("#sectorPreview").text(),
         "targetYear": $("#examTargetText").val(),
         "patternYear": $("#examPatternText").val(),
+        "thresholdMarks": $("#examThresholdText").val(),
         "totalMarks": $("#examMarksText").val(),
         "timeout": $("#examTimeoutText").val(),
     }
@@ -392,6 +394,7 @@ var updateExamData = () => {
         examId: $(".sidenavElement.active").attr("data"),
         name: $("#examDataNameText").val(),
         targetYear: $("#examDataTargetText").val(),
+        thresholdMarks: $("#examDataThresholdText").val(),
         totalMarks: $("#examDataMarksText").val(),
         patternYear: $("#examDataPatternText").val(),
         timeout: $("#examDataTimeoutText").val()
