@@ -326,3 +326,7 @@ table.striped td{
     color: #757575;
     padding-top: 20px !important;
 }
+
+#confirmCheck{
+    margin-top: 20px;
+}

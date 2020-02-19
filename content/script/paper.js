@@ -5,6 +5,8 @@ class ValidationError extends Error {
     }
 }
 
+var uploadArr = [];
+
 
 const PAPER_TYPE_MOCK = 1, PAPER_TYPE_SUBJECT = 2;
 
@@ -40,10 +42,10 @@ $(document).ready(() => {
         loadMaterialModalPromise(".modalContainer").then(() => {
             M.AutoInit();
             $('.characterCountable').characterCounter(); 
-            fetchSectors();
+            //fetchSectors();
             //fetchExams();           
             //setYearList();  
-            //openUploadWindow()          
+            openUploadWindow();
             /*
             For Testing Sidenav elements
             $("ul.sidenav").append(getSidenavElementBody("test", "test"));
@@ -56,6 +58,14 @@ $(document).ready(() => {
     $("#uploadInput").on('change', ()=>{
         handleExcelImport();
     });
+
+    $("#confirmCheck").change(()=>{
+        if ($("#confirmCheck").prop("checked")){
+            $("#excelUploadButton").removeAttr("disabled");
+        } else {
+            $("#excelUploadButton").attr("disabled", "true");
+        }
+    })
     
 });
 
@@ -607,7 +617,9 @@ function ProcessExcel(data) {
 
     //Read all rows from First Sheet into an JSON array.
     var excelRows = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[firstSheet]);
+    
     console.log(excelRows);
+    uploadArr = [];
 
     //Create a HTML Table element.
     var table = $("<table class=\"striped\"/>");
@@ -673,8 +685,34 @@ function ProcessExcel(data) {
     headerCell.html("NEGATIVE");
     row.append(headerCell);
 
+    var uploadableArr = [];
+
     //Add the data rows from Excel file.
     for (var i = 0; i < excelRows.length; i++) {
+        
+        if (Object.keys(excelRows[i]).length < 10){
+            M.toast({html: "Error: Question "+(i+1)+" has atleast one blank field"});
+            return;
+        }
+
+        uploadableArr[i] = {
+            questionId: excelRows[i].ID,
+            questionText: excelRows[i].TEXT,
+            contentImagesAvailable: 0,
+            solutionType: parseInt(excelRows[i].TYPE),
+            optionImagesAvailable: 0,
+            optionTexts: [excelRows[i].OPTION_1, excelRows[i].OPTION_2, excelRows[i].OPTION_3, excelRows[i].OPTION_4],
+            solution: excelRows[i].TYPE=='1'?excelRows[i].MCQ_SOL.split(",").map(x=>+x):[excelRows[i].DESC_SOL],
+            explanation: excelRows[i].EXPLANATION?excelRows[i].EXPLANATION:"Unavailable",
+            positiveMarks: excelRows[i].POS_MARK,
+            negativeMarks: excelRows[i].NEG_MARK
+        }
+
+        if (isNaN(uploadableArr[i].solution)){
+            M.toast({html: "Error: Question "+(i+1)+" has non numeric solution for MCQ"});
+            return;
+        }
+
         //Add the data row.
         var row = $(table[0].insertRow(-1));
 
@@ -743,4 +781,14 @@ function ProcessExcel(data) {
     var dvExcel = $("#excelDump");
     dvExcel.html("");
     dvExcel.append(table);
+    M.toast({html: "Questions Loaded"});
+    var pieces = Math.ceil(uploadableArr.length/20);
+    var qsnCount = 0;
+    for (var s=0; s<pieces; s++){        
+        uploadArr[s] = uploadableArr.slice(s*20, s*20+20);
+        qsnCount += uploadArr[s].length;
+    }
+    $("#qsnCountLabel").html("I confirm "+qsnCount+" questions depicted above are in compliance with the mentioned rules");
+    $("#confirmCheck").removeAttr("disabled");
+    console.log(uploadArr);
 };

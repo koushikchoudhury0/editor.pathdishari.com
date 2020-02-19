@@ -203,6 +203,8 @@
                     2. Uploading single questions is <b>recommended</b>.
                     <br>
                     3. Please double check paperId before uploading.
+                    <br>
+                    4. None of the fields must be left blank
                 </blockquote>
                 <br>
                 <form action="#">
@@ -221,9 +223,16 @@
                 <div id="excelDump">
                     
                 </div>
+                <div id="confirmArea">
+                    
+                </div>
+                <label>
+                    <input id="confirmCheck" disabled type="checkbox" />
+                    <span id="qsnCountLabel">Awaiting upload</span>
+                </label>
             </div>
             <div class="modal-footer">
-                <a href="#!" class="waves-effect waves-green btn-flat">Confirm Upload</a>
+                <a id="excelUploadButton" disabled class="waves-effect waves-green btn-flat">Upload</a>
             </div>
         </div>
         
