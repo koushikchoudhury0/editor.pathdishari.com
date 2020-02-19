@@ -23,7 +23,9 @@ $(document).ready(() => {
         preventScrolling: true,
         draggable: true
     });
-    
+    $("#sidenavTrigger").click(()=>{
+        $('.sidenav').sidenav('open');
+    })
     var totalH = $("#slide-out").height();
     var topH = $(".slide-out-top").height();    
     $("#side-scroller").height(totalH-topH-50);
