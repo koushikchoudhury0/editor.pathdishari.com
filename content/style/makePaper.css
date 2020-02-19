@@ -15,7 +15,7 @@ header, main, footer {
 }
 
 nav{
-    background: rgba(3, 169, 244,1.0)
+    background: rgb(3, 187, 18) !important;
 }
 
 .col-sm-4{
@@ -365,10 +365,14 @@ table, tr, td{
     font-weight: bold;
 }
 
+.myBreadCrumb.examAbbreviation, .myBreadCrumb.paperName{
+    color: #757575 !important;
+}
+
 .bread{
     padding-left: 20px;
     padding-top: 3px;
-    background: rgba(79, 195, 247,0.3);
+    background: rgba(3, 187, 18, 0.4) !important;
 }
 
 .navTitle{
