@@ -249,7 +249,7 @@ main{
     margin-bottom: 0 !important;
 }
 
-#uploadExamId{
+#uploadPaperId{
     color: darkgreen;
     margin-top: 0px !important;
 }
@@ -327,6 +327,3 @@ table.striped td{
     padding-top: 20px !important;
 }
 
-#confirmCheck{
-    margin-top: 20px;
-}

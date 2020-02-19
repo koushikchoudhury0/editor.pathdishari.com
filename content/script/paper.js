@@ -42,10 +42,10 @@ $(document).ready(() => {
         loadMaterialModalPromise(".modalContainer").then(() => {
             M.AutoInit();
             $('.characterCountable').characterCounter(); 
-            //fetchSectors();
+            fetchSectors();
             //fetchExams();           
             //setYearList();  
-            openUploadWindow();
+            //openUploadWindow();
             /*
             For Testing Sidenav elements
             $("ul.sidenav").append(getSidenavElementBody("test", "test"));
@@ -489,8 +489,10 @@ var getPaperBody = (paper) => {
 var openUploadWindow = (paperId, paperName) => {
     console.log("Opening upload window");
     $(".upload-window .subheading#uploadExamName").html("<a>Paper Name: </a>"+paperName);
-    $(".upload-window .subheading#uploadExamId").html("<a>Paper Id: </a>"+paperId);
+    $(".upload-window .subheading#uploadPaperId").html("<a>Paper Id: </a>"+paperId);
+    $("#excelUploadButton").attr("onclick", `uploadQuestionSet()`);
     $("#uploadWindow").modal();
+    restoreUploadWindow();
     $("#uploadWindow").modal('open');
 }
 
@@ -792,3 +794,51 @@ function ProcessExcel(data) {
     $("#confirmCheck").removeAttr("disabled");
     console.log(uploadArr);
 };
+
+var restoreUploadWindow = () => {
+    $("#excelDump").html("");
+    $("#uploadInput").val(null);    
+    $("#qsnCountLabel").html("Awaiting file selection");
+    $("#confirmCheck").prop("checked", false).attr("disabled", true);
+    $("#excelUploadButton").attr("disabled", true);
+}
+
+var uploadQuestionSet = () => {
+    //https://33qo10kq34.execute-api.ap-south-1.amazonaws.com/prod/admin-upload-question-set
+    engageProgress({
+        msg: "Uploading Question Set"    
+    });
+    $.ajax({
+        type: "POST",
+        url: "https://33qo10kq34.execute-api.ap-south-1.amazonaws.com/prod/admin-upload-question-set",
+        headers: {
+            "Authorization": Cookies.get("token")
+        },
+        data: JSON.stringify({
+            uploadArr: uploadArr
+        })
+    }).done((responseBody) => {        
+        console.log(responseBody);
+        dismissDialog();
+        if (responseBody.statusCode==1){   
+            M.toast({html: "Upload Complete"});         
+            $("#uploadWindow").modal('close');
+        } else {            
+            engageDialog({
+                head: "Oops!",
+                body: "Something went wrong"
+            });    
+        }
+    }).fail((xhr) => {
+        console.log("failed: ", xhr.status);
+        if (xhr.status === 403 || xhr.status === 401){
+            Cookies.remove("token");
+            window.location.replace("/");
+        } else {
+            engageDialog({
+                head: "Cannot publish",
+                body: "Something went wrong."
+            });
+        }
+    });
+}
