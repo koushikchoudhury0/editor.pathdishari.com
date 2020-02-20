@@ -437,53 +437,29 @@ var isNewPaperDataValid = (paperData) => {
 }
 
 var getPaperBody = (paper) => {
-    /*return '\
-    <li class="collection-item">\
-        <div>'+paper.paperName+'\
-            <a  class="secondary-content waves-effect composeNavigater tooltipped" data-tooltip="Edit Questions" href="./makePaper.html?paperId='+paper.paperId+'" target="_blank">\
-                <i class="material-icons">edit</i>\
-            </a>\
-        </div>\
-        <div>\
-        <p class="paperConfigData"><span class="customBadge paperType">'+(paper.paperType==1?'mock':'model')+'</span><span class="customBadge paperCost">'+(paper.isFree==1?'free':'paid')+'</span></p>\
-        </div>\
-    </li>'*/
-    return paper.published==0?'<li class="collection-item paperItem">\
-        <div class="paperItemChild"  style="overflow: visible">\
-            <div>'+paper.paperName+'\
-                <a  class="secondary-content waves-effect composeNavigater dropdown-trigger" data-target="'+paper.paperId+'">\
-                    <i class="material-icons">more_vert</i>\
-                </a>\
-            </div>\
-            <ul id="'+paper.paperId+'" class="dropdown-content">\
-                <li><a class="dropdownText" target="_blank" href="https://pathdishari.com/public-paper-template/'+paper.paperId+'.xlsx">Download Template</a></li>\
-                <li><a class="dropdownText" onclick="openUploadWindow(\''+paper.paperId+'\', \''+paper.paperName+'\')">Upload Excel</a></li>\
-                <li><a class="dropdownText" target="_blank" href="./makePaper.html?paperId='+paper.paperId+'">Manage Questions</a></li>\
-                <li><a class="dropdownText expendable" href="#!" onclick="publishPaper(this, \''+paper.paperId+'\', \''+paper.paperName+'\')">Publish Now</a></li>\
-            </ul>\
-            <div>\
-                <p class="paperConfigData"><span class="customBadge paperType">'+(paper.paperType==1?'mock':'topic wise')+'</span><span class="customBadge paperCost">'+(paper.isFree==1?'free':'paid')+'</span><span class="customBadge paperStatus">'+(paper.published==1?'published':'draft')+'</span></p>\
-                <p class="paperConfigData time"><i class="material-icons">access_time</i>'+new Date(paper.creationTime)+'</p>\
-            </div>\
-        </div>\
-    </li>':'<li class="collection-item paperItem">\
-        <div class="paperItemChild"  style="overflow: visible">\
-            <div>'+paper.paperName+'\
-                <a  class="secondary-content waves-effect composeNavigater dropdown-trigger" data-target="'+paper.paperId+'">\
-                    <i class="material-icons">more_vert</i>\
-                </a>\
-            </div>\
-            <ul id="'+paper.paperId+'" class="dropdown-content">\
-                <li><a class="dropdownText" target="_blank" href="https://pathdishari.com/public-paper-template/'+paper.paperId+'.xlsx">Download Template</a></li>\
-                <li><a class="dropdownText" onclick="openUploadWindow(\''+paper.paperId+'\', \''+paper.paperName+'\')">Upload Excel</a></li>\
-                <li><a class="dropdownText" target="_blank" href="./makePaper.html?paperId='+paper.paperId+'">Manage Questions</a></li>\
-            </ul>\
-            <div>\
-                <p class="paperConfigData"><span class="customBadge paperType">'+(paper.paperType==1?'mock':'topic wise')+'</span><span class="customBadge paperCost">'+(paper.isFree==1?'free':'paid')+'</span><span class="customBadge paperStatus">'+(paper.published==1?'published':'draft')+'</span></p>\
-                <p class="paperConfigData time"><i class="material-icons">access_time</i>'+new Date(paper.creationTime)+'</p>\
-            </div>\
-        </div>\
-    </li>'
+    return `<li class="collection-item paperItem">
+        <div class="paperItemChild"  style="overflow: visible">
+            <div>${paper.paperName}
+                <a  class="secondary-content waves-effect composeNavigater dropdown-trigger" data-target="${paper.paperId}">
+                    <i class="material-icons">more_vert</i>
+                </a>
+            </div>
+            <div>
+                <x>ID</x><y id="paperIdText">${paper.paperId}</y>
+            </div>
+            <ul id="${paper.paperId}" class="dropdown-content">
+                <li><a class="dropdownText" target="_blank" href="https://pathdishari.com/public-paper-template/${paper.paperId}.xlsx">Download Template</a></li>
+                <li><a class="dropdownText" onclick="openUploadWindow('${paper.paperId}', '${paper.paperName}')">Upload Excel</a></li>
+                <li><a class="dropdownText" target="_blank" href="./makePaper.html?paperId=${paper.paperId}">Manage Questions</a></li>
+                <li><a class="dropdownText" onclick="startEditingPaper('${paper.paperId}', '${paper.paperName}')">Edit</a></li>                                
+                ${paper.published==0?`<li><a class="dropdownText expendable" href="#!" onclick="publishPaper(this, '${paper.paperId}', '${paper.paperName}')">Publish</a></li>`:``}
+            </ul>
+            <div>
+                <p class="paperConfigData"><span class="customBadge paperType">${paper.paperType==1?'mock':'topic wise'}</span><span class="customBadge paperCost">${paper.isFree==1?'free':'paid'}</span><span class="customBadge paperStatus">${paper.published==1?'published':'draft'}</span></p>
+                <p class="paperConfigData time"><i class="material-icons">access_time</i>${new Date(paper.creationTime)}</p>
+            </div>
+        </div>
+    </li>`
 }
 
 var openUploadWindow = (paperId, paperName) => {
@@ -842,3 +818,121 @@ var uploadQuestionSet = () => {
         }
     });
 }
+
+var startEditingPaper = (paperId, paperName) => {
+    engageProgress({
+        msg: `Fetching ${paperName}...`
+    });
+    $.ajax({
+        type: "POST",
+        url: "https://33qo10kq34.execute-api.ap-south-1.amazonaws.com/prod/admin-read-paper",
+        headers: {
+            "Authorization": Cookies.get("token")
+        },
+        data: JSON.stringify({
+            paperId: paperId
+        })
+    }).done((responseBody) => {        
+        console.log(responseBody);
+        dismissDialog();
+        if (responseBody.statusCode==1){   
+            console.log("Opening edit window");                      
+            $("#editWindow .subheading#editPaperId").html("<a>Paper Id: </a>"+responseBody.paperData.paperId);
+            $("#editWindow #editPaperName").val(responseBody.paperData.paperName);
+            $("#editWindow #editThreshold").val(responseBody.paperData.threshold);
+            $("#editWindow #editFreeCheckbox").prop("checked", !!responseBody.paperData.isFree);            
+            /* delete responseBody.paperData.paperName;
+            delete responseBody.paperData.isFree;
+            delete responseBody.paperData.paperId;
+            delete responseBody.paperData.published;
+            delete responseBody.paperData.paperType;
+            delete responseBody.paperData.examAbbreviation;
+            delete responseBody.paperData.creationTime;
+            delete responseBody.paperData.questions; */
+            var filteredPaperData = {
+                "Timeout": `${responseBody.paperData.timeout} minutes`,
+                "Expected Publication": `${responseBody.paperData.publicationDate}`
+            }
+            if (responseBody.paperData.paperType == PAPER_TYPE_SUBJECT){
+                filteredPaperData["#Questions"] = responseBody.paperData.questions[0].questionList.length;
+                filteredPaperData["Model Name"] = responseBody.paperData.questions[0].sectionName;
+                filteredPaperData["Total Marks"] = responseBody.paperData.questions[0].marks;
+                filteredPaperData["Section Timeout"] = `${responseBody.paperData.questions[0].timeout} minutes`;
+            }
+            $("#editWindow #dataDump").empty();
+            for (key in filteredPaperData){
+                $("#editWindow #dataDump").append(`<p class="subheading"><a>${key}: </a>${filteredPaperData[key]}</p>`);
+            }
+            M.updateTextFields();
+            $("#editPaperButton").attr("onclick", `updatePaper('${paperId}')`);  
+            $("#editWindow").modal();            
+            $("#editWindow").modal('open');
+        } else {            
+            engageDialog({
+                head: "Oops!",
+                body: "Something went wrong"
+            });    
+        }
+    }).fail((xhr) => {
+        console.log("failed: ", xhr.status);
+        if (xhr.status === 403 || xhr.status === 401){
+            Cookies.remove("token");
+            window.location.replace("/");
+        } else {
+            engageDialog({
+                head: "Cannot publish",
+                body: "Something went wrong."
+            });
+        }
+    });    
+}
+
+var updatePaper = (paperId) => {
+    var updateData = {
+        paperId: paperId,
+        paperName: $("#editPaperName").val(),
+        thresholdMarks: Number($("#editThreshold").val()),
+        isFree: Number($("#editFreeCheckbox").prop("checked"))
+    }
+    if (updateData.thresholdMarks<=0){
+        M.toast({html: "Error: Threshold marks must be positive"});
+        return;
+    }
+    console.log("Uploading: ", updateData);
+    engageProgress({
+        msg: `Updating....`
+    });
+    $.ajax({
+        type: "POST",
+        url: "https://33qo10kq34.execute-api.ap-south-1.amazonaws.com/prod/admin-update-paper",
+        headers: {
+            "Authorization": Cookies.get("token")
+        },
+        data: JSON.stringify(updateData)
+    }).done((responseBody) => {        
+        console.log(responseBody);
+        dismissDialog();
+        if (responseBody.statusCode==1){   
+            M.toast({html: "Paper Updated"});
+            //TODO: update view element
+            $("#editWindow").modal('close');
+        } else {            
+            engageDialog({
+                head: "Oops!",
+                body: "Something went wrong"
+            });    
+        }
+    }).fail((xhr) => {
+        console.log("failed: ", xhr.status);
+        if (xhr.status === 403 || xhr.status === 401){
+            Cookies.remove("token");
+            window.location.replace("/");
+        } else {
+            engageDialog({
+                head: "Cannot publish",
+                body: "Something went wrong."
+            });
+        }
+    });
+}
+

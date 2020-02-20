@@ -61,44 +61,11 @@ main{
     cursor: pointer;
 }
 
-.upload-window.modal.bottom-sheet{
-    max-height: 100%;
-    height: 100%;
-}
-
-.upload-window .file-field .btn{
-    float: right !important;
-    height: 2rem !important;
-    line-height: 2rem !important;    
-}
-
-.upload-window .file-field .btn span{
-    text-transform: none;
-}
-
-.upload-window .file-field input.file-path{
-    width: 95% !important;
-}
-
-.upload-window .file-text{
-    height: 2rem !important;
-}
-
-.upload-window .file-field{
-    margin-top: 0px !important;
-    margin-bottom: 0px !important;
-}
-
-.upload-window .caption{
-    color: #757575;    
-}
-
 .viewYearSelectContainer input{
     border: none !important;
 }
 
-.paperItem{
-    cursor: pointer;
+.paperItem{    
     padding: 0 !important;
 }
 
@@ -163,8 +130,20 @@ main{
     text-align: right;
 }
 
-.composeNavigater{
-    margin-top: 20px;
+.paperItemChild x{
+    font-size: 10px;
+    color: #757575;
+    font-weight: bold;
+    font-family: Quicksand;
+    margin-right: 5px;
+    transform: translateY(2px);
+}
+
+.paperItemChild y{
+    font-size: 10px;
+    color: teal;
+    font-weight: bold;
+    font-family: Quicksand;
 }
 
 .fetchButton{
@@ -238,13 +217,45 @@ main{
     border-radius: 40px;
 }
 
-.upload-window .heading{
+.window.modal.bottom-sheet{
+    max-height: 100%;
+    height: 100%;
+}
+
+.upload-window .file-field .btn{
+    float: right !important;
+    height: 2rem !important;
+    line-height: 2rem !important;    
+}
+
+.upload-window .file-field .btn span{
+    text-transform: none;
+}
+
+.upload-window .file-field input.file-path{
+    width: 95% !important;
+}
+
+.upload-window .file-text{
+    height: 2rem !important;
+}
+
+.upload-window .file-field{
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+}
+
+.window .caption{
+    color: #757575;    
+}
+
+.window .heading{
     margin-top: 10px;
     font-family: Montserrat;
     font-weight: bold;
 }
 
-.upload-window .subheading{
+.window .subheading{
     margin-top: 5px !important;
     margin-bottom: 0 !important;
 }
@@ -254,13 +265,13 @@ main{
     margin-top: 0px !important;
 }
 
-.upload-window .subheading a{
+.window .subheading a{
     font-weight: bold;
     color: #757575;
     margin-right: 10px;
 }
 
-.upload-window blockquote{
+.window blockquote{
     color: #757575;
     font-size: 10px;
     color: darkred;

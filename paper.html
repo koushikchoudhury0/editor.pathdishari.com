@@ -189,9 +189,8 @@
         <!--Modal Container-->
         <div class="modalContainer"></div>
 
-        <!--Upload Window-->
-        
-        <div id="uploadWindow" class="modal bottom-sheet upload-window modal-fixed-footer">
+        <!--Upload Window-->        
+        <div id="uploadWindow" class="modal bottom-sheet upload-window window modal-fixed-footer">
             <div class="modal-content">
                 <a id="examNamePreview2" class="customBadge">WBCS Prelims</a>                
                 <h5 class="heading">Upload Question</h5>
@@ -231,6 +230,37 @@
             </div>
             <div class="modal-footer">
                 <a id="excelUploadButton" disabled class="waves-effect waves-green btn-flat" onclick="getQuestionUploadURL()">Upload</a>
+            </div>
+        </div>
+
+        <!--Edit Window-->
+        <div id="editWindow" class="modal bottom-sheet window modal-fixed-footer">
+            <div class="modal-content">
+                <a id="examNamePreview2" class="customBadge">WBCS Prelims</a>                
+                <h5 class="heading">Edit Paper</h5>
+                <p id="editPaperId" class="subheading"></p>
+                <div class="input-field">
+                    <input id="editPaperName" type="text" class="validate">
+                    <label class="active" for="editPaperName">Paper Name</label>
+                </div>                
+                <div class="input-field">
+                    <input id="editThreshold" type="number" class="validate">
+                    <label class="active" for="editThreshold">Pass Marks</label>
+                </div>
+                <br>
+                <p>
+                    <label>
+                        <input id="editFreeCheckbox" type="checkbox" />
+                        <span>Mark as free practice paper</span>
+                    </label>
+                </p>
+                <br>
+                <div id="dataDump">
+
+                </div>    
+            </div>
+            <div class="modal-footer">
+                <a id="editPaperButton" class="waves-effect waves-green btn-flat">Update</a>
             </div>
         </div>
         
