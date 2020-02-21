@@ -30,12 +30,17 @@ $(document).ready(() => {
             $("#fab").css({"visibility": "visible"});
         });        
         loadMaterialModalPromise(".modalContainer").then(()=>{    
-            M.AutoInit();            
+            M.AutoInit();
+            $("#fab").floatingActionButton({
+                hoverEnabled: false,
+                direction: "left"
+            });
             $('.characterCountable').characterCounter();
             $(".sidenavHeader").html("Existing Exams<i style=\"margin-right: 10px\" class='material-icons'>format_shapes</i>"); 
             //enlistPackages();   
             //fetchAllExams();  
             fetchSectors();     
+            //$("#dataWindow").modal('open');
         }); 
         //$('.sidenav').sidenav(); 
         var clipboard = new ClipboardJS('#copier');      
@@ -43,6 +48,19 @@ $(document).ready(() => {
             M.toast({html: "Exam ID Copied"});
             e.clearSelection();
         });
+        $("#dataWindow #uploadInput").on('change', ()=>{
+            console.log("Handling data Import");
+            handleDataImport();
+        });
+        $("#dataWindow").modal({
+            onOpenEnd: () => {
+                var selectedExamAbbreviation = $(".sidenavElement.active a");
+
+            },
+            onCloseEnd: () => {
+                
+            }
+        })
     });
     
 });
@@ -115,7 +133,7 @@ var fetchExam = (element) => {
         dismissDialog();
         if (responseBody.statusCode==1){
             console.log(responseBody.exam.abbreviation);    
-            $("#examDataAbbvText").text(responseBody.exam.abbreviation);                                
+            $("#examDataAbbvText").html(`${responseBody.exam.abbreviation}<span onclick="$('#dataWindow').modal('open')" class="waves waves-effect material-icons">update</span>`);                                            
             $("#examIdText").text(responseBody.exam.examId);
             $("#examIcon").attr('src', "https://pathdishari.com/public-icon/exam/"+responseBody.exam.examId+"/icon");
             $("#examDataNameText").val(responseBody.exam.name);
@@ -556,3 +574,128 @@ var uploadIcon = (signedURL) => {
 }
 
 //https://5220vu1fsl.execute-api.ap-south-1.amazonaws.com/production/exam/update-icon
+var handleDataImport = () => {
+    //Reference the FileUpload element.
+    var fileUpload = $("#dataWindow #uploadInput")[0];
+ 
+    if (typeof (FileReader) != "undefined") {
+        var reader = new FileReader();
+
+        //For Browsers other than IE.
+        if (reader.readAsBinaryString) {
+            reader.onload = function (e) {
+                processExamData(e.target.result);
+            };
+            reader.readAsBinaryString(fileUpload.files[0]);
+        } else {
+            //For IE Browser.
+            reader.onload = function (e) {
+                var data = "";
+                var bytes = new Uint8Array(e.target.result);
+                for (var i = 0; i < bytes.byteLength; i++) {
+                    data += String.fromCharCode(bytes[i]);
+                }
+                processExamData(data);
+            };
+            reader.readAsArrayBuffer(fileUpload.files[0]);
+        }
+    } else {
+        alert("This browser does not support HTML5.");
+    }
+}
+
+var processExamData = (data) => {
+    console.log(data);
+    var pieces = data.split("\n");
+    $("#dataWindow #dataDump").empty();
+    for (var i=0; i<pieces.length; i++){
+        var data = pieces[i].split("::");
+        console.log(data[1]);
+        $("#dataWindow #dataDump").append(`
+            <p><a class="subheading">${data[0]}: </a><a ${isValidURL(data[1])?`href="${data[1]}" target="_blank"`:`class="notURL"`}">${data[1]}</a></p>
+        `);
+    }
+}
+
+function isValidURL(str) {
+    var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
+      '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
+      '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+      '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+      '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+      '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+    return !!pattern.test(str);
+}
+
+//https://5220vu1fsl.execute-api.ap-south-1.amazonaws.com/production/exam/data/update
+var getDataSignedURL = () => {
+    if (!$("#dataWindow #uploadInput")[0].files[0]){
+        M.toast({html: "No data imported"});
+        return;
+    }
+    engageProgress({
+        msg: "Requesting access to data..."
+    });
+    $.ajax({
+        url: "https://5220vu1fsl.execute-api.ap-south-1.amazonaws.com/production/exam/data/update",
+        type: "POST",
+        headers: {
+            "Authorization": Cookies.get("token")
+        },
+        data: JSON.stringify({
+            type: 687,
+            path: 1,
+            examId: $("#examIdText").text()
+        }),
+        contentType: "application/json"        
+    }).done((responseBody => {
+        dismissDialog();
+        if (responseBody.statusCode == 1){    
+            console.log("Upload URL retrieved: ", responseBody.url);        
+            engageProgress({
+                msg: "Uploading data..."
+            });
+            uploadDataFile(responseBody.url);
+        } else {
+            engageDialog({
+                head: "Cannot update slides",
+                body: "Something went wrong."
+            });
+        }
+    })).fail((xhr) => {
+        console.log("failed: ", xhr.status);
+        dismissDialog();
+        if (xhr.status === 403 || xhr.status === 401){
+            Cookies.remove("token");
+            window.location.replace("/");
+        } else {
+            engageDialog({
+                head: "Cannot update slides",
+                body: "Something went wrong."
+            });
+        }
+    })    
+}
+
+var uploadDataFile = (signedURL) => {
+    $.ajax({
+        url: signedURL,
+        type: 'PUT',
+        data: $("#dataWindow #uploadInput")[0].files[0],
+        contentType: $("#dataWindow #uploadInput")[0].files[0].type,
+        processData: false,
+        cache: false,
+        error: function (data) {      
+            M.toast({html: "Update Failed"});    
+            dismissDialog();  
+            console.log(data);             
+        },
+        success: function (response) {            
+            M.toast({html: "Data Updated"});
+            $("#dataWindow #uploadInput").val(null);
+            $("#dataWindow #dataDump").empty();            
+            $("#dataWindow").modal('close');    
+            dismissDialog();        
+        }
+    });
+}
