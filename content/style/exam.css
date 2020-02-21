@@ -214,10 +214,16 @@ main{
     color: seagreen;
 }
 
+.customBadge.examName{
+    color: #fff;
+    font-size: 12px;
+    font-weight: bold;
+    background: skyblue;
+}
+
 /*Sidenav Body Element*/
 
 /*Sidenav Elements*/
-
 
 .sidenavElement{
     display: block !important; 
@@ -250,11 +256,8 @@ main{
     padding-top: 20px !important;
 }
 
-.customBadge.examName{
-    color: #fff;
-    font-size: 12px;
-    font-weight: bold;
-    background: skyblue;
+.appendedLink:hover{
+    text-decoration: underline;
 }
 
 /*Data Window Styles*/
@@ -269,25 +272,25 @@ main{
     color: darkred;
 }
 
-#dataWindow .file-field .btn{
+#dataWindow .file-field .btn, #upcomingWindow .file-field .btn{
     float: right !important;
     height: 2rem !important;
     line-height: 2rem !important;    
 }
 
-#dataWindow .file-field .btn span{
+#dataWindow .file-field .btn span, #upcomingWindow .file-field .btn span{
     text-transform: none;
 }
 
-#dataWindow .file-field input.file-path{
+#dataWindow .file-field input.file-path, #upcomingWindow .file-field input.file-path{
     width: 95% !important;
 }
 
-#dataWindow .file-text{
+#dataWindow .file-text, #upcomingWindow .file-text{
     height: 2rem !important;
 }
 
-#dataWindow .file-field{
+#dataWindow .file-field, #upcomingWindow .file-field{
     margin-top: 0px !important;
     margin-bottom: 0px !important;
 }

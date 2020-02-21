@@ -36,10 +36,11 @@ $(document).ready(() => {
                 direction: "left"
             });
             $('.characterCountable').characterCounter();
-            $(".sidenavHeader").html("Existing Exams<i style=\"margin-right: 10px\" class='material-icons'>format_shapes</i>"); 
+            $(".sidenavHeader").html(`Existing Exams<i style="margin-right: 10px" class="material-icons">format_shapes</i>`); 
+            $(`<x onclick="$('#upcomingWindow').modal('open')" class="appendedLink" style=" cursor: pointer; padding-left: 25px; line-height: 16px; color: #039be5;"><span class="material-icons" style="font-size: 16px; margin-right: 10px; color: orangered; transform: translateY(2px);">cloud_upload</span>Upload Upcoming Exams</x>`).insertAfter(".slide-out-top .row");
             //enlistPackages();   
             //fetchAllExams();  
-            fetchSectors();     
+            //fetchSectors();     
             //$("#dataWindow").modal('open');
         }); 
         //$('.sidenav').sidenav(); 
@@ -52,15 +53,10 @@ $(document).ready(() => {
             console.log("Handling data Import");
             handleDataImport();
         });
-        $("#dataWindow").modal({
-            onOpenEnd: () => {
-                var selectedExamAbbreviation = $(".sidenavElement.active a");
-
-            },
-            onCloseEnd: () => {
-                
-            }
-        })
+        $("#upcomingInput").on('change', ()=>{
+            console.log("Handling data Import");
+            handleUpcomingImport();
+        });
     });
     
 });
@@ -658,7 +654,7 @@ var getDataSignedURL = () => {
             uploadDataFile(responseBody.url);
         } else {
             engageDialog({
-                head: "Cannot update slides",
+                head: "Cannot update data",
                 body: "Something went wrong."
             });
         }
@@ -670,7 +666,7 @@ var getDataSignedURL = () => {
             window.location.replace("/");
         } else {
             engageDialog({
-                head: "Cannot update slides",
+                head: "Cannot update data",
                 body: "Something went wrong."
             });
         }
@@ -695,6 +691,132 @@ var uploadDataFile = (signedURL) => {
             $("#dataWindow #uploadInput").val(null);
             $("#dataWindow #dataDump").empty();            
             $("#dataWindow").modal('close');    
+            dismissDialog();        
+        }
+    });
+}
+
+var handleUpcomingImport = () => {    
+    var fileUpload = $("#upcomingInput")[0];
+    if (typeof (FileReader) != "undefined") {
+        var reader = new FileReader();
+        //For Browsers other than IE.
+        if (reader.readAsBinaryString) {
+            reader.onload = function (e) {
+                processUpcoming(e.target.result);
+            };
+            reader.readAsBinaryString(fileUpload.files[0]);
+        } else {
+            //For IE Browser.
+            reader.onload = function (e) {
+                var data = "";
+                var bytes = new Uint8Array(e.target.result);
+                for (var i = 0; i < bytes.byteLength; i++) {
+                    data += String.fromCharCode(bytes[i]);
+                }
+                processUpcoming(data);
+            };
+            reader.readAsArrayBuffer(fileUpload.files[0]);
+        }
+    } else {
+        alert("This browser does not support HTML5.");
+    }
+}
+
+var processUpcoming = (data) => {
+    console.log(data);
+    var pieces = data.split("\n");
+    $("#upcomingDump").empty();
+    $("#upcomingDump").append(`
+        <thead>
+            <tr>
+                <th>Exam</th>
+                <th>Expected Date</th>
+                <th>Link</th>
+            </tr>
+        </thead>
+        <tbody>
+    `);
+    for (var i=0; i<pieces.length; i++){
+        var data = pieces[i].split("::");
+        console.log(data[1]);
+        $("#upcomingDump").append(`
+            <tr>
+                <td>${data[0]}</td>
+                <td>${data[1]}</td>
+                <td>${data[2]}</td>
+            </tr>
+        `);
+    }
+    $("#upcomingDump").append(`</tbody>`)
+}
+
+var getUpcomingSignedURL = () => {
+    if (!$("#upcomingInput")[0].files[0]){
+        M.toast({html: "No data imported"});
+        return;
+    }
+    engageProgress({
+        msg: "Requesting access to repository..."
+    });
+    $.ajax({
+        url: "https://5220vu1fsl.execute-api.ap-south-1.amazonaws.com/production/exam/data/update",
+        type: "POST",
+        headers: {
+            "Authorization": Cookies.get("token")
+        },
+        data: JSON.stringify({
+            type: 687,
+            path: 2
+        }),
+        contentType: "application/json"        
+    }).done((responseBody => {
+        dismissDialog();
+        if (responseBody.statusCode == 1){    
+            console.log("Upload URL retrieved: ", responseBody.url);                    
+            uploadUpcomingFile(responseBody.url);
+        } else {
+            engageDialog({
+                head: "Cannot update upcoming exams",
+                body: "Something went wrong."
+            });
+        }
+    })).fail((xhr) => {
+        console.log("failed: ", xhr.status);
+        dismissDialog();
+        if (xhr.status === 403 || xhr.status === 401){
+            Cookies.remove("token");
+            window.location.replace("/");
+        } else {
+            engageDialog({
+                head: "Cannot update upcoming exams",
+                body: "Something went wrong."
+            });
+        }
+    })    
+}
+
+var uploadUpcomingFile = (signedURL) => {
+    engageProgress({
+        msg: "Uploading list..."
+    });
+    $.ajax({
+        url: signedURL,
+        type: 'PUT',
+        data: $("#upcomingInput")[0].files[0],
+        contentType: $("#upcomingInput")[0].files[0].type,
+        processData: false,
+        cache: false,
+        error: function (data) {      
+            M.toast({html: "Update Failed"});    
+            dismissDialog();  
+            console.log(data);             
+        },
+        success: function (response) {            
+            M.toast({html: "Data Updated"});
+            $("#upcomingInput").val(null);
+            $("#upcomingDump").empty();            
+            $("#upcomingWindow").modal('close');    
             dismissDialog();        
         }
     });
