@@ -401,3 +401,73 @@ var uploadContentFile = (signedURL) => {
     });
 }
 
+var getSignedRelatedURL = () => {
+    if (!$("#relatedInput")[0].files[0]){
+        M.toast({html: "No data imported"});
+        return;
+    }
+    engageProgress({
+        msg: "Requesting access to broker services..."
+    });
+    $.ajax({
+        url: "https://5220vu1fsl.execute-api.ap-south-1.amazonaws.com/production/url/sign",
+        type: "POST",
+        headers: {
+            "Authorization": Cookies.get("token")
+        },
+        data: JSON.stringify({
+            type: 687,
+            path: 4,
+            blogId: $("#blogIdText").text()
+        }),
+        contentType: "application/json"        
+    }).done((responseBody => {
+        dismissDialog();
+        if (responseBody.statusCode == 1){    
+            console.log("Upload URL retrieved: ", responseBody.url);        
+            engageProgress({
+                msg: "Merging topics..."
+            });
+            uploadRelatedFile(responseBody.url);
+        } else {
+            engageDialog({
+                head: "Cannot update data",
+                body: "Something went wrong."
+            });
+        }
+    })).fail((xhr) => {
+        console.log("failed: ", xhr.status);
+        dismissDialog();
+        if (xhr.status === 403 || xhr.status === 401){
+            Cookies.remove("token");
+            window.location.replace("/");
+        } else {
+            engageDialog({
+                head: "Cannot update data",
+                body: "Something went wrong."
+            });
+        }
+    })    
+}
+
+var uploadRelatedFile = (signedURL) => {
+    $.ajax({
+        url: signedURL,
+        type: 'PUT',
+        data: $("#relatedInput")[0].files[0],
+        contentType: $("#relatedInput")[0].files[0].type,
+        processData: false,
+        cache: false,
+        error: function (data) {      
+            M.toast({html: "Merge Failed"});    
+            dismissDialog();  
+            console.log(data);             
+        },
+        success: function (response) {            
+            M.toast({html: "Topics Merged with this Blog"});
+            $("#relatedInput").val(null);
+            dismissDialog();        
+        }
+    });
+}
+
