@@ -1,0 +1,339 @@
+@import url('https://fonts.googleapis.com/css?family=Oxygen|Hammersmith+One|Comfortaa|Montserrat|Poiret+One|Quicksand|Raleway|Varela|Titillium+Web&display=swap');
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+@import "/content/style/navbar.css";
+@import "/content/materialize/css/materialize.min.css";
+@import "/content/style/materialModal.css";
+
+
+
+body{
+    overflow: visible;
+}
+
+.primarySelectContainer{   
+    padding: 0 25px !important;
+    margin: 0 !important;
+    margin-top: 5px !important;
+}
+
+.primarySelectContainer .select-dropdown{
+    border-bottom: none !important;
+    font-size: 20px !important; 
+    color: #757575;
+}
+
+
+.placeholder{
+    padding-top: 10vh;
+    text-align: center;
+    display: block;
+}
+
+.placeholder a i{
+    font-size: 200px;
+    color: #d8d4d4
+}
+
+.placeholder p {
+    font-size: 20px;
+    font-weight: bold;
+    font-family: Titillium Web;
+    color: #afaeae
+}
+
+
+main{
+    padding-top: 10px;
+    overflow: visible;
+}
+
+.container.primary{
+    margin-top: 20px !important;
+    width: 90% !important;
+    padding-bottom: 40px;
+    display: none;
+    overflow: visible;
+}
+
+.input-field{
+    margin-top: 40px;   
+}
+
+#inputContainer .modal-content{
+    padding: 40px !important;
+}
+
+#inputContainer .modal-footer{
+    padding-right: 40px !important;
+}
+
+.rules{
+    color: #757575;
+    font-size: 12px;
+}
+
+.rules h6{
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.rules p{
+    margin: 0 !important;
+}
+
+.optionImage{
+    width: 100%;
+    height: 200px;
+    border-radius: 5px;
+    border-width: 0;
+    border-style: none;
+    border-color: rgba(0, 0, 0, 0.0);
+}
+
+.ImageContainer{
+    max-width: 100%;
+    border-radius: 5px; 
+    border-style: solid; 
+    border-color: rgba(0, 0, 0, 0.0);
+    border-radius: 3px;
+    box-shadow: #dddcdc 1px 1px 7px;    
+    border-width: 0;
+    background: rgb(254, 254, 254);
+    position: relative;
+    overflow: hidden;
+    transition: 0.3s;
+}
+
+.ImageContainer:hover .controlContainer{
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.ImageContainer .controlContainer{    
+    position: absolute; 
+    top: 0px; 
+    text-align: right; 
+    width: 100%; 
+    margin: 0; 
+    color: white; 
+    padding: 10px; 
+    background: rgba(0, 0, 0, 0.3);/*linear-gradient(to bottom, #bdbdbd, #cdcdcd, #dedede, #eeeeee, #ffffff);*/
+    visibility: hidden;
+    transition: 0.2s;
+    transform: translateY(-50px);
+}
+
+.ImageContainer .controlContainer .control{
+    border-radius: 40px;
+    color: white;
+}
+
+.ImageContainer img{
+    cursor: pointer;
+}
+
+.customBadge{
+    background: green;
+    padding: 5px 10px;
+    border-radius: 3px;
+    color: whitesmoke;
+}
+
+#inputHeading{
+    padding-top: 10px;
+}
+
+#inputContainer .modal-footer{
+    background: #f3f1f1;
+    border-radius: 0px !important;
+}
+
+.secondary-content{
+    border-radius: 40px;
+    padding: 2px;
+    transform: translateY(-2px);
+}
+
+
+.collection-header h4 a {
+    padding: 5px;
+    margin-left: 20px;
+    border-radius: 40px;
+}
+
+.pricingHeading{
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+
+#examRefreshButton{
+    margin-left: 10px;
+    border-radius: 40px;
+    padding: 5px;
+}
+
+#blogIdContainer{
+    padding: 10px;
+}
+
+#blogIdContainer span{
+    font-family: Quicksand;
+}
+
+#blogIdContainer a{
+    margin-left: 10px;
+    font-weight: bold;
+    font-family: Quicksand;
+    font-weight: bold;
+    font-size: 10px;
+}
+
+#blogIdContainer i{
+    margin-left: 10px;
+    color: rgb(102, 104, 105);
+    padding: 5px;
+    border-radius: 40px;
+    cursor: pointer;
+}
+
+#sectorPreview, #sectorEditExam{
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+#fab{
+    
+}
+
+#examDataAbbvText span{
+    border-radius: 50%;
+    margin-left: 20px;    
+    color: seagreen;
+}
+
+.customBadge.examName{
+    color: #fff;
+    font-size: 12px;
+    font-weight: bold;
+    background: skyblue;
+}
+
+/*Sidenav Body Element*/
+
+/*Sidenav Elements*/
+
+.sidenavElement{
+    display: block !important; 
+    padding-left: 25px !important; 
+    /*padding-bottom: 15px !important;*/
+    transition: 0.5s;
+    padding-top: 15px;
+    line-height: 36px;
+}
+
+.sidenavElement.active{
+    background: #e4e2e2;
+}
+
+.sidenavElement:hover{
+    background: #f1f0f0;
+}
+
+.sidenavElement a{
+    /*line-height: 10px !important;*/
+}
+
+/*.sidenavElement .examName{
+    color: #fff;
+    font-size: 12px;
+    
+}*/
+
+.sidenavElement .blogBodyTitle{    
+    font-size: 18px;
+    color: #424242;
+    padding-top: 20px !important;
+    display: block;
+    padding-top: 0 !important;
+    line-height: 10px;
+}
+
+.sidenavElement .blogBodyMoment{
+    margin-top: 0;
+    margin-bottom: 0px;
+    padding-top: 0;
+    padding-bottom: 0px;
+    font-size: 10px;
+    color: #006496;
+}
+
+.sidenavElement .blogBodyMoment span{
+    font-size: 14px;
+    margin-right: 10px;
+    transform: translateY(3px);
+    color: rgb(97, 28, 3);
+}
+
+.appendedLink:hover{
+    text-decoration: underline;
+}
+
+/*Data Window Styles*/
+.window.modal.bottom-sheet{
+    max-height: 100%;
+    height: 100%;
+}
+
+.window blockquote{
+    color: #757575;
+    font-size: 10px;
+    color: darkred;
+}
+
+.file-field .btn{
+    float: right !important;
+    height: 2rem !important;
+    line-height: 2rem !important;    
+}
+
+.file-field .btn span{
+    text-transform: none;
+}
+
+.file-field input.file-path{
+    width: 95% !important;
+}
+
+.file-text{
+    height: 2rem !important;
+}
+
+.file-field{
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+}
+
+.window .caption, form .caption{
+    color: #757575;    
+    margin-bottom: 0;
+}
+
+.window .heading{
+    margin-top: 10px;
+    font-family: Montserrat;
+    font-weight: bold;
+}
+
+.window .subheading{
+    margin-top: 5px !important;
+    margin-bottom: 0 !important;
+    color: #a7a3a3;
+    font-weight: bold;
+}
+
+.window .notURL{    
+    font-size: 15px;
+    letter-spacing: 1px;
+    color: #424242;
+}
