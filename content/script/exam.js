@@ -40,7 +40,7 @@ $(document).ready(() => {
             $(`<x onclick="$('#upcomingWindow').modal('open')" class="appendedLink" style=" cursor: pointer; padding-left: 25px; line-height: 16px; color: #039be5;"><span class="material-icons" style="font-size: 16px; margin-right: 10px; color: orangered; transform: translateY(2px);">cloud_upload</span>Upload Upcoming Exams</x>`).insertAfter(".slide-out-top .row");
             //enlistPackages();   
             //fetchAllExams();  
-            //fetchSectors();     
+            fetchSectors();     
             //$("#dataWindow").modal('open');
         }); 
         //$('.sidenav').sidenav(); 
