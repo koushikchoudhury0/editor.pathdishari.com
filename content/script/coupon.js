@@ -1,18 +1,3 @@
-var selectedPackageId, selectedPackageName;
-var slideInputs = ["slide1", "slide2", "slide3", "slide4"];
-var updatableSlides = {
-    "slide1": false,
-    "slide2": false,
-    "slide3": false,
-    "slide4": false,
-}
-
-class ValidationError extends Error {
-    constructor(message) {
-        super(message);
-        this.name = "ValidationError";
-    }
-}
 
 $(document).ready(() => {
     $("header").load("/content/layout/navbar.html", () => {        
