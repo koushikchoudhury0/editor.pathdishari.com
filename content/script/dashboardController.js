@@ -179,7 +179,7 @@ var uploadSlide = (i, signedURL) => {
             M.toast({html: "Slide "+(i+1)+" Update Failed"});                   
         },
         success: function (response) {            
-            M.toast({html: "Slide "+(i+1)+" Uploaded!"});
+            M.toast({html: `<span>Slide ${i+1} Uploaded</span><button class="btn-flat toast-action" onclick="M.Toast.dismissAll()">OK</button>`, displayLength: 3600000});
             updatableSlides["slide"+(i+1)] = false;
             console.log("Neutralized slide"+(i+1), updatableSlides);
         }
@@ -187,7 +187,7 @@ var uploadSlide = (i, signedURL) => {
 }
 
 var downloadSlideLink = (i) => {    
-    $.get("https://s3.ap-south-1.amazonaws.com/pathdishari.com/dashboardContent/advSlides/link"+i+".txt", function( data ) {                
+    $.get("https://s3.ap-south-1.amazonaws.com/data.pathdishari.com/dashboard/link/"+i+".url", function( data ) {                
         $("input#slideLink"+i).val(data);
         M.updateTextFields();
     });
@@ -215,7 +215,7 @@ var updateSlideLinks = (currentPopularity, packageId) => {
       console.log(responseBody);  
       if (responseBody.statusCode==1){                    
         dismissDialog();        
-        M.toast({html: "Links Updated. Changes will reflect within 24hours"});     
+        M.toast({html: "Links Updated."});     
     } else {
         engageDialog({
             head: "Cannot update package",
