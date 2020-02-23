@@ -45,9 +45,7 @@
             <div id="packageData" class="container primary" style="overflow: visible">
                <!--Package Config-->
                 <div id="packageConfig" class="container" style="overflow: visible"> 
-                    <!--
-                    <p style="text-align: end; margin: 0px"><span onclick="showControl()" class="material-icons waves-effect" style="border-radius: 40px; padding: 5px;">arrow_back</span></p>                    
-                    -->
+                    <p id="idContainer"><span>Package ID</span><a id="packageIdText"></a></p>
                     <h4 class="pricingHeading">Data & Metrics<i id="packagePopularity" class="material-icons tooltipped" data-tooltip="Click to toggle Popularity" style="cursor: pointer; margin-left: 20px; color: grey;">star</i></h4>
                     <div class="row">
                             <div class="input-field col s3" style=" margin: 0">
@@ -75,7 +73,24 @@
                     <div style="text-align: right;">
                         <a class="waves-effect waves-teal btn-flat" onclick="updatePackageData()">UPDATE</a>
                     </div>
-                    <br><br>
+                    <br>
+                    <h5><b>Icon</b></h5>
+                    <blockquote style="color: #757575; font-size: 12px">                        
+                        Recommended Resolution is 64x64 or 128x128<br>
+                        Maximum of 100KB to support resilience<br>
+                        Use circular transparent and possibly monochromatic picture
+                    </blockquote>
+                    <div class="ImageContainer tooltipped" data-tooltip="Click to change">
+                        <input type="file" id="iconInput" hidden onchange="readImageFromDisk(this)">                                                    
+                        <img class="optionImage" id="iconImg" onclick="chooseImage(this)" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=">                                    
+                        <div class="controlContainer">
+                            <a class="waves-effect control remove" onclick="removeImage(this)"><i class="material-icons">close</i></a>                                            
+                        </div>                                        
+                    </div>
+                    <div style="text-align: right;">                        
+                        <a class="waves-effect waves-teal btn-flat" onclick="getPresignedIconURL()">UPDATE</a>
+                    </div>
+                    <br>
                     <h4>Associated Exams<!--<a id="examRefreshButton" class="waves-effect"><span class="material-icons">refresh</span></a>--></h4>
                     <div class="input-field col s12" style="margin-top: 10px">
                         <select id="sectorList"  onchange="fetchExams(this, $('#examList'))">

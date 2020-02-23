@@ -26,7 +26,7 @@ $(document).ready(() => {
             $(".sidenavHeader").html('Existing Packages'); 
             //enlistPackages();   
             //fetchExams();  
-            fetchSectors();     
+            //fetchSectors();     
         }); 
         //$('.sidenav').sidenav();       
     });
@@ -403,6 +403,9 @@ var fetchPackage = (element) => {
                 M.toast({html: "Package Data has been removed. Contact the administrators immediately"});
             } else {   
                 //Setting Data                
+                $("#packageIdText").text(responseBody.package.packageId);
+                $("#iconInput").val(null);
+                $("#iconImg").attr("src", `https://s3.ap-south-1.amazonaws.com/data.pathdishari.com/package/${responseBody.package.packageId}/icon.picture`);                
                 $("#packageDataPriceText").val(Number(responseBody.package.price));
                 $("#packageDataQsnText").val(Number(responseBody.package.questionCount));
                 $("#packageDataMockText").val(responseBody.package.mockPapers);
@@ -760,4 +763,103 @@ var updatePackagePopularity = (currentPopularity, packageId) => {
         }
     });
 
+}
+
+var removeImage = (elem) => {        
+    $(elem).parent().parent().children("input").val('');
+    $(elem).parent().parent().children("img").attr("src", defaultSrc);    
+}
+
+var chooseImage = (elem) => {
+    $(elem).parent().children("input").trigger("click");
+}
+
+var readImageFromDisk = (input, target = $(input).parent().children("img")) => {
+    console.log("reading from disk");
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();        
+        reader.onload = function(e) {
+            if (e.target.result.length/1024 > 100){
+                engageDialog({
+                    head: "Oops!",
+                    body: `Icon Image size cannot exceed <b>100 KB</b>. Currently it is <b>${parseInt(e.target.result.length/1024)} KB</b>.`
+                })
+            } else {
+                $(target).attr('src', e.target.result);
+            }
+        }        
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+var getPresignedIconURL = () => {               
+    if ($("#iconInput")[0].files.length != 1){
+        M.toast({html: "There aren't any new icon chosen"});
+        return;
+    }
+    engageProgress({
+        msg: "Requesting access..."
+    });       
+    $.ajax({
+        type: "POST",
+        url: "https://5220vu1fsl.execute-api.ap-south-1.amazonaws.com/production/url/sign",
+        headers: {
+            "Authorization": Cookies.get("token")
+        },
+        data: JSON.stringify({
+            type: 687,
+            path: 6,
+            packageId: $("#packageIdText").text()
+        })
+    }).done((responseBody) => {        
+        console.log(responseBody);
+        dismissDialog();
+        if (responseBody.statusCode==1){                             
+            uploadIcon(responseBody.url);            
+        } else {
+            console.log(JSON.stringify(responseBody));
+            engageDialog({
+                head: "Coudn't update package",
+                body: "Something went wrong"
+            });    
+        }
+    }).fail((xhr) => {
+        dismissDialog();
+        console.log("failed: ", xhr.status);
+        if (xhr.status === 403 || xhr.status === 401){
+            Cookies.remove("token");
+            window.location.replace("/");
+        } else {
+            engageDialog({
+                head: "Couldn't update package",
+                body: "Something went wrong"
+            });
+        }
+    });
+}
+
+var uploadIcon = (signedURL) => {
+    engageProgress({
+        msg: "Updating package icon.."
+    });
+    $.ajax({
+        url: signedURL,
+        type: 'PUT',
+        data: $('#iconInput')[0].files[0],
+        contentType: $('#iconInput')[0].files[0].type,
+        processData: false,
+        cache: false,
+        error: function (data) {      
+            dismissDialog();
+            engageDialog({
+                head: "Oops!",
+                body: "Something went wrong. Try reloading this page."
+            })
+        },
+        success: function (response) {            
+            dismissDialog();
+            $("#iconInput").val(null);
+            M.toast({html: "Package Updated!"});
+        }
+    });
 }
