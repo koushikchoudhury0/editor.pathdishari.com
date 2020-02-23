@@ -171,66 +171,10 @@ var fetchBlog = (element) => {
     $(element).addClass("active");
     $("#blogDataTitle").val($(".sidenavElement.active .blogBodyTitle").text());
     M.updateTextFields();
-    $("#blogIcon").attr("src", `https://s3.ap-south-1.amazonaws.com/data.pathdishari.com/blog/${examId}/banner`);
+    $("#blogIcon").attr("src", null).attr("src", `https://s3.ap-south-1.amazonaws.com/data.pathdishari.com/blog/${examId}/banner.picture`);
     $(".container.placeholder").fadeOut("fast", () => {
         $(".container.primary").fadeIn("fast");
     });    
-}
-
-var updateExamData = () => {
-    examData = {
-        examId: $(".sidenavElement.active").attr("data"),
-        name: $("#examDataNameText").val(),
-        targetYear: $("#examDataTargetText").val(),
-        thresholdMarks: $("#examDataThresholdText").val(),
-        totalMarks: $("#examDataMarksText").val(),
-        patternYear: $("#examDataPatternText").val(),
-        timeout: $("#examDataTimeoutText").val()
-    }  
-    var allowed = true;
-    Object.entries(examData).forEach(([key, value]) => {
-        if (value.trim().length==0) allowed = false;
-    });
-    if (!allowed){
-        M.toast({html: "All fields must be filled and an exam must be selected"});
-        return;
-    }
-    engageProgress({
-        msg: "Updating Exam..."
-    });   
-    console.log(examData);
-    $.ajax({
-        type: "POST",
-        url: "https://33qo10kq34.execute-api.ap-south-1.amazonaws.com/prod/update-exam-data",
-        headers: {
-            "Authorization": Cookies.get("token")
-        },
-        data: JSON.stringify(examData)
-    }).done((responseBody) => {        
-        console.log(responseBody);
-        dismissDialog();
-        if (responseBody.statusCode==1){                             
-            M.toast({html: "Exam Updated"});            
-        } else {
-            console.log(JSON.stringify(responseBody));
-            engageDialog({
-                head: "Coudn't update exam",
-                body: "Something went wrong"
-            });    
-        }
-    }).fail((xhr) => {
-        dismissDialog();
-        console.log("failed: ", xhr.status);
-        if (xhr.status === 403 || xhr.status === 401){
-            Cookies.remove("token");
-            window.location.replace("/");
-        } else {
-            engageDialog({
-                head: "Couldn't update exam",
-                body: "Something went wrong"
-            });
-        }
-    });
 }
 
 var readImageFromDisk = (input, target = $(input).parent().children("img")) => {
