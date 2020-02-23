@@ -14,7 +14,7 @@ body{
 .placeholder{
     padding-top: 10vh;
     text-align: center;
-    display: none;
+    display: block;
 }
 
 .placeholder a i{
@@ -39,7 +39,7 @@ main{
     margin-top: 20px !important;
     width: 90% !important;
     padding-bottom: 40px;
-    display: block;
+    display: none;
     overflow: visible;
 }
 

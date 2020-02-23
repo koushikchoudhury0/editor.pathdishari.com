@@ -24,9 +24,7 @@ $(document).ready(() => {
             M.AutoInit();
             $('.characterCountable').characterCounter();
             $(".sidenavHeader").html('Existing Packages'); 
-            //enlistPackages();   
-            //fetchExams();  
-            //fetchSectors();     
+            fetchSectors();     
         }); 
         //$('.sidenav').sidenav();       
     });
