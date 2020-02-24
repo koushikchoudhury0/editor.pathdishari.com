@@ -1,5 +1,5 @@
-const BLOG_TYPE_GK = 1, BLOG_TYPE_CA = 1, BLOG_TYPE_OTHER = 3;
-const BLOG_NAMES = ["GK", "Current Affair", "Other"];
+const BLOG_TYPE_GK = 1, BLOG_TYPE_CA = 1, BLOG_TYPE_OTHER = 3, BLOG_TYPE_JOB_UPDATES = 4;
+const BLOG_NAMES = ["GK", "Current Affair", "Other", "Job Update"];
 
 $(document).ready(() => {
     $("header").load("/content/layout/navbar.html", () => {        
@@ -12,6 +12,7 @@ $(document).ready(() => {
                         <option disabled selected>Choose Blog Type</option>\
                         <option value="1">GK</option>\
                         <option value="2">Current Affairs</option>\
+                        <option value="4">Job Updates</option>\
                         <option value="3">Others</option>\
                     </select>\
                 </div>\
@@ -19,6 +20,7 @@ $(document).ready(() => {
         ');
         $("#blogTypeList").on("change", () => {
             $("#blogTypeList").formSelect();
+            $("#fab").fadeIn();
             fetchBlogPreviews($("#blogTypeList").formSelect('getSelectedValues')[0]);            
         });        
         loadMaterialModalPromise(".modalContainer").then(()=>{    
@@ -79,7 +81,7 @@ var createBlog = () => {
             $("#titleText").val(null);
             M.updateTextFields();                 
             M.toast({html: "Blog Created"});
-            $("ul.sidenav").append(getSidenavElementBody(responseBody.blog));
+            $("ul.sidenav").append(getBlogBody(responseBody.blog));
         } else {
             console.log(JSON.stringify(responseBody));
             engageDialog({
