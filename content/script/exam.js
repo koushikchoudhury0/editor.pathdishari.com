@@ -131,7 +131,7 @@ var fetchExam = (element) => {
             console.log(responseBody.exam.abbreviation);    
             $("#examDataAbbvText").html(`${responseBody.exam.abbreviation}<span onclick="$('#dataWindow').modal('open')" class="waves waves-effect material-icons">update</span>`);                                            
             $("#examIdText").text(responseBody.exam.examId);
-            $("#examIcon").attr('src', "https://pathdishari.com/public-icon/exam/"+responseBody.exam.examId+"/icon");
+            $("#examIcon").attr('src', `https://s3.ap-south-1.amazonaws.com/data.pathdishari.com/exam/${responseBody.exam.examId}/icon.picture`);
             $("#examDataNameText").val(responseBody.exam.name);
             $("#examDataTargetText").val(responseBody.exam.targetYear);
             $("#examDataThresholdText").val(responseBody.exam.thresholdMarks);
@@ -510,18 +510,20 @@ var getPresignedIconURL = () => {
     });       
     $.ajax({
         type: "POST",
-        url: "https://5220vu1fsl.execute-api.ap-south-1.amazonaws.com/production/exam/update-icon",
+        url: "https://5220vu1fsl.execute-api.ap-south-1.amazonaws.com/production/url/sign",
         headers: {
             "Authorization": Cookies.get("token")
         },
         data: JSON.stringify({
+            type: 687,
+            path: 7,
             examId: $(".sidenavElement.active").attr("data")
         })
     }).done((responseBody) => {        
         console.log(responseBody);
         dismissDialog();
         if (responseBody.statusCode==1){                             
-            uploadIcon(responseBody.signedURL);            
+            uploadIcon(responseBody.url);            
         } else {
             console.log(JSON.stringify(responseBody));
             engageDialog({
@@ -564,7 +566,7 @@ var uploadIcon = (signedURL) => {
         },
         success: function (response) {            
             dismissDialog();
-            M.toast({html: "Exam Updated!"});
+            M.toast({html: "Exam Icon Updated!"});
         }
     });
 }
