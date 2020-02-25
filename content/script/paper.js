@@ -448,7 +448,7 @@ var getPaperBody = (paper) => {
                 <x>ID</x><y id="paperIdText">${paper.paperId}</y>
             </div>
             <ul id="${paper.paperId}" class="dropdown-content">
-                <li><a class="dropdownText" target="_blank" href="https://pathdishari.com/public-paper-template/${paper.paperId}.xlsx">Download Template</a></li>
+                <li><a class="dropdownText" target="_blank" href="https://s3.ap-south-1.amazonaws.com/data.pathdishari.com/paper/template/${paper.paperId}.xlsx">Download Template</a></li>
                 <li><a class="dropdownText" onclick="openUploadWindow('${paper.paperId}', '${paper.paperName}')">Upload Excel</a></li>
                 <li><a class="dropdownText" target="_blank" href="./makePaper.html?paperId=${paper.paperId}">Manage Questions</a></li>
                 <li><a class="dropdownText" onclick="startEditingPaper('${paper.paperId}', '${paper.paperName}')">Edit</a></li>                                
