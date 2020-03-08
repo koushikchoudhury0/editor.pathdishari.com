@@ -183,6 +183,7 @@ var editSection = (element) => {
     $("#sectionQsnText").val(sectionData.questionCount);
     $("#sectionMarksText").val(sectionData.marks);
     $("#sectionTimeText").val(sectionData.timeout);
+    $("#sectionThresholdMarksText").val(sectionData.threshold);    
     M.updateTextFields();
     $("#sectionContainer").modal("open");
     $("#sectionApplyButton").off("click");
@@ -191,7 +192,8 @@ var editSection = (element) => {
             questionCount: $("#sectionQsnText").val(),
             name: $("#sectionNameText").val(),
             marks: $("#sectionMarksText").val(),
-            timeout: $("#sectionTimeText").val()
+            timeout: $("#sectionTimeText").val(),
+            threshold: parseInt($("#sectionThresholdMarksText").val())
         }
         console.log("Updating with: "+JSON.stringify(data));
         $(element).attr("data", JSON.stringify(data));
@@ -217,7 +219,8 @@ var createNewSection = () => {
             questionCount: $("#sectionQsnText").val(),
             name: $("#sectionNameText").val(),
             marks: $("#sectionMarksText").val(),
-            timeout: $("#sectionTimeText").val()
+            timeout: $("#sectionTimeText").val(),
+            threshold: parseInt($("#sectionThresholdMarksText").val())
         }
         if (!data.questionCount || !data.name){
             M.toast({html: "All fields are required"});            
@@ -362,7 +365,8 @@ var updateExamSections = () => {
             name: ob.name.trim(),
             questionCount: parseInt(ob.questionCount),
             marks: parseInt(ob.marks),
-            timeout: parseInt(ob.timeout)            
+            timeout: parseInt(ob.timeout),
+            threshold: parseInt(ob.threshold)            
         });
     });
     console.log(JSON.stringify(sectionData));    
