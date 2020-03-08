@@ -8,7 +8,7 @@ class ValidationError extends Error {
 var uploadArr = [];
 
 
-const PAPER_TYPE_MOCK = 1, PAPER_TYPE_SUBJECT = 2;
+const PAPER_TYPE_MOCK = 1, PAPER_TYPE_SECTION = 2, PAPER_TYPE_SUBJECT = 3;
 
 
 $(document).ready(() => {
@@ -65,7 +65,7 @@ $(document).ready(() => {
         } else {
             $("#excelUploadButton").attr("disabled", "true");
         }
-    })
+    });
     
 });
 
@@ -141,10 +141,15 @@ var typeSelect = (elem) => {
     switch($(elem).attr("id")){
         case "typeMock":
             $(".paperModelContainer").hide();
+            $(".paperSectionContainer").hide();
             break;
-        case "typeSubject":
-            console.log("sbject");
+        case "typeSubject":            
             $(".paperModelContainer").show();
+            $(".paperSectionContainer").hide();
+            break;
+        case "typeSection":
+            $(".paperModelContainer").hide();
+            $(".paperSectionContainer").show();
             break;
     }
 }
@@ -202,23 +207,24 @@ var createPaper = () => {
     paperData = {
         examId: $("#selectedExamId").attr("value"),
         paperName: $("#paperNameText").val(),        
-        paperType: $("#typeMock").prop("checked")?PAPER_TYPE_MOCK:PAPER_TYPE_SUBJECT,
+        paperType: $("#typeMock").prop("checked")?PAPER_TYPE_MOCK:($("#typeSubject").prop("checked")?PAPER_TYPE_SUBJECT:PAPER_TYPE_SECTION),
         modelName: $("#paperModelText").val(),
         modelQuestionCount: $("#paperModelQuestionCount").val(),
         modelTimeout: $("#paperModelTime").val(),
         modelMarks:$("#paperModelMarks").val(),
         modelThreshold: $("#paperModelThreshold").val(),
+        sectionIndex: parseInt($("#sectionSelect").formSelect('getSelectedValues')[0]),
         //targetYear: parseInt($("#createYearSelect").formSelect('getSelectedValues')[0]),
         isFree: $("#freeCheckbox").prop("checked")?1:0,
         publicationDate: $("#pubDate").val()
     }
     console.log(paperData, "Validating.....");    
-    try{
+    /* try{
         if (paperData.examId.length<60) throw new ValidationError("Exam Id is invalid");
-        if (paperData.paperName.trim().length<5 /*|| !new RegExp("^[0-9A-Z\. a-z]+$").test(paperData.paperName)*/) throw new ValidationError("Paper name should be more than 5 characters and only contain alphanumeric characters");
+        if (paperData.paperName.trim().length<5) throw new ValidationError("Paper name should be more than 5 characters and only contain alphanumeric characters");
         if (paperData.paperTimeout < 1) throw new ValidationError("Timeout should be positive");
         if (paperData.paperType<0 || paperData.paperType>2 ) throw new ValidationError("Invalid type");        
-        if (paperData.paperType==2) if (paperData.modelName.trim().length<5 /*|| !new RegExp("^[0-9A-Z\. a-z]+$").test(paperData.modelName)*/) throw new ValidationError("Model name should be more than 5 characters and only contain alphanumeric characters.");
+        if (paperData.paperType==2) if (paperData.modelName.trim().length<5 ) throw new ValidationError("Model name should be more than 5 characters and only contain alphanumeric characters.");
         if (paperData.paperType==2) if (paperData.modelQuestionCount < 1 || paperData.modelQuestionCount > 100) throw new ValidationError("No.of question should be positive with a maximum of 100");
         if (paperData.targetYear<2000) throw new ValidationError("Year more than 2000 must be specified");
         if (paperData.isFree<0 || paperData.isFree>1) throw new ValidationError("Cost of this paper is left undecided");
@@ -230,7 +236,7 @@ var createPaper = () => {
             body: (err instanceof ValidationError)?err.message:"Something went terribly wrong! Contact the administrators"
         });
         return;
-    }    
+    }     */
     /*if (!isNewPaperDataValid(paperData)){
         console.log("Illegal New Content");
         engageDialog({
@@ -312,10 +318,10 @@ var fetchPapers = (examId, examAbbreviation) => {
             }
             $("#paperList").empty().append('<li class="collection-header"><h4>Existing Papers</h4></li>').css({"visibility": "visible"});                
             responseBody.papers.forEach((v, i) => {      
-                console.log(v.creation);                              
+                //console.log(v.creation);                              
                 $("#paperList").append(getPaperBody(v).toString());
                 M.AutoInit();
-                console.log(v);
+                //console.log(v);
             });
             $("#fab").fadeIn();
             $(".container.placeholder").fadeOut("fast", () => {
@@ -326,6 +332,10 @@ var fetchPapers = (examId, examAbbreviation) => {
                 container: "body",
                 format: "d mmmm yyyy"
             });
+            responseBody.sections.forEach((v, i) => {
+                $("#sectionSelect").append(`<option value="${i}">${v}</option>`);
+            });
+            $("#sectionSelect").formSelect();
             if (responseBody.exclusiveStartKey){
                 $("#paginatorContainer").append(`<p id="paginator" data-key='${JSON.stringify(responseBody.exclusiveStartKey)}' onclick=\'fetchMorePapers("${examId}", "${examAbbreviation}", this)\'>Load More</p>`)
             }
@@ -414,7 +424,7 @@ var fetchMorePapers = (examId, examAbbreviation, elem) => {
 }
 
 var isNewPaperDataValid = (paperData) => {
-    try{
+    /* try{
         if (paperData.examId.length<60) throw new ValidationError("Exam Id is invalid");
         if (paperData.paperName.trim().length<5 || !new RegExp("^[0-9A-Z\. a-z]+$").test(paperData.paperName)) throw new ValidationError("Paper name should be more than 5 characters and only contain alphanumeric characters");
         if (paperData.paperTime < 1) throw new ValidationError("Timeout should be positive");
@@ -423,7 +433,7 @@ var isNewPaperDataValid = (paperData) => {
     } catch (err) {
         console.log(err);
         return false;
-    }
+    } */
     /*var str = $("#paperNameText").val();
     if (!(!str?false:str.trim().length>1?true:false)){
         console.log("hey");
@@ -455,7 +465,7 @@ var getPaperBody = (paper) => {
                 ${paper.published==0?`<li><a class="dropdownText expendable" href="#!" onclick="publishPaper(this, '${paper.paperId}', '${paper.paperName}')">Publish</a></li>`:``}
             </ul>
             <div>
-                <p class="paperConfigData"><span class="customBadge paperType">${paper.paperType==1?'mock':'topic wise'}</span><span class="customBadge paperCost">${paper.isFree==1?'free':'paid'}</span><span class="customBadge paperStatus">${paper.published==1?'published':'draft'}</span></p>
+                <p class="paperConfigData"><span class="customBadge paperType">${paper.paperType==1?'mock':(paper.paperType==2?'section wise':'subject wise')}</span><span class="customBadge paperCost">${paper.isFree==1?'free':'paid'}</span><span class="customBadge paperStatus">${paper.published==1?'published':'draft'}</span></p>
                 <p class="paperConfigData time"><i class="material-icons">access_time</i>${new Date(paper.creationTime)}</p>
             </div>
         </div>

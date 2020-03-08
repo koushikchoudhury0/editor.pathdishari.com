@@ -38,7 +38,7 @@
                             <i class="large material-icons">add</i>
                         </a>                                
                     </div>
-                    <!-- Modal Structure -->
+                    <!-- New Paper Modal Structure -->
                     <div class="modal modal-fixed-footer" id="inputContainer">
                         <div class="modal-content">
                             <a id="examNamePreview" class="customBadge">exam id</a>
@@ -46,30 +46,18 @@
                             <div class="input-field" >
                                 <input id="paperNameText" type="text" class="characterCountable" data-length="60">
                                 <label for="paperNameText">Paper Name</label>                                                        
-                            </div>
-                            <!-- <div class="input-field">
-                                <select id="createYearSelect">
-                                    <option value="2019">2019</option>
-                                    <option value="2020">2020</option>
-                                    <option value="2022">2022</option>
-                                    <option value="2023">2023</option>
-                                    <option value="2024">2024</option>
-                                    <option value="2025">2025</option>
-                                    <option value="2026">2026</option>
-                                    <option value="2027">2027</option>
-                                    <option value="2028">2028</option>
-                                    <option value="2029">2029</option>
-                                    <option value="2030">2030</option>
-                                    <option value="2031">2031</option>
-                                    <option value="2032">2032</option>                                    
-                                </select>
-                                <label>Target Year</label>
-                            </div> -->
-                            <br>                            
+                            </div>                                                      
                             <p class="typeLabel">Paper Type</p>
                             <label><input name="paperType" id="typeMock" onchange="typeSelect(this)" type="radio" checked /><span>Mock</span></label>
-                            <label><input name="paperType" id="typeSubject" onchange="typeSelect(this)" type="radio" /><span>Model (Topic/Subject Wise)</span></label>
-                            <br>                        
+                            <label><input name="paperType" id="typeSubject" onchange="typeSelect(this)" type="radio" /><span>Topic Wise</span></label>
+                            <label><input name="paperType" id="typeSection" onchange="typeSelect(this)" type="radio" /><span>Section Wise</span></label>                             
+                            <div class="row paperSectionContainer" style="display: none;">
+                                <div class="input-field">
+                                    <select id="sectionSelect">                                  
+                                    </select>
+                                    <label>Select Section</label>
+                                </div> 
+                            </div>                       
                             <div class="row paperModelContainer" style="display: none">
                                 <div class="input-field col l12 m12 s12">
                                     <input id="paperModelText" type="text" class="characterCountable" data-length="60">
@@ -92,6 +80,7 @@
                                     <label for="paperModelThreshold">Pass Marks</label>
                                 </div>                                
                             </div>
+                            <br><br>
                             <p>
                                 <label>
                                     <input id="freeCheckbox" type="checkbox" />
